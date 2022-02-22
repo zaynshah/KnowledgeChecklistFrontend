@@ -1,14 +1,26 @@
 import React, { useEffect, useState } from "react";
+import Topic from "../Topic/Topic";
+import Network from "../Networking";
 
-function Dashboard() {
-  const [name, setName] = useState();
+function StudentDashboard(props) {
+  const [topicList, setTopicList] = useState([]);
+  // const [studentName, setStudentName] = useState();
 
-  useEffect(() => {});
+  async function fetchTopics(studentName) {
+    const topics = await Network.getAllTopics(studentName);
+    setTopicList(topics);
+  }
+
+  useEffect(() => {
+    document.title = `${props.studentName}'s Knowledge Checklist`;
+
+    fetchTopics(props.studentName);
+  });
 
   function getWelcomeMessage() {
     return (
       <div>
-        <header>Welcome, {name}. </header>
+        <header>Welcome, {studentName}. </header>
         <main>
           <p>
             Select your level of confidence with the buttons next to each
@@ -30,7 +42,13 @@ function Dashboard() {
     );
   }
 
+  function getTopics() {
+    topics.map((topic) => {
+      return <Topic />;
+    });
+  }
+
   return { getWelcomeMessage };
 }
 
-export default Dashboard;
+export default StudentDashboard;
