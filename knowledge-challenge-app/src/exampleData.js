@@ -1,11 +1,41 @@
 const topicList = [
   {
-    topic: "HTML",
-    LOs: [{ LO1: "Write a header" }, { LO2: "Create a button" }], // list of LOs
+    id: 1,
+    cohort_id: 1,
+    topic: "HTML/CSS",
+    learning_objective: "Understand what parent and child is",
   },
   {
-    topic: "CSS",
-    LOs: [{ LO1: "Change margin" }, { LO2: "Use flexbox" }],
+    id: 2,
+    cohort_id: 1,
+    topic: "HTML/CSS",
+    learning_objective: "Can create and link a stylesheet",
+  },
+  {
+    id: 3,
+    cohort_id: 1,
+    topic: "Javascript",
+    learning_objective: "Be able to link a Javascript file in your project",
+  },
+  {
+    id: 4,
+    cohort_id: 1,
+    topic: "Javascript",
+    learning_objective: "Be able to do a console.log()",
+  },
+  {
+    id: 5,
+    cohort_id: 1,
+    topic: "React",
+    learning_objective:
+      "Understand the difference between class and functional components",
+  },
+  {
+    id: 6,
+    cohort_id: 1,
+    topic: "React",
+    learning_objective:
+      "Be able to create a React application with create-react-app",
   },
 ];
 

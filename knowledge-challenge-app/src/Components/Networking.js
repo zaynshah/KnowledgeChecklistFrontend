@@ -1,8 +1,9 @@
 export default class Network {
-  async getAllTopics(studentName, cohortID) {
-    const endpoint = `localhost:8080/${studentName}/${cohortID}`;
+  async getAllTopics(cohort) {
+    const endpoint = `http://localhost:8080/${cohort}/LOs`;
     const response = await fetch(endpoint);
-    const json = response.json();
+    const json = await response.json();
+    console.log(json);
     return json;
   }
 }

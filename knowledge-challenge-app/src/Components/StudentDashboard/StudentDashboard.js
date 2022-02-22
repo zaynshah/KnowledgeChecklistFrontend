@@ -1,25 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Topic from "../Topic/Topic";
 import Network from "../Networking";
-import exampleData from "../../exampleData";
 
-// Check how the student name will be passed in as props
 function StudentDashboard(props) {
-  const testData = exampleData;
-  const [topicList, setTopicList] = useState([testData]);
+  const network = new Network();
+  const [data, setData] = useState();
 
-  async function fetchTopics(studentName) {
-    const topics = await Network.getAllTopics(studentName);
-    setTopicList(topics);
-  }
+  document.title = `${props.studentName}'s Knowledge Checklist`;
 
   useEffect(() => {
-    document.title = `${props.studentName}'s Knowledge Checklist`;
-
-    // waiting to build server.js response
-    // fetchTopics(props.studentName);
-    createTopics(topicList);
-  });
+    (async () => {
+      setData(await network.getAllTopics(1));
+    })();
+  }, []);
 
   function getWelcomeMessage() {
     return (
@@ -46,17 +39,22 @@ function StudentDashboard(props) {
     );
   }
 
-  function createTopics(topicList) {
-    topicList.map((topic) => {
-      return <Topic topicName={topic.topic} topicLOs={topic.LOs} />;
+  function createTopics(data) {
+    data.map((topic) => {
+      return <Topic />;
     });
+  }
+
+  function getLoadingComponent() {
+    return <div className="loader" />;
   }
 
   return (
     <div>
       {getWelcomeMessage()}
       <main className="topics">
-        {topicList ? createTopics(topicList) : null}
+        {JSON.stringify(data)}
+        {data ? createTopics(data) : getLoadingComponent()}
       </main>
     </div>
   );

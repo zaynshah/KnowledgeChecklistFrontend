@@ -6,10 +6,6 @@ function Topic(props) {
     listOfLOs.map((LO) => {
       return <LO descriptionOfLO={LO.LO} />;
     });
-
-    // for (let LO of listOfLOs) {
-    //   for (let property of LO) return <LO descriptionOfLO={LO[property]} />;
-    // }
   }
 
   return (
