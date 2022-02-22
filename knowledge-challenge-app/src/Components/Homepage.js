@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SignupModal from "./SignupModal";
+import Network from "./Networking";
 
 function Homepage() {
   const [showSignUp, setShowSignUp] = useState(false);
@@ -15,7 +16,7 @@ function Homepage() {
   return (
     <div className="App-Wrapper">
       <h1>Welcome</h1>
-      <SignupModal show={showSignUp} handleClose={handleShowSignUp} />
+      <SignupModal show={showSignUp} handleClose={handleShowSignUp} network={new Network()} />
       <button onClick={handleShowSignUp}>Register</button>
       <button onClick={handleShowLogIn}> Login</button>
     </div>
