@@ -1,15 +1,12 @@
-import logo from "./logo.svg";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Homepage from "./Components/Homepage";
 import Header from "./Components/Header";
 import React from "react";
-import Signup from "./Components/Signup";
+import StudentDashboard from "./Components/StudentDashboard/StudentDashboard";
 
 function App() {
-  const [name, setName] = useState("Fahmidul");
   return (
     <div className="App-Wrapper">
       <Header />
@@ -19,6 +16,9 @@ function App() {
         </Route>
         <Route path="/Homepage">
           <Homepage />
+        </Route>
+        <Route path="/SigmaStudent99">
+          <StudentDashboard />
         </Route>
       </Switch>
     </div>

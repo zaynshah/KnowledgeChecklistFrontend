@@ -1,44 +1,35 @@
+import "./LO.css";
 import React, { useEffect, useState } from "react";
-import confidenceButton from "../confidenceButton/confidenceButton";
+import ConfidenceButton from "../ConfidenceButton/ConfidenceButton";
 
 function LO(props) {
   const [rating, setRating] = useState("");
 
-  function changeRating(type) {
-    setRating(type);
+  function updateRating(rating) {
+    setRating(rating);
   }
 
-  useEffect(() => {});
-
-  function createDescription(rating, description) {
-    if (rating === "red") {
-      return <div color="red">{description}</div>;
-    } else if (rating === "amber") {
-      return <div color="amber">{description}</div>;
-    } else if (rating === "green") {
-      return <div color="green">{description}</div>;
-    } else {
-      return <div color="white">{description}</div>;
-    }
-  }
-
-  function createLO(rating, description) {
+  function createLO(description) {
     return (
-      <div>
-        <div className="LO">{createDescription(rating, description)}</div>
-        <div className="LO">
-          <confidenceButton
-            changeRating={changeRating}
+      <div className="LO">
+        <div>{description}</div>
+        <div className="unconfident">
+          <ConfidenceButton
+            changeRating={updateRating}
             type="red"
             text="Not confident"
           />
-          <confidenceButton
-            changeRating={changeRating}
+        </div>
+        <div className="neutral">
+          <ConfidenceButton
+            changeRating={updateRating}
             type="amber"
             text="Needs revision"
           />
-          <confidenceButton
-            changeRating={changeRating}
+        </div>
+        <div className="confident">
+          <ConfidenceButton
+            changeRating={updateRating}
             type="green"
             text="Feel confident"
           />
@@ -47,7 +38,19 @@ function LO(props) {
     );
   }
 
-  return <div>{createLO(rating, props.descriptionOfLO)}</div>;
+  return <div>{createLO(props.learningObjective)}</div>;
 }
 
 export default LO;
+
+// function createDescription(rating, description) {
+//   if (rating === "red") {
+//     return <div color="red">{description}</div>;
+//   } else if (rating === "amber") {
+//     return <div color="amber">{description}</div>;
+//   } else if (rating === "green") {
+//     return <div color="green">{description}</div>;
+//   } else {
+//     return <div color="white">{description}</div>;
+//   }
+// }
