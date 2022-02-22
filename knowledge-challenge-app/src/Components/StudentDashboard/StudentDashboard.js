@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 
-function Dashboard() {
-  const [name, setName] = useState();
+function StudentDashboard() {
+  const [topics, setTopics] = useState([]);
+  const [name, setName] = useState("");
 
   useEffect(() => {});
 
@@ -33,4 +34,4 @@ function Dashboard() {
   return { getWelcomeMessage };
 }
 
-export default Dashboard;
+export default StudentDashboard;
