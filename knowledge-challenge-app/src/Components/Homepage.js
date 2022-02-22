@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
 import SignupModal from "./SignupModal";
 import LogInModal from "./LogInModal";
 
@@ -14,13 +16,22 @@ function Homepage() {
   };
 
   return (
-    <div className="App-Wrapper">
-      <h1>Welcome</h1>
+    <Container className="py-4 m-5 p-5">
       <SignupModal show={showSignUp} handleClose={handleShowSignUp} />
       <LogInModal show={showLogIn} handleClose={handleShowLogIn} />
-      <button onClick={handleShowSignUp}>Register</button>
-      <button onClick={handleShowLogIn}> Login</button>
-    </div>
+      <h1 className="mb-4">Welcome to the Knowledge Checklist.</h1>
+      <div className="">
+        <p className="fs-5 mb-4">
+          Use the buttons below to register or log in.
+        </p>
+        <Button variant="outline-dark" className="" onClick={handleShowSignUp}>
+          Register
+        </Button>{" "}
+        <Button variant="dark" onClick={handleShowLogIn}>
+          Login
+        </Button>
+      </div>
+    </Container>
   );
 }
 

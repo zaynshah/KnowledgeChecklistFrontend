@@ -1,19 +1,8 @@
 import React from "react";
 import "./header.css";
-// import Networking from "./Networking";
-// import getCookieObj from "./GetCookies";
-// import { Link } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 
-function Header() {
-  //   constructor(props) {
-  //     super(props);
-  //     this.Networking = new Networking();
-  //     this.state = { user: this.props.userData.user };
-  //   }
-
-  // if (!this.props.userData.user)
-  //   return <img alt="logo" src="	https://www.worldbank.org/content/dam/wbr/logo/logo-wb-header-en.svg" className="no-logon-header" />;
+export default function Header() {
   return (
     <div>
       <div className="header-flex">
@@ -25,8 +14,19 @@ function Header() {
         </div>
         <div className="btn-div">
           <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic" className="cc">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-fill" viewBox="2 2 16 16">
+            <Dropdown.Toggle
+              variant="success"
+              id="dropdown-basic"
+              className="cc"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-person-fill"
+                viewBox="2 2 16 16"
+              >
                 <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
               </svg>
               <span>
@@ -37,7 +37,7 @@ function Header() {
               <Dropdown.Item href="#">Action</Dropdown.Item>
               <Dropdown.Item href="#">Another action</Dropdown.Item>
               <Dropdown.Divider />
-              <Dropdown.Item href="#">LogOut</Dropdown.Item>
+              <Dropdown.Item href="#">Log out</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>
@@ -45,5 +45,3 @@ function Header() {
     </div>
   );
 }
-
-export default Header;
