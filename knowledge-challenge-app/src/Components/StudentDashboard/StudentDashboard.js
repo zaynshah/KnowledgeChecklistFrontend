@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Topic from "../Topic/Topic";
 import Network from "../Networking";
+import exampleData from "../../exampleData";
 
+// Check how the student name will be passed in as props
 function StudentDashboard(props) {
-  const [topicList, setTopicList] = useState([]);
-  // const [studentName, setStudentName] = useState();
+  const testData = exampleData;
+  const [topicList, setTopicList] = useState([testData]);
 
   async function fetchTopics(studentName) {
     const topics = await Network.getAllTopics(studentName);
@@ -14,13 +16,15 @@ function StudentDashboard(props) {
   useEffect(() => {
     document.title = `${props.studentName}'s Knowledge Checklist`;
 
-    fetchTopics(props.studentName);
+    // waiting to build server.js response
+    // fetchTopics(props.studentName);
+    createTopics(topicList);
   });
 
   function getWelcomeMessage() {
     return (
       <div>
-        <header>Welcome, {studentName}. </header>
+        <header>Welcome, {props.studentName}. </header>
         <main>
           <p>
             Select your level of confidence with the buttons next to each
@@ -42,13 +46,20 @@ function StudentDashboard(props) {
     );
   }
 
-  function getTopics() {
-    topics.map((topic) => {
-      return <Topic />;
+  function createTopics(topicList) {
+    topicList.map((topic) => {
+      return <Topic topicName={topic.topic} topicLOs={topic.LOs} />;
     });
   }
 
-  return { getWelcomeMessage };
+  return (
+    <div>
+      {getWelcomeMessage()}
+      <main className="topics">
+        {topicList ? createTopics(topicList) : null}
+      </main>
+    </div>
+  );
 }
 
 export default StudentDashboard;
