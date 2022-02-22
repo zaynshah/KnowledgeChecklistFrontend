@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-function Signup(props) {
+function SignupModal(props) {
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -61,4 +61,4 @@ function Signup(props) {
   );
 }
 
-export default Signup;
+export default SignupModal;
