@@ -8,6 +8,7 @@ import Header from "./Components/Header";
 import React from "react";
 
 function App() {
+  const [name, setName] = useState("Fahmidul");
   return (
     <div className="App-Wrapper">
       <Header />
