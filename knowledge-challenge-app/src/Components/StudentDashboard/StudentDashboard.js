@@ -1,10 +1,11 @@
+import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
-import Topic from "../Topic/Topic";
 import Network from "../Networking";
+import LO from "../LO/LO";
 
 function StudentDashboard(props) {
+  const [data, setData] = useState([]);
   const network = new Network();
-  const [data, setData] = useState();
 
   document.title = `${props.studentName}'s Knowledge Checklist`;
 
@@ -13,6 +14,19 @@ function StudentDashboard(props) {
       setData(await network.getAllTopics(1));
     })();
   }, []);
+
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const data = await network.getAllTopics(1);
+  //     setData(data);
+  //   }
+  //   fetchData();
+  // });
+
+  // async function fetchData(cohortID) {
+  //   const data = await network.getAllTopics(cohortID);
+  //   return JSON.stringify(data);
+  // }
 
   function getWelcomeMessage() {
     return (
@@ -39,10 +53,15 @@ function StudentDashboard(props) {
     );
   }
 
-  function createTopics(data) {
-    data.map((topic) => {
-      return <Topic />;
+  function createTopics(data, topic) {
+    const filteredData = data.filter((objects) => objects.topic === topic); // [{},{}]
+    console.log(filteredData);
+
+    const topicData = filteredData.map((topic) => {
+      return <LO key={topic.id} learningObjective={topic.learning_objective} />;
     });
+
+    return topicData;
   }
 
   function getLoadingComponent() {
@@ -52,9 +71,25 @@ function StudentDashboard(props) {
   return (
     <div>
       {getWelcomeMessage()}
+
       <main className="topics">
-        {JSON.stringify(data)}
-        {data ? createTopics(data) : getLoadingComponent()}
+        {/* {data ? createTopics(data) : getLoadingComponent()} */}
+      </main>
+      <main>
+        <header>HTML/CSS</header>
+        <div>{data ? createTopics(data, "HTML/CSS") : null}</div>
+      </main>
+      <main>
+        <header>Javascript</header>
+        <div>{data ? createTopics(data, "Javascript") : null}</div>
+      </main>
+      <main>
+        <header>React</header>
+        <div>{data ? createTopics(data, "React") : null}</div>
+      </main>
+      <main>
+        <header>Git</header>
+        <div>{data ? createTopics(data, "Git") : null}</div>
       </main>
     </div>
   );
