@@ -1,5 +1,3 @@
-import logo from "./logo.svg";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { Switch, Route, Redirect } from "react-router-dom";
@@ -8,7 +6,6 @@ import Header from "./Components/Header";
 import React from "react";
 
 function App() {
-  const [name, setName] = useState("Fahmidul");
   return (
     <div className="App-Wrapper">
       <Header />
