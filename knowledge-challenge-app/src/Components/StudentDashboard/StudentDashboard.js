@@ -1,15 +1,23 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useState } from "react";
+import Topic from "../Topic/Topic";
+import Network from "../Networking";
 
-function StudentDashboard() {
-  const [topics, setTopics] = useState([]);
-  const [name, setName] = useState("");
+function StudentDashboard(props) {
+  const network = new Network();
+  const [data, setData] = useState();
 
-  useEffect(() => {});
+  document.title = `${props.studentName}'s Knowledge Checklist`;
+
+  useEffect(() => {
+    (async () => {
+      setData(await network.getAllTopics(1));
+    })();
+  }, []);
 
   function getWelcomeMessage() {
     return (
       <div>
-        <header>Welcome, {name}. </header>
+        <header>Welcome, {props.studentName}. </header>
         <main>
           <p>
             Select your level of confidence with the buttons next to each
@@ -31,7 +39,25 @@ function StudentDashboard() {
     );
   }
 
-  return { getWelcomeMessage };
+  function createTopics(data) {
+    data.map((topic) => {
+      return <Topic />;
+    });
+  }
+
+  function getLoadingComponent() {
+    return <div className="loader" />;
+  }
+
+  return (
+    <div>
+      {getWelcomeMessage()}
+      <main className="topics">
+        {JSON.stringify(data)}
+        {data ? createTopics(data) : getLoadingComponent()}
+      </main>
+    </div>
+  );
 }
 
 export default StudentDashboard;

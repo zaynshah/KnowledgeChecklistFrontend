@@ -9,6 +9,7 @@ import React from "react";
 import Signup from "./Components/Signup";
 
 function App() {
+  const [name, setName] = useState("Fahmidul");
   return (
     <div className="App-Wrapper">
       <Header />
