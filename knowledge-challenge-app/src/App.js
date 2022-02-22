@@ -6,7 +6,6 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Homepage from "./Components/Homepage";
 import Header from "./Components/Header";
 import React from "react";
-import SignupModal from "./Components/SignupModal";
 
 function App() {
   const [name, setName] = useState("Fahmidul");
