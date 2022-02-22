@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import logo from "./logo.svg";
 import "./App.css";
-import StudentDashboard from "./Components/StudentDashboard/StudentDashboard";
+import { Switch, Route, Redirect } from "react-router-dom";
+import Homepage from "./Components/Homepage";
 
 function App() {
   const [name, setName] = useState("Fahmidul");
   return (
-    <div className="App">
-      <StudentDashboard studentName={name} />
+    <div className="App-Wrapper">
+      <Switch>
+        <Route exact path="/">
+          <Redirect to="/Homepage" />
+        </Route>
+        <Route path="/Homepage">
+          <Homepage />
+        </Route>
+      </Switch>
     </div>
   );
 }
