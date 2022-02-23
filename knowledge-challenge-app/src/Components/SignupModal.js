@@ -9,10 +9,6 @@ function SignupModal(props) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [cohort_id, setCohort_id] = useState(0);
 
-  function test() {
-    console.log("hi");
-  }
-
   function handleEmail(e) {
     setEmail(e.target.value);
   }
@@ -23,15 +19,14 @@ function SignupModal(props) {
 
   function handlePasswordConfirm(e) {
     setConfirmPassword(e.target.value);
-    console.log(e.target.value);
   }
 
   function handleCohortId(e) {
-    setCohort_id(Number(e.target.value));
+    setCohort_id(parseInt(e.target.value));
   }
 
   async function handleSubmit(e) {
-    const response = await props.network.postUser(email, password);
+    const response = await props.postUser(email, password, cohort_id);
 
     setEmail("");
     setPassword("");
@@ -49,29 +44,53 @@ function SignupModal(props) {
         <Form noValidate>
           <Form.Group className="mb-3" controlId="email">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" value={email} onChange={handleEmail} />
-            <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              value={email}
+              onChange={handleEmail}
+            />
+            <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" value={password} placeholder="Password" onChange={handlePassword} />
-            <Form.Text className="text-muted">Password must contain at least 8 characters.</Form.Text>
+            <Form.Control
+              type="password"
+              value={password}
+              placeholder="Password"
+              onChange={handlePassword}
+            />
+            <Form.Text className="text-muted">
+              Password must contain at least 8 characters.
+            </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3" controlId="confirmPassword">
             <Form.Label>Confirm password</Form.Label>
-            <Form.Control type="password" value={confirmPassword} placeholder="Confirm Password" onChange={handlePasswordConfirm} />
+            <Form.Control
+              type="password"
+              value={confirmPassword}
+              placeholder="Confirm Password"
+              onChange={handlePasswordConfirm}
+            />
           </Form.Group>
           <Form.Group className="mb-3" controlId="cohort-id">
             <Form.Label>Cohort</Form.Label>
-            <Form.Control type="text-muted" value={cohort_id} placeholder="Cohort" onChange={handleCohortId} />
+            <Form.Control
+              type="text-muted"
+              value={cohort_id}
+              placeholder="Cohort"
+              onChange={handleCohortId}
+            />
           </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={props.handleClose}>
+        <Button variant="outline-dark" onClick={props.handleClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleSubmit}>
+        <Button variant="secondary" onClick={handleSubmit}>
           Save Changes
         </Button>
       </Modal.Footer>

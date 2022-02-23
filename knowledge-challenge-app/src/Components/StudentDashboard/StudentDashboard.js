@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Topic from "../Topic/Topic";
 import Network from "../Networking";
+import Header from "../Header";
 
 function StudentDashboard(props) {
   const network = new Network();
@@ -50,13 +51,12 @@ function StudentDashboard(props) {
   }
 
   return (
-    <div>
-      {getWelcomeMessage()}
-      <main className="topics">
-        {JSON.stringify(data)}
-        {data ? createTopics(data) : getLoadingComponent()}
-      </main>
-    </div>
+    <>
+      <Header logOut={props.logOut} />
+      <div>
+        <h1>working</h1>
+      </div>
+    </>
   );
 }
 
