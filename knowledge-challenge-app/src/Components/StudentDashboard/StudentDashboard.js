@@ -9,8 +9,9 @@ import Nav from "react-bootstrap/Nav";
 import ProgressBar from "react-bootstrap/ProgressBar";
 
 function StudentDashboard(props) {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([]); // {[],[]}
   const [completion, setCompletion] = useState(10);
+
   const network = new Network();
 
   document.title = `${props.studentName}'s Knowledge Checklist`;
@@ -72,11 +73,6 @@ function StudentDashboard(props) {
     return <div className="loader" />;
   }
 
-  function handlePDFClick() {
-    const element = document.getElementById("review-page");
-    // html2pdf(element);
-  }
-
   function getSideNavBar() {
     return (
       <div className="sidenav">
@@ -120,11 +116,7 @@ function StudentDashboard(props) {
               {data ? createTopics(data, "Git") : null}
             </main>
             <div className="export-pdf-button">
-              <Button
-                className="export-pdf-button"
-                variant="outline-primary"
-                onClick={handlePDFClick}
-              >
+              <Button className="export-pdf-button" variant="outline-primary">
                 Save to PDF
               </Button>
             </div>

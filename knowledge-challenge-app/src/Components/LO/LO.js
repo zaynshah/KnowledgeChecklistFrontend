@@ -5,42 +5,18 @@ import ConfidenceButton from "../ConfidenceButton/ConfidenceButton";
 function LO(props) {
   const [rating, setRating] = useState("");
 
-  function updateRating(rating) {
-    setRating(rating);
-  }
-
-  function createDescription(rating, description) {
-    if (rating === "red") {
-      return (
-        <div background-color="red" className="description">
-          {description}
-        </div>
-      );
-    } else if (rating === "amber") {
-      return (
-        <div background-color="amber" className="description">
-          {description}
-        </div>
-      );
-    } else if (rating === "green") {
-      return (
-        <div background-color="green" className="description">
-          {description}
-        </div>
-      );
-    } else {
-      return (
-        <div background-color="white" className="description">
-          {description}
-        </div>
-      );
-    }
+  function updateRating(newRating) {
+    console.log(newRating);
+    setRating(newRating);
   }
 
   function createLO(rating, description) {
     return (
       <div className="row">
-        {createDescription(rating, description)}
+        <div className={`description description-background-${rating}`}>
+          {description}
+        </div>
+
         <div className="buttons">
           <div className="unconfident">
             <ConfidenceButton
