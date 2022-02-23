@@ -13,8 +13,7 @@ export default class Network {
       }),
     });
 
-    let json = await response.json();
-    return { json };
+    return response;
   }
 
   async postLogin(email, password) {
