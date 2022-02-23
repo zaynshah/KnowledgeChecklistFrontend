@@ -1,15 +1,38 @@
-import React, { useEffect, useReducer, useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useEffect, useState } from "react";
+import Network from "../Networking";
+import Header from "../Header";
+import LO from "../LO/LO";
 
-function StudentDashboard() {
-  const [topics, setTopics] = useState([]);
-  const [name, setName] = useState("");
+function StudentDashboard(props) {
+  const [data, setData] = useState([]);
+  const network = new Network();
 
-  useEffect(() => {});
+  document.title = `${props.studentName}'s Knowledge Checklist`;
+
+  useEffect(() => {
+    (async () => {
+      setData(await network.getAllTopics(1));
+    })();
+  }, []);
+
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const data = await network.getAllTopics(1);
+  //     setData(data);
+  //   }
+  //   fetchData();
+  // });
+
+  // async function fetchData(cohortID) {
+  //   const data = await network.getAllTopics(cohortID);
+  //   return JSON.stringify(data);
+  // }
 
   function getWelcomeMessage() {
     return (
       <div>
-        <header>Welcome, {name}. </header>
+        <header>Welcome, {props.studentName}. </header>
         <main>
           <p>
             Select your level of confidence with the buttons next to each
@@ -31,7 +54,29 @@ function StudentDashboard() {
     );
   }
 
-  return { getWelcomeMessage };
+  function createTopics(data, topic) {
+    const filteredData = data.filter((objects) => objects.topic === topic); // [{},{}]
+    console.log(filteredData);
+
+    const topicData = filteredData.map((topic) => {
+      return <LO key={topic.id} learningObjective={topic.learning_objective} />;
+    });
+
+    return topicData;
+  }
+
+  function getLoadingComponent() {
+    return <div className="loader" />;
+  }
+
+  return (
+    <>
+      <Header logOut={props.logOut} />
+      <div>
+        <h1>working</h1>
+      </div>
+    </>
+  );
 }
 
 export default StudentDashboard;

@@ -16,17 +16,25 @@ export default class Network {
     return response;
   }
 
-  //   async postLogin(username, password) {
-  //     let response = await fetch(`http://localhost:8080/sessions`, {
-  //       method: "POST",
-  //       credentials: "include",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         username: username,
-  //         password: password,
-  //       }),
-  //     });
-  //     let json = await response.json();
-  //     return json;
-  //   }
+  async postLogin(email, password) {
+    let response = await fetch(`http://localhost:8080/sessions`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
+    let json = await response.json();
+    return json;
+  }
+
+  async getAllTopics(cohort) {
+    const endpoint = `http://localhost:8080/${cohort}/LOs`;
+    const response = await fetch(endpoint);
+    const json = await response.json();
+    console.log(json);
+    return json;
+  }
 }

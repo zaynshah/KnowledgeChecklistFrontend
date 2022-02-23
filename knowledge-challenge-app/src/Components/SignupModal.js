@@ -14,10 +14,6 @@ function SignupModal(props) {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
-  function test() {
-    console.log("hi");
-  }
-
   function handleEmail(e) {
     setEmail(e.target.value);
   }
@@ -28,11 +24,12 @@ function SignupModal(props) {
 
   function handlePasswordConfirm(e) {
     setConfirmPassword(e.target.value);
-    console.log(e.target.value);
   }
 
   function handleCohortId(e) {
-    setCohort_id(e.target.value);
+
+    setCohort_id(parseInt(e.target.value));
+
   }
   const checkInputs = () => {
     if (email) {
@@ -51,7 +48,7 @@ function SignupModal(props) {
   useEffect(() => {
     checkInputs();
   });
-
+  
   async function handleSubmit(e) {
     try {
       const response = await props.postLogin(email, password, cohort_id);
