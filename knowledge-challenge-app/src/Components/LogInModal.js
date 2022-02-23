@@ -20,13 +20,11 @@ export default function LogInModal(props) {
   const handleLogin = async () => {
     try {
       let response = await props.postLogin(email, password);
-      console.log(response);
-      // let json = await response.json();
       if (!response.success) {
         throw new Error("Invalid email or password");
       } else {
         props.setIsLoggedIn(true);
-      } //something to do with keeping user logged in goes here
+      }
     } catch (error) {
       setSuccess(false);
       setError(error.toString());
