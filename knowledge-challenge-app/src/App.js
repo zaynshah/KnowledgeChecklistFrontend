@@ -9,7 +9,7 @@ import StudentDashboard from "./Components/StudentDashboard/StudentDashboard";
 function App() {
   const [cookies, setCookie] = useCookies(["sessionId"]);
   const [isLoggedIn, setIsLoggedIn] = useState(cookies.sessionId);
-
+  console.log(cookies);
   const deleteCookiesOnLogOut = () => {
     setCookie("sessionId", "");
     setIsLoggedIn("");
@@ -30,7 +30,7 @@ function App() {
 
         <Route path="/dashboard">
           {isLoggedIn ? (
-            <StudentDashboard logOut={deleteCookiesOnLogOut} />
+            <StudentDashboard head={cookies} logOut={deleteCookiesOnLogOut} />
           ) : (
             <>
               <Redirect to="/" />
