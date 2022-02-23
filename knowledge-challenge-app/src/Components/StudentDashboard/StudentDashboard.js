@@ -18,7 +18,7 @@ function StudentDashboard(props) {
 
   useEffect(() => {
     (async () => {
-      setData(await network.getAllTopics(1));
+      setData(await network.getAllTopics(3));
     })();
   }, []);
 
