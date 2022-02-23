@@ -14,3 +14,15 @@
   justify-content: end;
   margin-right: 100px;
 }
+
+.description-background-red {
+  background-color: red;
+}
+
+.description-background-amber {
+  background-color: yellow;
+}
+
+.description-background-green {
+  background-color: green;
+}
