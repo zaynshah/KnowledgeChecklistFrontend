@@ -1,5 +1,16 @@
-.LO {
+.row {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+}
+
+.description {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.buttons {
+  flex: 1;
+  display: flex;
+  justify-content: end;
+  margin-right: 100px;
 }

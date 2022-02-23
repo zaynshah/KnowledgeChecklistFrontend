@@ -9,48 +9,69 @@ function LO(props) {
     setRating(rating);
   }
 
-  function createLO(description) {
+  function createDescription(rating, description) {
+    if (rating === "red") {
+      return (
+        <div background-color="red" className="description">
+          {description}
+        </div>
+      );
+    } else if (rating === "amber") {
+      return (
+        <div background-color="amber" className="description">
+          {description}
+        </div>
+      );
+    } else if (rating === "green") {
+      return (
+        <div background-color="green" className="description">
+          {description}
+        </div>
+      );
+    } else {
+      return (
+        <div background-color="white" className="description">
+          {description}
+        </div>
+      );
+    }
+  }
+
+  function createLO(rating, description) {
     return (
-      <div className="LO">
-        <div>{description}</div>
-        <div className="unconfident">
-          <ConfidenceButton
-            changeRating={updateRating}
-            type="red"
-            text="Not confident"
-          />
-        </div>
-        <div className="neutral">
-          <ConfidenceButton
-            changeRating={updateRating}
-            type="amber"
-            text="Needs revision"
-          />
-        </div>
-        <div className="confident">
-          <ConfidenceButton
-            changeRating={updateRating}
-            type="green"
-            text="Feel confident"
-          />
+      <div className="row">
+        {createDescription(rating, description)}
+        <div className="buttons">
+          <div className="unconfident">
+            <ConfidenceButton
+              changeRating={updateRating}
+              type="red"
+              text="Not confident"
+              variant="outline-danger"
+            />
+          </div>
+          <div className="neutral">
+            <ConfidenceButton
+              changeRating={updateRating}
+              type="amber"
+              text="Needs revision"
+              variant="outline-warning"
+            />
+          </div>
+          <div className="confident">
+            <ConfidenceButton
+              changeRating={updateRating}
+              type="green"
+              text="Feel confident"
+              variant="outline-success"
+            />
+          </div>
         </div>
       </div>
     );
   }
 
-  return <div>{createLO(props.learningObjective)}</div>;
+  return <div className="LO">{createLO(rating, props.learningObjective)}</div>;
 }
 
 export default LO;
-
-// function createDescription(rating, description) {
-//   if (rating === "red") {
-//     return <div color="red">{description}</div>;
-//   } else if (rating === "amber") {
-//     return <div color="amber">{description}</div>;
-//   } else if (rating === "green") {
-//     return <div color="green">{description}</div>;
-//   } else {
-//     return <div color="white">{description}</div>;
-//   }
-// }
