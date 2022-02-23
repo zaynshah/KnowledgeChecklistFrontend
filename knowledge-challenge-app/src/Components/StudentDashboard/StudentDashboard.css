@@ -1,0 +1,18 @@
+.bulk-content {
+  display: flex;
+}
+
+.sidenav {
+  flex: 1;
+  width: fit-content;
+  height: fit-content;
+}
+
+.topics {
+  flex: 1;
+}
+
+.export-pdf-button {
+  display: flex;
+  justify-content: center;
+}
