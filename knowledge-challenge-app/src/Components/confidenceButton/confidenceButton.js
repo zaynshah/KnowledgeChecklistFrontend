@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 
-function confidenceButton(props) {
+function ConfidenceButton(props) {
   function handleSubmit(e) {
     props.changeRating(e.target.id);
   }
@@ -11,7 +11,7 @@ function confidenceButton(props) {
       <Button
         onClick={(e) => handleSubmit(e)}
         id={type}
-        variant="primary"
+        variant="outline-dark"
         size="lg"
         active
       >
@@ -20,7 +20,7 @@ function confidenceButton(props) {
     );
   }
 
-  return <div className="mb-2">{createButton(props.type, props.text)}</div>;
+  return <div>{createButton(props.type, props.text)}</div>;
 }
 
-export default confidenceButton;
+export default ConfidenceButton;

@@ -37,6 +37,9 @@ function App() {
             </>
           )}
         </Route>
+        <Route path="/SigmaStudent99">
+          <StudentDashboard />
+        </Route>
       </Switch>
     </div>
   );
