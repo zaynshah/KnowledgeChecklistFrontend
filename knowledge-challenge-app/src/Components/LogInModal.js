@@ -20,8 +20,9 @@ export default function LogInModal(props) {
   const handleLogin = async () => {
     try {
       let response = await props.postLogin(email, password);
-      let json = await response.json();
-      if (!json.success) {
+      console.log(response);
+      // let json = await response.json();
+      if (!response.success) {
         throw new Error("Invalid email or password");
       } else {
         props.setIsLoggedIn(true);
@@ -65,10 +66,10 @@ export default function LogInModal(props) {
             {error}.
           </div>
         ) : null}
-        <Button variant="secondary" onClick={props.handleClose}>
+        <Button variant="outline-dark" onClick={props.handleClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleLogin}>
+        <Button variant="secondary" onClick={handleLogin}>
           Log In
         </Button>
       </Modal.Footer>

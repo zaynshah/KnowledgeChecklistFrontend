@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useState } from "react";
 import Network from "../Networking";
+import Header from "../Header";
 import LO from "../LO/LO";
 
 function StudentDashboard(props) {
@@ -69,29 +70,12 @@ function StudentDashboard(props) {
   }
 
   return (
-    <div>
-      {getWelcomeMessage()}
-
-      <main className="topics">
-        {/* {data ? createTopics(data) : getLoadingComponent()} */}
-      </main>
-      <main>
-        <header>HTML/CSS</header>
-        <div>{data ? createTopics(data, "HTML/CSS") : null}</div>
-      </main>
-      <main>
-        <header>Javascript</header>
-        <div>{data ? createTopics(data, "Javascript") : null}</div>
-      </main>
-      <main>
-        <header>React</header>
-        <div>{data ? createTopics(data, "React") : null}</div>
-      </main>
-      <main>
-        <header>Git</header>
-        <div>{data ? createTopics(data, "Git") : null}</div>
-      </main>
-    </div>
+    <>
+      <Header logOut={props.logOut} />
+      <div>
+        <h1>working</h1>
+      </div>
+    </>
   );
 }
 

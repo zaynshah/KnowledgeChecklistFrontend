@@ -1,8 +1,9 @@
 import React from "react";
 import "./header.css";
 import Dropdown from "react-bootstrap/Dropdown";
+import Button from "react-bootstrap/esm/Button";
 
-export default function Header() {
+export default function Header(props) {
   return (
     <div>
       <div className="header-flex">
@@ -34,10 +35,7 @@ export default function Header() {
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item href="#">Action</Dropdown.Item>
-              <Dropdown.Item href="#">Another action</Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item href="#">Log out</Dropdown.Item>
+              <Dropdown.Item onClick={props.logOut}>Log Out</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </div>

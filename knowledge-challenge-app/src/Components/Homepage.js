@@ -4,9 +4,11 @@ import Button from "react-bootstrap/Button";
 import SignupModal from "./SignupModal";
 import Network from "./Networking";
 import LogInModal from "./LogInModal";
+import Header from "./Header";
 
+const network = new Network();
 
-function Homepage() {
+function Homepage(props) {
   const [showSignUp, setShowSignUp] = useState(false);
   const [showLogIn, setShowLogIn] = useState(false);
 
@@ -18,23 +20,34 @@ function Homepage() {
   };
 
   return (
-
-    <Container className="py-4 m-5 p-5">
-      <SignupModal show={showSignUp} handleClose={handleShowSignUp} network={new Network()} />
-      <LogInModal show={showLogIn} handleClose={handleShowLogIn} />
-      <h1 className="mb-4">Welcome to the Knowledge Checklist.</h1>
-      <div className="">
-        <p className="fs-5 mb-4">
-          Use the buttons below to register or log in.
-        </p>
-        <Button variant="outline-dark" className="" onClick={handleShowSignUp}>
-          Register
-        </Button>{" "}
-        <Button variant="dark" onClick={handleShowLogIn}>
-          Login
-        </Button>
-      </div>
-    </Container>
+    <>
+      <Header />
+      <Container className="py-4 m-5 p-5">
+        <SignupModal
+          show={showSignUp}
+          handleClose={handleShowSignUp}
+          postUser={network.postUser}
+        />
+        <LogInModal
+          show={showLogIn}
+          handleClose={handleShowLogIn}
+          postLogin={network.postLogin}
+          setIsLoggedIn={props.setIsLoggedIn}
+        />
+        <h1 className="mb-4">Welcome to the Knowledge Checklist.</h1>
+        <div className="">
+          <p className="fs-5 mb-4">
+            Use the buttons below to register or log in.
+          </p>
+          <Button variant="outline-dark" onClick={handleShowSignUp}>
+            Register
+          </Button>{" "}
+          <Button variant="secondary" onClick={handleShowLogIn}>
+            Log In
+          </Button>
+        </div>
+      </Container>
+    </>
   );
 }
 
