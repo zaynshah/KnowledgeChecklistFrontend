@@ -37,21 +37,6 @@ function App() {
             </>
           )}
         </Route>
-
-        {/* <Route exact path="/">
-          <Redirect to="/homepage" />
-        </Route>
-
-        <Route path="/homepage">
-          <Homepage setIsLoggedIn={setIsLoggedIn} />
-        </Route>
-
-        <Route
-          path="/dashboard"
-          element={
-            isLoggedIn ? <StudentDashboard /> : <Redirect to="/homepage" />
-          }
-        ></Route> */}
       </Switch>
     </div>
   );
