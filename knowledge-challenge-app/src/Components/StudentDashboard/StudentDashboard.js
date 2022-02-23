@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./StudentDashboard.css";
 import React, { useEffect, useState } from "react";
 import Network from "../Networking";
+import Header from "../Header";
 import LO from "../LO/LO";
 import Button from "react-bootstrap/esm/Button";
 import Nav from "react-bootstrap/Nav";
@@ -93,41 +94,44 @@ function StudentDashboard(props) {
   }
 
   return (
-    <div className="review-page">
-      {getProgressBar(completion)}
-      {getWelcomeMessage()}
+    <>
+      <Header logOut={props.logOut} />
+      <div className="review-page">
+        {getProgressBar(completion)}
+        {getWelcomeMessage()}
 
-      <div className="bulk-content">
-        {getSideNavBar()}
-        <div className="topics">
-          <main>
-            <h3>HTML/CSS</h3>
-            {data ? createTopics(data, "HTML/CSS") : null}
-          </main>
-          <main>
-            <h3>Javascript</h3>
-            {data ? createTopics(data, "Javascript") : null}
-          </main>
-          <main>
-            <h3>React</h3>
-            {data ? createTopics(data, "React") : null}
-          </main>
-          <main>
-            <h3>Git</h3>
-            {data ? createTopics(data, "Git") : null}
-          </main>
-          <div className="export-pdf-button">
-            <Button
-              className="export-pdf-button"
-              variant="outline-primary"
-              onClick={handlePDFClick}
-            >
-              Save to PDF
-            </Button>
+        <div className="bulk-content">
+          {getSideNavBar()}
+          <div className="topics">
+            <main>
+              <h3>HTML/CSS</h3>
+              {data ? createTopics(data, "HTML/CSS") : null}
+            </main>
+            <main>
+              <h3>Javascript</h3>
+              {data ? createTopics(data, "Javascript") : null}
+            </main>
+            <main>
+              <h3>React</h3>
+              {data ? createTopics(data, "React") : null}
+            </main>
+            <main>
+              <h3>Git</h3>
+              {data ? createTopics(data, "Git") : null}
+            </main>
+            <div className="export-pdf-button">
+              <Button
+                className="export-pdf-button"
+                variant="outline-primary"
+                onClick={handlePDFClick}
+              >
+                Save to PDF
+              </Button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

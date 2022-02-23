@@ -1,5 +1,4 @@
 export default class Network {
-
   async postUser(email, password, cohort_id) {
     let response = await fetch(`http://localhost:8080/users`, {
       method: "POST",
@@ -14,23 +13,22 @@ export default class Network {
       }),
     });
 
-    let json = await response.json();
-    return { json };
+    return response;
   }
 
-  //   async postLogin(username, password) {
-  //     let response = await fetch(`http://localhost:8080/sessions`, {
-  //       method: "POST",
-  //       credentials: "include",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         username: username,
-  //         password: password,
-  //       }),
-  //     });
-  //     let json = await response.json();
-  //     return json;
-  //   }
+  async postLogin(email, password) {
+    let response = await fetch(`http://localhost:8080/sessions`, {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    });
+    let json = await response.json();
+    return json;
+  }
 
   async getAllTopics(cohort) {
     const endpoint = `http://localhost:8080/${cohort}/LOs`;
@@ -39,5 +37,4 @@ export default class Network {
     console.log(json);
     return json;
   }
-
 }
