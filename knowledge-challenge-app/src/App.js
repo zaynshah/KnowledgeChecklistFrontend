@@ -47,15 +47,7 @@ function App() {
             </>
           )}
         </Route>
-        <Route path="/cohort">
-          {isLoggedIn ? (
-            <ViewData cookies={cookies} logOut={deleteCookiesOnLogOut} />
-          ) : (
-            <>
-              <Redirect to="/dashboard" />
-            </>
-          )}
-        </Route>
+        <Route path="/cohort" render={(props) => <ViewData {...props} cookies={cookies} logOut={deleteCookiesOnLogOut} isLog={isLoggedIn} />}></Route>
       </Switch>
     </div>
   );
