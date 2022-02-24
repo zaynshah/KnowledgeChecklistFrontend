@@ -1,10 +1,11 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, Link } from "react-router-dom";
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import Homepage from "./Components/Homepage";
 import StudentDashboard from "./Components/StudentDashboard/StudentDashboard";
+import AdminDashboard from "./Components/AdminDashboard";
 
 function App() {
   const [cookies, setCookie] = useCookies(["sessionId"]);
@@ -30,12 +31,23 @@ function App() {
 
         <Route path="/dashboard">
           {isLoggedIn ? (
-            <StudentDashboard head={cookies} logOut={deleteCookiesOnLogOut} />
+            cookies.isAdmin === "1" ? (
+              <AdminDashboard
+                cookies={cookies}
+                logOut={deleteCookiesOnLogOut}
+              />
+            ) : (
+              <StudentDashboard
+                cookies={cookies}
+                logOut={deleteCookiesOnLogOut}
+              />
+            )
           ) : (
             <>
               <Redirect to="/" />
             </>
           )}
+          {/* {checkAdmin()} */}
         </Route>
         <Route path="/SigmaStudent99">
           <StudentDashboard />

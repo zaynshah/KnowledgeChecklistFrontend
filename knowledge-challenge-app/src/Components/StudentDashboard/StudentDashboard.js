@@ -18,7 +18,7 @@ function StudentDashboard(props) {
 
   useEffect(() => {
     (async () => {
-      setData(await network.getAllTopics(3));
+      setData(await network.getAllTopicsPerStudent(props.cookies.userID));
     })();
   }, []);
 
@@ -29,8 +29,10 @@ function StudentDashboard(props) {
         <h3>How to use this checklist:</h3>
         <main>
           <p>
-            Select your level of confidence with the buttons next to each statement. Choosing 'not confident' will colour the statement red. Choosing
-            'needs revision' will colour the statement yellow. Finally, choosing 'feel confident' will colour the statement green:
+            Select your level of confidence with the buttons next to each
+            statement. Choosing 'not confident' will colour the statement red.
+            Choosing 'needs revision' will colour the statement yellow. Finally,
+            choosing 'feel confident' will colour the statement green:
           </p>
           <ul>
             <li>
@@ -40,13 +42,16 @@ function StudentDashboard(props) {
               <span>Yellow</span> topics are those that still need work.{" "}
             </li>
             <li>
-              <span>Green</span> topics are the ones you feel most confident with.
+              <span>Green</span> topics are the ones you feel most confident
+              with.
             </li>
           </ul>{" "}
           <p>
-            At the bottom of the page, there is a button to print / save your progress. Be sure to check the box 'background graphics' under more
-            settings. This will allow you to save a PDF or print a version of the page with the selections you have made. Additionally, you may prefer
-            landscape orientation to portrait for ease of reading.
+            At the bottom of the page, there is a button to print / save your
+            progress. Be sure to check the box 'background graphics' under more
+            settings. This will allow you to save a PDF or print a version of
+            the page with the selections you have made. Additionally, you may
+            prefer landscape orientation to portrait for ease of reading.
           </p>
         </main>
       </div>
@@ -86,7 +91,7 @@ function StudentDashboard(props) {
 
   return (
     <>
-      <Header cook={props.head.email} logOut={props.logOut} />
+      <Header cook={props.cookies.email} logOut={props.logOut} />
       <div className="review-page">
         {getProgressBar(completion)}
         {getWelcomeMessage()}
