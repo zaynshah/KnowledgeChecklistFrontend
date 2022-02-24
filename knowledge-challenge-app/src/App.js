@@ -6,6 +6,7 @@ import { useCookies } from "react-cookie";
 import Homepage from "./Components/Homepage";
 import StudentDashboard from "./Components/StudentDashboard/StudentDashboard";
 import AdminDashboard from "./Components/AdminDashboard/AdminDashboard";
+import ViewData from "./Components/AdminDashboard/ViewData";
 
 function App() {
   const [cookies, setCookie] = useCookies();
@@ -46,6 +47,7 @@ function App() {
             </>
           )}
         </Route>
+        <Route path="/cohort" render={(props) => <ViewData {...props} cookies={cookies} logOut={deleteCookiesOnLogOut} isLog={isLoggedIn} />}></Route>
       </Switch>
     </div>
   );
