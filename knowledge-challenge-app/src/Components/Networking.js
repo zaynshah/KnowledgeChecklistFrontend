@@ -12,7 +12,6 @@ export default class Network {
         cohort_id: cohort_id,
       }),
     });
-
     return response;
   }
 
@@ -34,7 +33,12 @@ export default class Network {
     const endpoint = `http://localhost:8080/${userID}/LOs`;
     const response = await fetch(endpoint);
     const json = await response.json();
-    console.log(json);
+    return json;
+  }
+
+  async getCohorts() {
+    const response = await fetch(`http://localhost:8080/cohorts`);
+    const json = await response.json();
     return json;
   }
 }

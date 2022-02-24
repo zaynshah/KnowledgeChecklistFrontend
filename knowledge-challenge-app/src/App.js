@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import Homepage from "./Components/Homepage";
 import StudentDashboard from "./Components/StudentDashboard/StudentDashboard";
-import AdminDashboard from "./Components/AdminDashboard";
+import AdminDashboard from "./Components/AdminDashboard/AdminDashboard";
 
 function App() {
   const [cookies, setCookie] = useCookies(["sessionId"]);
