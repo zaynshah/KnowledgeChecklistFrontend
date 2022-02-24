@@ -1,31 +1,35 @@
 import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/esm/Button";
-import { Redirect, Link } from "react-router-dom";
-// import "antd/dist/antd.css";
-// import { Select } from "antd";
+import { Link } from "react-router-dom";
 import Header from "../Header";
 import Network from "../Networking";
 
 export default function AdminDashboard(props) {
   const network = new Network();
   const [cohorts, setCohorts] = useState([]);
-  const [a, setA] = useState("A");
+  const [cohortLOs, setCohortLOs] = useState([]);
 
   useEffect(() => {
     (async () => {
       setCohorts(await network.getCohorts());
-      console.log(await network.getCohorts());
     })();
   }, []);
 
-  function handleClick() {}
+  async function handleClick(cohort_id) {
+    setCohortLOs(await network.getAllTopicsPerCohort(cohort_id));
+    console.log(await network.getAllTopicsPerCohort(cohort_id));
+  }
 
   function createCohortsList() {
     return cohorts.map((cohort, i) => (
-      <Link to="/cohort">
-        <Button key={i}>Cohort {cohort.cohort_id}</Button>)
-      </Link>
+      <div key={i}>
+        <Link to="/cohort">
+          <Button onClick={() => handleClick(cohort.cohort_id)} className="mb-2" variant="outline-dark">
+            Cohort {cohort.cohort_id}
+          </Button>
+        </Link>
+      </div>
     ));
   }
 
