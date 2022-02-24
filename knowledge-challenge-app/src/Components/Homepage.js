@@ -34,7 +34,7 @@ function Homepage(props) {
           postLogin={network.postLogin}
           setIsLoggedIn={props.setIsLoggedIn}
         />
-        <h1 className="mb-4">Welcome to the Knowledge Checklist.</h1>
+        <h1 className="mb-4">Welcome to the Knowledge Checklist</h1>
         <div className="">
           <p className="fs-5 mb-4">
             Use the buttons below to register or log in.
