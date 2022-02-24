@@ -8,11 +8,15 @@ import StudentDashboard from "./Components/StudentDashboard/StudentDashboard";
 import AdminDashboard from "./Components/AdminDashboard";
 
 function App() {
-  const [cookies, setCookie] = useCookies(["sessionId"]);
+  const [cookies, setCookie] = useCookies();
   const [isLoggedIn, setIsLoggedIn] = useState(cookies.sessionId);
-  console.log(cookies);
+  const [admin, setAdmin] = useState(cookies.isAdmin);
+
   const deleteCookiesOnLogOut = () => {
     setCookie("sessionId", "");
+    setCookie("isAdmin", "");
+    setCookie("userID", "");
+    setCookie("email", "");
     setIsLoggedIn("");
   };
 
@@ -31,26 +35,16 @@ function App() {
 
         <Route path="/dashboard">
           {isLoggedIn ? (
-            cookies.isAdmin === "1" ? (
-              <AdminDashboard
-                cookies={cookies}
-                logOut={deleteCookiesOnLogOut}
-              />
+            admin === "1" ? (
+              <AdminDashboard cookies={cookies} logOut={deleteCookiesOnLogOut} />
             ) : (
-              <StudentDashboard
-                cookies={cookies}
-                logOut={deleteCookiesOnLogOut}
-              />
+              <StudentDashboard cookies={cookies} logOut={deleteCookiesOnLogOut} />
             )
           ) : (
             <>
               <Redirect to="/" />
             </>
           )}
-          {/* {checkAdmin()} */}
-        </Route>
-        <Route path="/SigmaStudent99">
-          <StudentDashboard />
         </Route>
       </Switch>
     </div>

@@ -9,7 +9,7 @@ import { CookiesProvider } from "react-cookie";
 ReactDOM.render(
   <CookiesProvider>
     <React.StrictMode>
-      <BrowserRouter>
+      <BrowserRouter forceRefresh={true}>
         <App />
       </BrowserRouter>
     </React.StrictMode>
