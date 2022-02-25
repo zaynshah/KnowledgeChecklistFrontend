@@ -28,7 +28,6 @@ function App() {
 
   return (
     <div className="App-Wrapper">
-      <Header cook={cookies.email} logOut={deleteCookiesOnLogOut} />
       <Switch>
         <Route exact path="/">
           {!isLoggedIn ? (
@@ -62,8 +61,28 @@ function App() {
         <Route path="/test">
           <MyDocument />
         </Route>
-        <Route path="/cohort" render={(props) => <ViewData {...props} cookies={cookies} logOut={deleteCookiesOnLogOut} isLog={isLoggedIn} />}></Route>
-        <Route path="/data" render={(props) => <ViewResult {...props} cookies={cookies} logOut={deleteCookiesOnLogOut} isLog={isLoggedIn} />}></Route>
+        <Route
+          path="/cohorts"
+          render={(props) => (
+            <ViewData
+              {...props}
+              cookies={cookies}
+              logOut={deleteCookiesOnLogOut}
+              isLog={isLoggedIn}
+            />
+          )}
+        ></Route>
+        <Route
+          path="/data"
+          render={(props) => (
+            <ViewResult
+              {...props}
+              cookies={cookies}
+              logOut={deleteCookiesOnLogOut}
+              isLog={isLoggedIn}
+            />
+          )}
+        ></Route>
       </Switch>
     </div>
   );

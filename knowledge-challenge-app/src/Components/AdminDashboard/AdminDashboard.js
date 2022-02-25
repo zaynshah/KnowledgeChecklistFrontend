@@ -44,7 +44,7 @@ export default function AdminDashboard(props) {
         {redirect ? (
           <Redirect
             to={{
-              pathname: "/cohort",
+              pathname: "/cohorts",
               state: { cohortLOs, cohorts, students },
             }}
           />
