@@ -20,13 +20,16 @@ export default function AdminDashboard(props) {
   async function handleClick(cohort_id) {
     setCohortLOs(await network.getAllTopicsPerCohort(cohort_id));
     setRedirect(true);
-    console.log(await network.getAllTopicsPerCohort(cohort_id));
   }
 
   function createCohortsList() {
     return cohorts.map((cohort, i) => (
       <div key={i}>
-        <Button onClick={() => handleClick(cohort.cohort_id)} className="mb-2" variant="outline-dark">
+        <Button
+          onClick={() => handleClick(cohort.cohort_id)}
+          className="mb-2"
+          variant="outline-dark"
+        >
           Cohort {cohort.cohort_id}
         </Button>
       </div>
@@ -47,7 +50,9 @@ export default function AdminDashboard(props) {
         ) : (
           <>
             <h1>Welcome to the admin dashboard</h1>
-            <p className="fs-5 mb-4">Select a cohort below to view the learning objectives.</p>
+            <p className="fs-5 mb-4">
+              Select a cohort below to view the learning objectives.
+            </p>
             {createCohortsList()}
           </>
         )}
