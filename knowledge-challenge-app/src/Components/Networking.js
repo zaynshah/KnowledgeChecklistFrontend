@@ -48,4 +48,16 @@ export default class Network {
     const json = await response.json();
     return json;
   }
+
+  async getStudentForCohort(cohort_id) {
+    const response = await fetch(`http://localhost:8080/students/${cohort_id}/results`);
+    const json = await response.json();
+    return json;
+  }
+
+  async getStudentData(user_id) {
+    const response = await fetch(`http://localhost:8080/student/${user_id}/data`);
+    const json = await response.json();
+    return json;
+  }
 }
