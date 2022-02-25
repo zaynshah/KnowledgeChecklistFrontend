@@ -48,4 +48,10 @@ export default class Network {
     const json = await response.json();
     return json;
   }
+
+  async postScore() {
+    const response = await fetch(`http://localhost:8080/cohorts`);
+    const json = await response.json();
+    return json;
+  }
 }

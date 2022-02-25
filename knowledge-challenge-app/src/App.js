@@ -11,6 +11,7 @@ import { PDFViewer } from "@react-pdf/renderer";
 import Header from "./Components/Header";
 import AdminDashboard from "./Components/AdminDashboard/AdminDashboard";
 import ViewData from "./Components/AdminDashboard/ViewData";
+import PrintToPDF from "./Components/PrintToPDF/PrintToPDF";
 
 function App() {
   const [cookies, setCookie] = useCookies();
@@ -41,9 +42,18 @@ function App() {
         <Route path="/dashboard">
           {isLoggedIn ? (
             admin === "1" ? (
-              <AdminDashboard cookies={cookies} logOut={deleteCookiesOnLogOut} />
+              <AdminDashboard
+                cookies={cookies}
+                logOut={deleteCookiesOnLogOut}
+              />
             ) : (
-              <StudentDashboard cookies={cookies} logOut={deleteCookiesOnLogOut} />
+              <>
+                <StudentDashboard
+                  cookies={cookies}
+                  logOut={deleteCookiesOnLogOut}
+                />
+                <PrintToPDF cookies={cookies} />
+              </>
             )
           ) : (
             <>
@@ -54,7 +64,17 @@ function App() {
         <Route path="/test">
           <MyDocument />
         </Route>
-        <Route path="/cohort" render={(props) => <ViewData {...props} cookies={cookies} logOut={deleteCookiesOnLogOut} isLog={isLoggedIn} />}></Route>
+        <Route
+          path="/cohort"
+          render={(props) => (
+            <ViewData
+              {...props}
+              cookies={cookies}
+              logOut={deleteCookiesOnLogOut}
+              isLog={isLoggedIn}
+            />
+          )}
+        ></Route>
       </Switch>
     </div>
   );

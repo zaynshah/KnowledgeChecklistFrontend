@@ -9,8 +9,9 @@ import Nav from "react-bootstrap/Nav";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { useReactToPrint } from "react-to-print";
 import Scroll from "react-scroll";
+import PrintToPDF from "../PrintToPDF/PrintToPDF";
 
-function StudentDashboard(props) {
+export const StudentDashboard = React.forwardRef((props, ref) => {
   const [data, setData] = useState([]);
   const [numberOfLOs, setNumberOfLOs] = useState(0);
   const [numberOfClickedLOs, setNumberOfClickedLOs] = useState(0);
@@ -191,7 +192,6 @@ function StudentDashboard(props) {
   return (
     <>
       <Header cook={props.cookies.email} logOut={props.logOut} />
-
       <div className="checklist-page">
         {getProgressBar(numberOfClickedLOs, numberOfLOs)}
         <div className="main-content">
@@ -255,6 +255,6 @@ function StudentDashboard(props) {
       </div>
     </>
   );
-}
+});
 
 export default StudentDashboard;
