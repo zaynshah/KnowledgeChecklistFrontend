@@ -25,7 +25,7 @@ export default class Network {
         password: password,
       }),
     });
-    let json = await response.json();
+    const json = await response.json();
     return json;
   }
 
@@ -48,6 +48,19 @@ export default class Network {
     const json = await response.json();
     return json;
   }
+
+
+  async postLO(cohort_id, topic, learning_objective) {
+    const response = await fetch(`http://localhost:8080/postLO`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        cohort_id: cohort_id,
+        topic: topic,
+        learning_objective: learning_objective,
+      }),
+    });
+    return await response.json();
 
   async getStudentForCohort(cohort_id) {
     const response = await fetch(`http://localhost:8080/students/${cohort_id}/results`);
