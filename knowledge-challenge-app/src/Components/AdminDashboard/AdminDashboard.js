@@ -10,7 +10,7 @@ export default function AdminDashboard(props) {
   const [cohorts, setCohorts] = useState([]);
   const [cohortLOs, setCohortLOs] = useState([]);
   const [redirect, setRedirect] = useState(false);
-
+  const [students, setStudents] = useState([]);
   useEffect(() => {
     (async () => {
       setCohorts(await network.getCohorts());
@@ -19,6 +19,7 @@ export default function AdminDashboard(props) {
 
   async function handleClick(cohort_id) {
     setCohortLOs(await network.getAllTopicsPerCohort(cohort_id));
+    setStudents(await network.getStudentForCohort(cohort_id));
     setRedirect(true);
     console.log(await network.getAllTopicsPerCohort(cohort_id));
   }
@@ -41,7 +42,7 @@ export default function AdminDashboard(props) {
           <Redirect
             to={{
               pathname: "/cohort",
-              state: { cohortLOs, cohorts },
+              state: { cohortLOs, cohorts, students },
             }}
           />
         ) : (
