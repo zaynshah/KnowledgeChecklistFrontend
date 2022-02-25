@@ -1,18 +1,42 @@
-.bulk-content {
+.main-content {
   display: flex;
 }
-
 .sidenav {
-  flex: 1;
   width: fit-content;
-  height: fit-content;
+  border-right: 1px solid #ffbe76;
 }
 
-.topics {
-  flex: 1;
+.bulk-content {
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  height: 87vh;
+  overflow: scroll;
 }
 
 .export-pdf-button {
   display: flex;
   justify-content: center;
+}
+
+.loader {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #e6530f;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.topics {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.topic-title {
+  color: #e6530f;
+  margin-left: 20px;
 }

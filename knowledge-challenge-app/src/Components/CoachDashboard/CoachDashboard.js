@@ -11,7 +11,7 @@ function StudentDashboard(props) {
   useEffect(() => {});
 
   function createCohortList(data, topic) {
-    return <Cohort />;
+    return null;
   }
 
   function getLoadingComponent() {
@@ -25,9 +25,7 @@ function StudentDashboard(props) {
   return (
     <div>
       {getWelcomeMessage(props.coachName)}
-      <main className="topics">
-        {/* {data ? createTopics(data) : getLoadingComponent()} */}
-      </main>
+      <main className="topics"></main>
     </div>
   );
 }

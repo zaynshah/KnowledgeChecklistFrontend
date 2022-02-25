@@ -1,10 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 
 function ConfidenceButton(props) {
+  const [isActive, setIsActive] = useState(false);
+
   function handleSubmit(e) {
     props.changeRating(e.target.id);
+    props.changeProgress();
   }
 
   function createButton(type, text, variant) {

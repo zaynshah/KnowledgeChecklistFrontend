@@ -1,28 +1,30 @@
 .row {
   display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .description {
   flex: 1;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-around;
 }
 
 .buttons {
   flex: 1;
   display: flex;
-  justify-content: end;
+  justify-content: space-around;
   margin-right: 100px;
 }
 
 .description-background-red {
-  background-color: red;
+  background-color: rgb(228, 59, 59);
 }
 
 .description-background-amber {
-  background-color: yellow;
+  background-color: rgb(255, 179, 16);
 }
 
 .description-background-green {
-  background-color: green;
+  background-color: rgb(44, 219, 44);
 }

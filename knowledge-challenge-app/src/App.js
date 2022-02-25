@@ -5,9 +5,13 @@ import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import Homepage from "./Components/Homepage";
 import StudentDashboard from "./Components/StudentDashboard/StudentDashboard";
+import MyDocument from "./MyDocument";
+import ReactDOM from "react-dom";
+import { PDFViewer } from "@react-pdf/renderer";
+import Header from "./Components/Header";
 
 function App() {
-  const [cookies, setCookie] = useCookies(["sessionId"]);
+  const [cookies, setCookie] = useCookies();
   const [isLoggedIn, setIsLoggedIn] = useState(cookies.sessionId);
 
   const deleteCookiesOnLogOut = () => {
@@ -30,19 +34,24 @@ function App() {
 
         <Route path="/dashboard">
           {isLoggedIn ? (
-            <StudentDashboard logOut={deleteCookiesOnLogOut} />
+            <StudentDashboard
+              cookies={cookies}
+              logOut={deleteCookiesOnLogOut}
+            />
           ) : (
             <>
               <Redirect to="/" />
             </>
           )}
         </Route>
-        <Route path="/SigmaStudent99">
-          <StudentDashboard />
+        <Route path="/test">
+          <MyDocument />
         </Route>
       </Switch>
     </div>
   );
 }
+
+// ReactDOM.render(<MyDocument />, `${__dirname}/example.pdf`);
 
 export default App;
