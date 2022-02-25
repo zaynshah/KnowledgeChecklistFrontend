@@ -10,6 +10,10 @@ function LO(props) {
     setRating(newRating);
   }
 
+  function updateProgress() {
+    props.updateProgress();
+  }
+
   function createLO(rating, description) {
     return (
       <div className="row">
@@ -20,6 +24,7 @@ function LO(props) {
         <div className="buttons">
           <div className="unconfident">
             <ConfidenceButton
+              changeProgress={updateProgress}
               changeRating={updateRating}
               type="red"
               text="Not confident"
@@ -28,6 +33,7 @@ function LO(props) {
           </div>
           <div className="neutral">
             <ConfidenceButton
+              changeProgress={updateProgress}
               changeRating={updateRating}
               type="amber"
               text="Needs revision"
@@ -36,6 +42,7 @@ function LO(props) {
           </div>
           <div className="confident">
             <ConfidenceButton
+              changeProgress={updateProgress}
               changeRating={updateRating}
               type="green"
               text="Feel confident"
