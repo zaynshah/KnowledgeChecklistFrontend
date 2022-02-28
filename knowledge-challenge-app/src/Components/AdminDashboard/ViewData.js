@@ -63,7 +63,7 @@ export default function ViewData(props) {
               <Button
                 value={student.user_id}
                 onClick={(e) => handleClickData(e)}
-                variant="dark"
+                variant="outline-dark"
                 className="mt-1"
               >
                 View data
