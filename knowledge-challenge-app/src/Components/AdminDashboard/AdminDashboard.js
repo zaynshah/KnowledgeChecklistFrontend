@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/esm/Button";
 import { Link, Redirect } from "react-router-dom";
+import { Card } from "react-bootstrap";
 import Header from "../Header";
+import Footer from "../Footer";
 import Network from "../Networking";
 
 export default function AdminDashboard(props) {
@@ -28,7 +30,11 @@ export default function AdminDashboard(props) {
   function createCohortsList() {
     return cohorts.map((cohort, i) => (
       <div key={i}>
-        <Button onClick={() => handleClick(cohort.cohort_id)} className="mb-2" variant="outline-dark">
+        <Button
+          onClick={() => handleClick(cohort.cohort_id)}
+          className="mb-2"
+          variant="dark"
+        >
           Cohort {cohort.cohort_id}
         </Button>
       </div>
@@ -40,23 +46,32 @@ export default function AdminDashboard(props) {
   return (
     <>
       <Header cook={props.cookies.email} logOut={props.logOut} />
-      <Container className="py-4 m-5 p-5">
+      <Container className="py-4 mt-3 p-5">
         {redirect ? (
           <Redirect
             push
             to={{
               pathname: "/cohorts",
-              search: `?cohort=${selectedCohort}`,
               state: { cohortLOs, cohorts, students },
             }}
           />
         ) : (
           <>
-            <h1>Welcome to the admin dashboard</h1>
-            <p className="fs-5 mb-4">Select a cohort below to view the learning objectives.</p>
-            {createCohortsList()}
+            <Card>
+              <Card.Header as="h2">Welcome to the admin dashboard</Card.Header>
+              <Card.Body>
+                {" "}
+                <p className="fs-5 mb-4">
+                  Select a cohort below to view the learning objectives for that
+                  cohort. You can add learning objectives for the cohort on the
+                  next page.
+                </p>
+                {createCohortsList()}
+              </Card.Body>
+            </Card>
           </>
         )}
+        <Footer />
       </Container>
     </>
   );
