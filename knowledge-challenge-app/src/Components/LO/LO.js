@@ -1,17 +1,43 @@
 import "./LO.css";
 import React, { useEffect, useState } from "react";
 import ConfidenceButton from "../ConfidenceButton/ConfidenceButton";
+import Network from "../Networking";
 
 function LO(props) {
   const [rating, setRating] = useState("");
+  const [active, setActive] = useState("");
+
+  const network = new Network();
 
   function updateRating(newRating) {
     console.log(newRating);
-    setRating(newRating);
+    if (newRating === rating) {
+      setRating("white");
+    } else {
+      setRating(newRating);
+    }
   }
 
-  function updateProgress() {
-    props.updateProgress();
+  async function updateScore(score) {
+    const newData = await network.postScore(
+      props.userID,
+      props.learningObjective,
+      parseInt(score)
+    );
+
+    props.updateScore(newData);
+  }
+
+  function changeActive(text) {
+    if (text === active) {
+      setActive("");
+    } else {
+      setActive(text);
+    }
+  }
+
+  function changeProgress(direction) {
+    props.changeProgress(direction);
   }
 
   function createLO(rating, description) {
@@ -24,29 +50,33 @@ function LO(props) {
         <div className="buttons">
           <div className="unconfident">
             <ConfidenceButton
-              changeProgress={updateProgress}
+              changeProgress={(direction) => changeProgress(direction)}
               changeRating={updateRating}
+              updateScore={(score) => updateScore(score)}
               type="red"
               text="Not confident"
+              score="4"
               variant="outline-danger"
             />
           </div>
           <div className="neutral">
             <ConfidenceButton
-              changeProgress={updateProgress}
+              changeProgress={(direction) => changeProgress(direction)}
               changeRating={updateRating}
               type="amber"
               text="Needs revision"
               variant="outline-warning"
+              score="3"
             />
           </div>
           <div className="confident">
             <ConfidenceButton
-              changeProgress={updateProgress}
+              changeProgress={(direction) => changeProgress(direction)}
               changeRating={updateRating}
               type="green"
               text="Feel confident"
               variant="outline-success"
+              score="2"
             />
           </div>
         </div>

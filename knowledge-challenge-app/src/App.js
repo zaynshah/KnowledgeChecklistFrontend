@@ -42,9 +42,15 @@ function App() {
         <Route path="/dashboard">
           {isLoggedIn ? (
             admin === "1" ? (
-              <AdminDashboard cookies={cookies} logOut={deleteCookiesOnLogOut} />
+              <AdminDashboard
+                cookies={cookies}
+                logOut={deleteCookiesOnLogOut}
+              />
             ) : (
-              <StudentDashboard cookies={cookies} logOut={deleteCookiesOnLogOut} />
+              <StudentDashboard
+                cookies={cookies}
+                logOut={deleteCookiesOnLogOut}
+              />
             )
           ) : (
             <>
@@ -57,9 +63,26 @@ function App() {
         </Route>
         <Route
           path="/cohorts"
-          render={(props) => <ViewData {...props} cookies={cookies} logOut={deleteCookiesOnLogOut} isLog={isLoggedIn} />}
+          render={(props) => (
+            <ViewData
+              {...props}
+              cookies={cookies}
+              logOut={deleteCookiesOnLogOut}
+              isLog={isLoggedIn}
+            />
+          )}
         ></Route>
-        <Route path="/data" render={(props) => <ViewResult {...props} cookies={cookies} logOut={deleteCookiesOnLogOut} isLog={isLoggedIn} />}></Route>
+        <Route
+          path="/data"
+          render={(props) => (
+            <ViewResult
+              {...props}
+              cookies={cookies}
+              logOut={deleteCookiesOnLogOut}
+              isLog={isLoggedIn}
+            />
+          )}
+        ></Route>
         <Route>
           <Header cook={cookies.email} logOut={deleteCookiesOnLogOut} />
           <p></p>
