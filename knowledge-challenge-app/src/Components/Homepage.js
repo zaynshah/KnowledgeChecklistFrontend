@@ -5,6 +5,7 @@ import SignupModal from "./SignupModal";
 import Network from "./Networking";
 import LogInModal from "./LogInModal";
 import Header from "./Header";
+import Footer from "./Footer";
 
 const network = new Network();
 
@@ -34,7 +35,9 @@ function Homepage(props) {
           postLogin={network.postLogin}
           setIsLoggedIn={props.setIsLoggedIn}
         />
-        <h1 className="mb-4">Welcome to the Knowledge Checklist</h1>
+        <h1 className="mb-4">
+          Welcome to the Sigma Labs XYZ™ Knowledge Checklist
+        </h1>
         <div className="">
           <p className="fs-5 mb-4">
             Use the buttons below to register or log in.
@@ -42,10 +45,11 @@ function Homepage(props) {
           <Button variant="outline-dark" onClick={handleShowSignUp}>
             Register
           </Button>{" "}
-          <Button variant="secondary" onClick={handleShowLogIn}>
+          <Button variant="dark" onClick={handleShowLogIn}>
             Log In
           </Button>
         </div>
+        <Footer />
       </Container>
     </>
   );
