@@ -48,22 +48,30 @@ export default function ViewData(props) {
   }
 
   function createStudentList() {
-    return props.location.state.students.map((student, i) => (
-      <div key={i}>
-        <label>
-          <p className="fs-5">
-            {student.email}{" "}
-            <Button
-              value={student.user_id}
-              onClick={(e) => handleClickData(e)}
-              variant="dark"
-            >
-              View data
-            </Button>
-          </p>
-        </label>
-      </div>
-    ));
+    if (props.location.state.students.length === 0) {
+      return (
+        <p className="fs-5">
+          No students are currently enrolled on this course.
+        </p>
+      );
+    } else {
+      return props.location.state.students.map((student, i) => (
+        <div key={i}>
+          <label>
+            <p className="fs-5">
+              {student.email}{" "}
+              <Button
+                value={student.user_id}
+                onClick={(e) => handleClickData(e)}
+                variant="dark"
+              >
+                View data
+              </Button>
+            </p>
+          </label>
+        </div>
+      ));
+    }
   }
 
   return (
@@ -117,8 +125,8 @@ export default function ViewData(props) {
               </Card.Body>
             </Card>
             <Card className="mt-4">
-              <Card.Header as="h2">Students on this cohort:</Card.Header>
-              <Card.Body> {createStudentList()}</Card.Body>
+              <Card.Header as="h2">Students enrolled:</Card.Header>
+              <Card.Body>{createStudentList()}</Card.Body>
             </Card>
           </>
         )}
