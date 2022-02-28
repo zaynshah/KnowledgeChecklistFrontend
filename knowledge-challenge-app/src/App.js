@@ -28,7 +28,6 @@ function App() {
 
   return (
     <div className="App-Wrapper">
-      <Header cook={cookies.email} logOut={deleteCookiesOnLogOut} />
       <Switch>
         <Route exact path="/">
           {!isLoggedIn ? (
@@ -43,15 +42,9 @@ function App() {
         <Route path="/dashboard">
           {isLoggedIn ? (
             admin === "1" ? (
-              <AdminDashboard
-                cookies={cookies}
-                logOut={deleteCookiesOnLogOut}
-              />
+              <AdminDashboard cookies={cookies} logOut={deleteCookiesOnLogOut} />
             ) : (
-              <StudentDashboard
-                cookies={cookies}
-                logOut={deleteCookiesOnLogOut}
-              />
+              <StudentDashboard cookies={cookies} logOut={deleteCookiesOnLogOut} />
             )
           ) : (
             <>
@@ -62,8 +55,16 @@ function App() {
         <Route path="/test">
           <MyDocument />
         </Route>
-        <Route path="/cohort" render={(props) => <ViewData {...props} cookies={cookies} logOut={deleteCookiesOnLogOut} isLog={isLoggedIn} />}></Route>
+        <Route
+          path="/cohorts"
+          render={(props) => <ViewData {...props} cookies={cookies} logOut={deleteCookiesOnLogOut} isLog={isLoggedIn} />}
+        ></Route>
         <Route path="/data" render={(props) => <ViewResult {...props} cookies={cookies} logOut={deleteCookiesOnLogOut} isLog={isLoggedIn} />}></Route>
+        <Route>
+          <Header cook={cookies.email} logOut={deleteCookiesOnLogOut} />
+          <p></p>
+          <h1>Error! Page Not Found</h1>
+        </Route>
       </Switch>
     </div>
   );

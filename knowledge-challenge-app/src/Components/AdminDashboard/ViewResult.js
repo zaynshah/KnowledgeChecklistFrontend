@@ -8,13 +8,32 @@ import "./view-result.css";
 export default function ViewResult(props) {
   const network = new Network();
   const [studentData, setStudentData] = useState("");
+
   useEffect(() => {
     (async () => {
       setStudentData(await network.getStudentData(props.location.state.userID));
     })();
   }, []);
 
-  console.log(studentData);
+  // function studentResult(data) {
+  //   if (data.score == 1) {
+  //     <span>unspecified</span>;
+  //   } else {
+  //     <h1>bue</h1>;
+  //   }
+  // }
+
+  function getScore(data) {
+    if (data.score === 1) {
+      return <div className="topic3 feels confident">Unspecified</div>;
+    } else if (data.score === 2) {
+      return <div className="topic3 not-confident">Not Confident!</div>;
+    } else if (data.score === 3) {
+      return <div className="topic3 needs-revision">Needs Revision!</div>;
+    } else if (data.score === 4) {
+      return <div className="topic3 feels-confident">Feels Confident!</div>;
+    }
+  }
 
   function renderData() {
     if (!studentData) {
@@ -24,7 +43,7 @@ export default function ViewResult(props) {
       <div className="flex-it">
         <div className="topic">{data.topic}</div>
         <div className="topic2">{data.learning_objective}</div>
-        <div className="topic">{data.score}</div>
+        {getScore(data)}
       </div>
     ));
   }
