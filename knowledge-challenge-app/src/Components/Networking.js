@@ -29,6 +29,25 @@ export default class Network {
     return json;
   }
 
+  async postScore(userID, LO, score) {
+    const endpoint = `http://localhost:8080/${userID}/LOs`;
+    const response = await fetch(endpoint, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userID: userID,
+        LO: LO,
+        score: score,
+      }),
+    });
+
+    const json = await response.json();
+    return json;
+  }
+
   async getAllTopicsPerStudent(userID) {
     const endpoint = `http://localhost:8080/${userID}/LOs`;
     const response = await fetch(endpoint);

@@ -17,8 +17,12 @@ function StudentDashboard(props) {
 
   const network = new Network();
 
-  function updateProgress() {
-    return setNumberOfClickedLOs(numberOfClickedLOs + 1);
+  function changeProgress(direction) {
+    if (direction === "increase") {
+      return setNumberOfClickedLOs(numberOfClickedLOs + 1);
+    } else {
+      return setNumberOfClickedLOs(numberOfClickedLOs - 1);
+    }
   }
 
   document.title = `${props.cookies.email}'s Knowledge Checklist`;
@@ -33,6 +37,11 @@ function StudentDashboard(props) {
       console.log(numberOfLOs);
     })();
   }, []);
+
+  function updateScore(newData) {
+    console.log(newData.LOs);
+    setData(newData.LOs);
+  }
 
   function getWelcomeMessage(id) {
     return (
@@ -71,13 +80,20 @@ function StudentDashboard(props) {
   }
 
   function createTopics(data, topic) {
+    if (!data) {
+      return <h3>Loading.. </h3>;
+    }
+
+    console.log(data);
     const filteredData = data.filter((objects) => objects.topic === topic); // [{},{}]
     const topicData = filteredData.map((topic) => {
       return (
         <LO
-          updateProgress={updateProgress}
+          changeProgress={(direction) => changeProgress(direction)}
+          updateScore={(newData) => updateScore(newData)}
           key={topic.id}
           learningObjective={topic.learning_objective}
+          userID={props.cookies.userID}
         />
       );
     });
