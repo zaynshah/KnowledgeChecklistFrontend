@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Container from "react-bootstrap/Container";
+import { Card } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 import Header from "../Header";
 import Network from "../Networking";
@@ -15,14 +16,6 @@ export default function ViewResult(props) {
     })();
   }, []);
 
-  // function studentResult(data) {
-  //   if (data.score == 1) {
-  //     <span>unspecified</span>;
-  //   } else {
-  //     <h1>bue</h1>;
-  //   }
-  // }
-
   function getScore(data) {
     if (data.score === 1) {
       return <div className="topic3">Unspecified</div>;
@@ -33,6 +26,13 @@ export default function ViewResult(props) {
     } else if (data.score === 4) {
       return <div className="topic3 feels-confident">Feels Confident!</div>;
     }
+  }
+
+  function getName() {
+    if (!studentData) {
+      return <p>Loading...</p>;
+    }
+    return studentData[0].email.split("@")[0];
   }
 
   function renderData() {
@@ -51,7 +51,19 @@ export default function ViewResult(props) {
   return (
     <>
       <Header cook={props.cookies.email} logOut={props.logOut} />
-      <> {!props.isLog ? <Redirect to="/" /> : <div className="par">{renderData()}</div>}</>
+      <>
+        {" "}
+        {!props.isLog ? (
+          <Redirect to="/" />
+        ) : (
+          <Container className="py-4 mt-3 p-5">
+            <Card>
+              <Card.Header as="h2">{getName()}'s results</Card.Header>
+              <Card.Body className="fs-5">{renderData()}</Card.Body>
+            </Card>
+          </Container>
+        )}
+      </>
     </>
   );
 }

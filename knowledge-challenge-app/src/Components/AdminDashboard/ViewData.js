@@ -58,16 +58,17 @@ export default function ViewData(props) {
       return props.location.state.students.map((student, i) => (
         <div key={i}>
           <label>
-            <p className="fs-5">
+            <span className="fs-5">
               {student.email}{" "}
               <Button
                 value={student.user_id}
                 onClick={(e) => handleClickData(e)}
                 variant="dark"
+                className="mt-1"
               >
                 View data
               </Button>
-            </p>
+            </span>
           </label>
         </div>
       ));
