@@ -125,7 +125,7 @@ export default function ViewData(props) {
               </Card.Body>
             </Card>
             <Card className="mt-4">
-              <Card.Header as="h2">Students on this cohort:</Card.Header>
+              <Card.Header as="h2">Students enrolled:</Card.Header>
               <Card.Body>{createStudentList()}</Card.Body>
             </Card>
           </>
