@@ -11,6 +11,7 @@ import { PDFViewer } from "@react-pdf/renderer";
 import Header from "./Components/Header";
 import AdminDashboard from "./Components/AdminDashboard/AdminDashboard";
 import ViewData from "./Components/AdminDashboard/ViewData";
+import ViewResult from "./Components/AdminDashboard/ViewResult";
 
 function App() {
   const [cookies, setCookie] = useCookies();
@@ -61,7 +62,7 @@ function App() {
           <MyDocument />
         </Route>
         <Route
-          path="/cohort"
+          path="/cohorts"
           render={(props) => (
             <ViewData
               {...props}
@@ -71,6 +72,22 @@ function App() {
             />
           )}
         ></Route>
+        <Route
+          path="/data"
+          render={(props) => (
+            <ViewResult
+              {...props}
+              cookies={cookies}
+              logOut={deleteCookiesOnLogOut}
+              isLog={isLoggedIn}
+            />
+          )}
+        ></Route>
+        <Route>
+          <Header cook={cookies.email} logOut={deleteCookiesOnLogOut} />
+          <p></p>
+          <h1>Error! Page Not Found</h1>
+        </Route>
       </Switch>
     </div>
   );
