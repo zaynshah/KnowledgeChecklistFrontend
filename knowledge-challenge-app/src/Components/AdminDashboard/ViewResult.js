@@ -25,7 +25,7 @@ export default function ViewResult(props) {
 
   function getScore(data) {
     if (data.score === 1) {
-      return <div className="topic3 feels confident">Unspecified</div>;
+      return <div className="topic3">Unspecified</div>;
     } else if (data.score === 2) {
       return <div className="topic3 not-confident">Not Confident!</div>;
     } else if (data.score === 3) {
