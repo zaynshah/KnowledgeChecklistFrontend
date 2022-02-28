@@ -17,11 +17,7 @@ export default function ViewData(props) {
 
   useEffect(() => {
     (async () => {
-      setFullCohortLOs(
-        await network.getAllTopicsPerCohort(
-          props.location.state.cohortLOs[0].cohort_id
-        )
-      );
+      setFullCohortLOs(await network.getAllTopicsPerCohort(props.location.state.cohortLOs[0].cohort_id));
     })();
   }, []);
 
@@ -56,18 +52,10 @@ export default function ViewData(props) {
 
   async function handleClick(e) {
     e.preventDefault();
-    const response = await network.postLO(
-      props.location.state.cohortLOs[0].cohort_id,
-      topic,
-      LO
-    );
+
+    const response = await network.postLO(props.location.state.cohortLOs[0].cohort_id, topic, LO);
     if (response === 200) {
-      console.log(response);
-      setFullCohortLOs(
-        await network.getAllTopicsPerCohort(
-          props.location.state.cohortLOs[0].cohort_id
-        )
-      );
+      setFullCohortLOs(await network.getAllTopicsPerCohort(props.location.state.cohortLOs[0].cohort_id));
       setLO("");
       setTopic("");
     }
@@ -77,24 +65,12 @@ export default function ViewData(props) {
     return (
       <Form>
         <Form.Group className="mb-3 mt-4">
-          <Form.Control
-            onChange={(e) => setTopic(e.target.value)}
-            placeholder="Enter Topic"
-            value={topic}
-          />
+          <Form.Control onChange={(e) => setTopic(e.target.value)} placeholder="Enter Topic" value={topic} />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Control
-            onChange={(e) => setLO(e.target.value)}
-            placeholder="Enter Learning Objective"
-            value={LO}
-          />
+          <Form.Control onChange={(e) => setLO(e.target.value)} placeholder="Enter Learning Objective" value={LO} />
         </Form.Group>
-        <Button
-          onClick={async (e) => handleClick(e)}
-          variant="dark"
-          type="submit"
-        >
+        <Button onClick={async (e) => handleClick(e)} variant="dark" type="submit">
           Submit
         </Button>
       </Form>
@@ -109,6 +85,7 @@ export default function ViewData(props) {
           <Redirect to="/" />
         ) : redirect ? (
           <Redirect
+            push
             to={{
               pathname: "/data",
               state: { userID },
@@ -117,9 +94,7 @@ export default function ViewData(props) {
         ) : (
           <>
             <h2 className="mb-4">
-              Welcome to{" "}
-              <u>Cohort {props.location.state.cohortLOs[0].cohort_id}</u>{" "}
-              learning objectives:
+              Welcome to <u>Cohort {props.location.state.cohortLOs[0].cohort_id}</u> learning objectives:
             </h2>
             <svg
               xmlns="http://www.w3.org/2000/svg"

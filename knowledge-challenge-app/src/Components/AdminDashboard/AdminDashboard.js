@@ -11,6 +11,7 @@ export default function AdminDashboard(props) {
   const [cohortLOs, setCohortLOs] = useState([]);
   const [redirect, setRedirect] = useState(false);
   const [students, setStudents] = useState([]);
+  const [selectedCohort, setSelectedCohort] = useState([]);
   useEffect(() => {
     (async () => {
       setCohorts(await network.getCohorts());
@@ -20,22 +21,21 @@ export default function AdminDashboard(props) {
   async function handleClick(cohort_id) {
     setCohortLOs(await network.getAllTopicsPerCohort(cohort_id));
     setStudents(await network.getStudentForCohort(cohort_id));
+    setSelectedCohort(cohort_id);
     setRedirect(true);
   }
 
   function createCohortsList() {
     return cohorts.map((cohort, i) => (
       <div key={i}>
-        <Button
-          onClick={() => handleClick(cohort.cohort_id)}
-          className="mb-2"
-          variant="outline-dark"
-        >
+        <Button onClick={() => handleClick(cohort.cohort_id)} className="mb-2" variant="outline-dark">
           Cohort {cohort.cohort_id}
         </Button>
       </div>
     ));
   }
+  console.log(props);
+  console.log(cohorts);
 
   return (
     <>
@@ -43,17 +43,17 @@ export default function AdminDashboard(props) {
       <Container className="py-4 m-5 p-5">
         {redirect ? (
           <Redirect
+            push
             to={{
               pathname: "/cohorts",
+              search: `?cohort=${selectedCohort}`,
               state: { cohortLOs, cohorts, students },
             }}
           />
         ) : (
           <>
             <h1>Welcome to the admin dashboard</h1>
-            <p className="fs-5 mb-4">
-              Select a cohort below to view the learning objectives.
-            </p>
+            <p className="fs-5 mb-4">Select a cohort below to view the learning objectives.</p>
             {createCohortsList()}
           </>
         )}
