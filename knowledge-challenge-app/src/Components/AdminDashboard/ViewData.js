@@ -14,7 +14,7 @@ export default function ViewData(props) {
   const [fullCohortLOs, setFullCohortLOs] = useState([]);
   const [redirect, setRedirect] = useState(false);
   const [userID, setUserID] = useState("");
-  console.log(props);
+
   useEffect(() => {
     (async () => {
       setFullCohortLOs(await network.getAllTopicsPerCohort(props.location.state.cohortLOs[0].cohort_id));
@@ -54,7 +54,6 @@ export default function ViewData(props) {
     e.preventDefault();
     const response = await network.postLO(props.location.state.cohortLOs[0].cohort_id, topic, LO);
     if (response === 200) {
-      console.log(response);
       setFullCohortLOs(await network.getAllTopicsPerCohort(props.location.state.cohortLOs[0].cohort_id));
       setLO("");
       setTopic("");
