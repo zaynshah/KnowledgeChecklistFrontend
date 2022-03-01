@@ -3,16 +3,27 @@ import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
+import Network from "./Networking";
 
 function SignupModal(props) {
+  const network = new Network();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [cohort_id, setCohort_id] = useState(1);
+  const [cohort_id, setCohort_id] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [cohortError, setCohortError] = useState("is-invalid");
   const [disableButton, setDisableButton] = useState(true);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [cohortList, setCohortList] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      setCohortList(await network.getCohorts());
+    })();
+  }, []);
 
   function handleEmail(e) {
     setEmail(e.target.value);
@@ -27,13 +38,23 @@ function SignupModal(props) {
   }
 
   function handleCohortId(e) {
-    setCohort_id(parseInt(e.target.value));
+    if (e.target.value == "choose") {
+      setCohortError("is-invalid");
+      setCohort_id("");
+      setDisableButton(true);
+    } else {
+      setCohort_id(parseInt(e.target.value));
+      setCohortError("");
+    }
   }
 
   const checkInputs = () => {
     if (email) {
       if (password !== confirmPassword || password.length < 8) {
         setPasswordError("is-invalid");
+        setDisableButton(true);
+      } else if (typeof cohort_id != "number") {
+        setCohortError("is-invalid");
         setDisableButton(true);
       } else if (password && confirmPassword) {
         setPasswordError("");
@@ -55,16 +76,30 @@ function SignupModal(props) {
       if (response.status >= 400) {
         throw new Error(json.error);
       } else {
+        setSuccess(true);
         setError("");
         setEmail("");
         setPassword("");
-        setCohort_id(1);
+        setCohort_id("");
         setConfirmPassword("");
       }
     } catch (error) {
       setSuccess(false);
       setError(error.toString());
     }
+  }
+
+  function createCohort() {
+    if (!cohortList) {
+      return <></>;
+    }
+    return cohortList.map((i) => (
+      <option value={`${i.cohort_id}`}>{i.cohort_id}</option>
+    ));
+  }
+
+  function vuePassword(e) {
+    setShowPassword(!showPassword);
   }
 
   return (
@@ -90,7 +125,7 @@ function SignupModal(props) {
             <Form.Label>Password</Form.Label>
             <Form.Control
               className={passwordError}
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={password}
               placeholder="Enter Password"
               onChange={handlePassword}
@@ -103,22 +138,28 @@ function SignupModal(props) {
             <Form.Label>Confirm password</Form.Label>
             <Form.Control
               className={passwordError}
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={confirmPassword}
               placeholder="Confirm Password"
               onChange={handlePasswordConfirm}
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="cohort-id">
-            <Form.Label>Cohort</Form.Label>
-            <Form.Control
-              type="text-muted"
-              value={cohort_id}
-              placeholder="Enter Cohort"
-              onChange={handleCohortId}
+            <Form.Check
+              type="switch"
+              id="custom-switch"
+              label="Show Password"
+              onChange={vuePassword}
             />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="cohort-id">
+            <Form.Label>Cohort</Form.Label>
+            <Form.Select className={cohortError} onChange={handleCohortId}>
+              <option value="choose">--Please select a cohort--</option>
+              {createCohort()}
+            </Form.Select>
             <Form.Text className="text-muted">
-              Cohort must be a number
+              Contact administrator if cohort is not available
             </Form.Text>
           </Form.Group>
         </Form>
@@ -129,14 +170,15 @@ function SignupModal(props) {
             {error}
           </Alert>
         ) : null}
-        <Button variant="secondary" onClick={props.handleClose}>
+        {success ? (
+          <div className="alert alert-success" role="alert">
+            Account created successfully!
+          </div>
+        ) : null}
+        <Button variant="outline-dark" onClick={props.handleClose}>
           Close
         </Button>
-        <Button
-          variant="primary"
-          onClick={handleSubmit}
-          disabled={disableButton}
-        >
+        <Button variant="dark" onClick={handleSubmit} disabled={disableButton}>
           Save Changes
         </Button>
       </Modal.Footer>

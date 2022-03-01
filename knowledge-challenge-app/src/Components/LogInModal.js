@@ -8,6 +8,7 @@ export default function LogInModal(props) {
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -31,6 +32,10 @@ export default function LogInModal(props) {
     }
   };
 
+  function vuePassword(e) {
+    setShowPassword(!showPassword);
+  }
+
   return (
     <Modal show={props.show} onHide={props.handleClose}>
       <Modal.Header closeButton>
@@ -50,10 +55,18 @@ export default function LogInModal(props) {
           <Form.Group className="mb-3" controlId="password">
             <Form.Label>Password</Form.Label>
             <Form.Control
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Enter password"
               value={password}
               onChange={handlePasswordChange}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="cohort-id">
+            <Form.Check
+              type="switch"
+              id="custom-switch"
+              label="Show Password"
+              onChange={vuePassword}
             />
           </Form.Group>
         </Form>
@@ -67,7 +80,7 @@ export default function LogInModal(props) {
         <Button variant="outline-dark" onClick={props.handleClose}>
           Close
         </Button>
-        <Button variant="secondary" onClick={handleLogin}>
+        <Button variant="dark" onClick={handleLogin}>
           Log In
         </Button>
       </Modal.Footer>
