@@ -40,8 +40,15 @@ export default function AdminDashboard(props) {
       </div>
     ));
   }
-  console.log(props);
-  console.log(cohorts);
+
+  async function getLatestCohort() {
+    const cohortIDs = cohorts.map((cohort) => cohort.cohort_id);
+    const newCohortID = Math.max(...cohortIDs) + 1;
+    const response = await network.postCohort(newCohortID);
+    if (response === 200) {
+      setCohorts(await network.getCohorts());
+    }
+  }
 
   return (
     <>
@@ -67,6 +74,14 @@ export default function AdminDashboard(props) {
                   next page.
                 </p>
                 {createCohortsList()}
+              </Card.Body>
+            </Card>
+            <Card className="mt-4">
+              <Card.Header as="h2">Add a new cohort</Card.Header>
+              <Card.Body>
+                <Button variant="outline-dark" onClick={getLatestCohort}>
+                  Click me to add a new cohort
+                </Button>
               </Card.Body>
             </Card>
           </>
