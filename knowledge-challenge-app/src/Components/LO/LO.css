@@ -8,6 +8,8 @@
   flex: 1;
   display: flex;
   justify-content: space-around;
+  background-color: white;
+  color: black;
 }
 
 .buttons {
@@ -17,18 +19,21 @@
   margin-right: 100px;
 }
 
-.description-background-red {
+.description-background-4 {
   background-color: rgb(228, 59, 59);
+  color: white;
 }
 
-.description-background-amber {
+.description-background-3 {
   background-color: rgb(255, 179, 16);
 }
 
-.description-background-green {
-  background-color: rgb(44, 219, 44);
+.description-background-2 {
+  background-color: rgb(11, 136, 11);
+  color: white;
 }
 
-.description-background-white {
+.description-background-1 {
   background-color: white;
+  color: black;
 }
