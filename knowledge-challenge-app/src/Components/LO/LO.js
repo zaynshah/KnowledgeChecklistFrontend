@@ -2,89 +2,58 @@ import "./LO.css";
 import React, { useEffect, useState } from "react";
 import ConfidenceButton from "../ConfidenceButton/ConfidenceButton";
 import Network from "../Networking";
+import { radios } from "./radios";
 
 function LO(props) {
-  const [rating, setRating] = useState("");
-  const [active, setActive] = useState("");
-
   const network = new Network();
+  const radioButtons = radios;
 
-  function updateRating(newRating) {
-    console.log(newRating);
-    if (newRating === rating) {
-      setRating("white");
-    } else {
-      setRating(newRating);
-    }
-  }
+  async function updateScore(newScore) {
+    const hasUpdated = newScore !== props.score;
+    const progress = hasUpdated ? "increase" : "decrease";
+    props.updateProgress(progress);
+    const updatedScore = props.isActive && !hasUpdated ? 1 : newScore;
 
-  async function updateScore(score) {
+    console.log(props.score);
+
     const newData = await network.postScore(
       props.userID,
       props.learningObjective,
-      parseInt(score)
+      updatedScore,
+      hasUpdated ? !props.isActive : props.isActive
     );
 
-    props.updateScore(newData);
+    console.log(newData);
+
+    await props.updateScore(newData);
   }
 
-  function changeActive(text) {
-    if (text === active) {
-      setActive("");
-    } else {
-      setActive(text);
-    }
-  }
-
-  function changeProgress(direction) {
-    props.changeProgress(direction);
-  }
-
-  function createLO(rating, description) {
+  function createLO(score, description) {
     return (
       <div className="row">
-        <div className={`description description-background-${rating}`}>
+        <div className={`description description-background-${score}`}>
           {description}
         </div>
 
         <div className="buttons">
-          <div className="unconfident">
-            <ConfidenceButton
-              changeProgress={(direction) => changeProgress(direction)}
-              changeRating={updateRating}
-              updateScore={(score) => updateScore(score)}
-              type="red"
-              text="Not confident"
-              score="4"
-              variant="outline-danger"
-            />
-          </div>
-          <div className="neutral">
-            <ConfidenceButton
-              changeProgress={(direction) => changeProgress(direction)}
-              changeRating={updateRating}
-              type="amber"
-              text="Needs revision"
-              variant="outline-warning"
-              score="3"
-            />
-          </div>
-          <div className="confident">
-            <ConfidenceButton
-              changeProgress={(direction) => changeProgress(direction)}
-              changeRating={updateRating}
-              type="green"
-              text="Feel confident"
-              variant="outline-success"
-              score="2"
-            />
-          </div>
+          {radios.map((button) => {
+            return (
+              <ConfidenceButton
+                updateScore={(newScore) => updateScore(newScore)}
+                text={button.text}
+                score={button.score}
+                variant={button.variant}
+              />
+            );
+          })}
         </div>
       </div>
     );
   }
 
-  return <div className="LO">{createLO(rating, props.learningObjective)}</div>;
+  return (
+    <div className="LO">{createLO(props.score, props.learningObjective)}</div>
+  );
 }
 
 export default LO;

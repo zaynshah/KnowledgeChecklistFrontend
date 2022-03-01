@@ -1,14 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./StudentDashboard.css";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Network from "../Networking";
 import Header from "../Header";
 import LO from "../LO/LO";
 import Button from "react-bootstrap/esm/Button";
 import Nav from "react-bootstrap/Nav";
 import ProgressBar from "react-bootstrap/ProgressBar";
-import { useReactToPrint } from "react-to-print";
-import Scroll from "react-scroll";
+import Card from "react-bootstrap/Card";
 
 function StudentDashboard(props) {
   const [data, setData] = useState([]);
@@ -17,30 +16,38 @@ function StudentDashboard(props) {
 
   const network = new Network();
 
-  function changeProgress(direction) {
-    if (direction === "increase") {
-      return setNumberOfClickedLOs(numberOfClickedLOs + 1);
-    } else {
-      return setNumberOfClickedLOs(numberOfClickedLOs - 1);
+  console.log(document.querySelectorAll(" p * div "));
+
+  function updateProgress(direction) {
+    let updatedNumber = numberOfClickedLOs;
+    if (LO.isActive) {
+      if (direction === "increase") {
+        updatedNumber += 1;
+      } else {
+        updatedNumber -= 1;
+      }
     }
+    setNumberOfClickedLOs(updatedNumber);
   }
 
   document.title = `${props.cookies.email}'s Knowledge Checklist`;
 
   useEffect(() => {
     (async () => {
-      const data = await network.getAllTopicsPerStudent(props.cookies.userID);
-      console.log(data);
-      setData(data);
+      const firstLoadData = await updateScore();
+      console.log(firstLoadData);
+      setNumberOfLOs(firstLoadData.length);
 
-      setNumberOfLOs(data.length);
-      console.log(numberOfLOs);
+      const ClickedLOs = firstLoadData.filter((objects) => objects.score !== 1);
+      setNumberOfClickedLOs(ClickedLOs.length);
     })();
-  }, []);
+  }, []); //
 
-  function updateScore(newData) {
-    console.log(newData.LOs);
-    setData(newData.LOs);
+  async function updateScore() {
+    const data = await network.getAllTopicsPerStudent(props.cookies.userID);
+    console.log(data);
+    setData(data);
+    return data;
   }
 
   function getWelcomeMessage(id) {
@@ -49,31 +56,41 @@ function StudentDashboard(props) {
         <h1>Welcome, {id}. </h1>
         <h3>How to use this checklist:</h3>
         <main>
-          <p>
+          <div>
             Select your level of confidence with the buttons next to each
-            statement. Choosing 'not confident' will colour the statement red.
-            Choosing 'needs revision' will colour the statement yellow. Finally,
-            choosing 'feel confident' will colour the statement green:
-          </p>
+            statement. Choosing <span className="red">'not confident'</span>{" "}
+            will colour the statement red. Choosing{" "}
+            <span className="yellow">'needs revision'</span> will colour the
+            statement yellow. Finally, choosing{" "}
+            <span className="green">'feel confident'</span> will colour the
+            statement green. Essentially:
+          </div>
           <ul>
             <li>
-              <span>Red</span> topics are those you don't understand well.
+              <strong>
+                <span className="red">Red</span>
+              </strong>{" "}
+              topics are those you don't understand well.
             </li>
             <li>
-              <span>Yellow</span> topics are those that still need work.{" "}
+              <strong>
+                <span className="yellow">Yellow</span>
+              </strong>{" "}
+              topics are those that still need work.{" "}
             </li>
             <li>
-              <span>Green</span> topics are the ones you feel most confident
-              with.
+              <strong>
+                <span className="green">Green</span>
+              </strong>{" "}
+              topics are the ones you feel most confident with.
             </li>
           </ul>{" "}
-          <p>
+          <div>
             At the bottom of the page, there is a button to print / save your
-            progress. Be sure to check the box 'background graphics' under more
-            settings. This will allow you to save a PDF or print a version of
+            progress. This will allow you to save a PDF or print a version of
             the page with the selections you have made. Additionally, you may
             prefer landscape orientation to portrait for ease of reading.
-          </p>
+          </div>
         </main>
       </div>
     );
@@ -83,17 +100,17 @@ function StudentDashboard(props) {
     if (!data) {
       return <h3>Loading.. </h3>;
     }
-
-    console.log(data);
-    const filteredData = data.filter((objects) => objects.topic === topic); // [{},{}]
+    const filteredData = data.filter((topicList) => topicList.topic === topic); // [{},{}]
     const topicData = filteredData.map((topic) => {
       return (
         <LO
-          changeProgress={(direction) => changeProgress(direction)}
-          updateScore={(newData) => updateScore(newData)}
           key={topic.id}
           learningObjective={topic.learning_objective}
+          score={topic.score}
           userID={props.cookies.userID}
+          updateProgress={(direction) => updateProgress(direction)}
+          updateScore={(newData) => updateScore(newData)}
+          isActive={topic.isActive}
         />
       );
     });
@@ -181,27 +198,10 @@ function StudentDashboard(props) {
         striped
         variant="warning"
         animated
-        now={(numberOfClickedLOs / numberOfLOs) * 100}
-        label={`${(numberOfClickedLOs / numberOfLOs) * 100}%`}
+        now={Math.round((numberOfClickedLOs / numberOfLOs) * 100)}
+        label={Math.round((numberOfClickedLOs / numberOfLOs) * 100) + `%`}
       />
     );
-  }
-
-  function getLocked() {
-    return (
-      <div>
-        <img
-          src="/locked.png"
-          alt="locked-symbol"
-          width="100"
-          height="100"
-        ></img>
-      </div>
-    );
-  }
-
-  function createTopicBlocks() {
-    return null;
   }
 
   return (
@@ -217,35 +217,33 @@ function StudentDashboard(props) {
             <div className="topics">
               <div id="HTML/CSS-topic">
                 <h3 className="topic-title">HTML/CSS</h3>
-                {data ? createTopics(data, "HTML/CSS") : getLoadingComponent()}
+                <Card className="card">
+                  <Card.Header>HTML/CSS</Card.Header>
+                  <Card.Body>
+                    <Card.Text>
+                      {data
+                        ? createTopics(data, "HTML/CSS")
+                        : getLoadingComponent()}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
               </div>
               <div id="Javascript-topic">
                 <h3 className="topic-title">Javascript</h3>
-                {data ? createTopics(data, "Javascript") : null}
+                {data
+                  ? createTopics(data, "Javascript")
+                  : getLoadingComponent()}
               </div>
               <div id="React-topic">
                 <h3 className="topic-title">React</h3>
-                {data ? createTopics(data, "React") : null}
+                {data ? createTopics(data, "React") : getLoadingComponent()}
               </div>
               <div id="Git-topic">
                 <h3 className="topic-title">Git</h3>
-                {getLoadingComponent()}
+                {data ? createTopics(data, "Git") : getLoadingComponent()}
               </div>
               <div id="How-the-Internet-works-topic">
                 <h3 className="topic-title">How the Internet Works</h3>
-                {
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="100"
-                    height="100"
-                    fill="orange"
-                    className="bi bi-file-lock"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M8 5a1 1 0 0 1 1 1v1H7V6a1 1 0 0 1 1-1zm2 2.076V6a2 2 0 1 0-4 0v1.076c-.54.166-1 .597-1 1.224v2.4c0 .816.781 1.3 1.5 1.3h3c.719 0 1.5-.484 1.5-1.3V8.3c0-.627-.46-1.058-1-1.224zM6.105 8.125A.637.637 0 0 1 6.5 8h3a.64.64 0 0 1 .395.125c.085.068.105.133.105.175v2.4c0 .042-.02.107-.105.175A.637.637 0 0 1 9.5 11h-3a.637.637 0 0 1-.395-.125C6.02 10.807 6 10.742 6 10.7V8.3c0-.042.02-.107.105-.175z" />
-                    <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
-                  </svg>
-                }
               </div>
 
               <div className="export-pdf-button">

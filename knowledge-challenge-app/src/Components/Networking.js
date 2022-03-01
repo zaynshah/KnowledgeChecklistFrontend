@@ -29,7 +29,7 @@ export default class Network {
     return json;
   }
 
-  async postScore(userID, LO, score) {
+  async postScore(userID, LO, score, isActive) {
     const endpoint = `http://localhost:8080/${userID}/LOs`;
     const response = await fetch(endpoint, {
       method: "POST",
@@ -41,6 +41,7 @@ export default class Network {
         userID: userID,
         LO: LO,
         score: score,
+        isActive: isActive,
       }),
     });
 
@@ -50,6 +51,13 @@ export default class Network {
 
   async getAllTopicsPerStudent(userID) {
     const endpoint = `http://localhost:8080/${userID}/LOs`;
+    const response = await fetch(endpoint);
+    const json = await response.json();
+    return json;
+  }
+
+  async getAllTopicsPerStudentOnly(userID) {
+    const endpoint = `http://localhost:8080/${userID}/topics`;
     const response = await fetch(endpoint);
     const json = await response.json();
     return json;

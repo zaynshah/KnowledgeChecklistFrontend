@@ -1,9 +1,16 @@
 .main-content {
   display: flex;
 }
+
 .sidenav {
   width: fit-content;
   border-right: 1px solid #ffbe76;
+}
+
+.card {
+  font-size: larger;
+  color: #e6530f;
+  font-weight: bold;
 }
 
 .bulk-content {
@@ -39,4 +46,20 @@
 .topic-title {
   color: #e6530f;
   margin-left: 20px;
+}
+
+.red {
+  color: red;
+}
+
+.yellow {
+  color: rgb(219, 174, 26);
+}
+
+.green {
+  color: green;
+}
+
+.card {
+  margin-bottom: 20px;
 }
