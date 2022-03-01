@@ -1,5 +1,7 @@
 .main-content {
   display: flex;
+  align-items: stretch;
+  flex-direction: row;
 }
 
 .sidenav {
@@ -7,10 +9,8 @@
   border-right: 1px solid #ffbe76;
 }
 
-.card {
-  font-size: larger;
-  color: #e6530f;
-  font-weight: bold;
+.m-3 {
+  display: flex;
 }
 
 .bulk-content {
@@ -58,8 +58,4 @@
 
 .green {
   color: green;
-}
-
-.card {
-  margin-bottom: 20px;
 }
