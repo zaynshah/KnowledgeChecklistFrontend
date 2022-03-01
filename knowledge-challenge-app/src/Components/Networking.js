@@ -82,18 +82,25 @@ export default class Network {
   }
 
   async getStudentForCohort(cohort_id) {
-    const response = await fetch(
-      `http://localhost:8080/students/${cohort_id}/results`
-    );
+    const response = await fetch(`http://localhost:8080/students/${cohort_id}/results`);
     const json = await response.json();
     return json;
   }
 
   async getStudentData(user_id) {
-    const response = await fetch(
-      `http://localhost:8080/student/${user_id}/data`
-    );
+    const response = await fetch(`http://localhost:8080/student/${user_id}/data`);
     const json = await response.json();
     return json;
+  }
+
+  async deleteLOS(learning_objective) {
+    const response = await fetch(`http://localhost:8080/deleteLOs`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        learning_objective: learning_objective,
+      }),
+    });
+    return response.status;
   }
 }
