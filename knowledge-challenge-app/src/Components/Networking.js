@@ -56,7 +56,7 @@ export default class Network {
     return json;
   }
 
-  async getAllTopicsPerStudentOnly(userID) {
+  async getAllTopicsOnlyPerStudent(userID) {
     const endpoint = `http://localhost:8080/${userID}/topics`;
     const response = await fetch(endpoint);
     const json = await response.json();

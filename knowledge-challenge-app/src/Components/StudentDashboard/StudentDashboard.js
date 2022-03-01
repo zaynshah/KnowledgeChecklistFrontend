@@ -11,12 +11,13 @@ import Card from "react-bootstrap/Card";
 
 function StudentDashboard(props) {
   const [data, setData] = useState([]);
+  const [topics, setTopics] = useState([]);
   const [numberOfLOs, setNumberOfLOs] = useState(0);
   const [numberOfClickedLOs, setNumberOfClickedLOs] = useState(0);
 
   const network = new Network();
 
-  console.log(document.querySelectorAll(" p * div "));
+  // console.log(document.querySelectorAll(" p * div "));
 
   function updateProgress(direction) {
     let updatedNumber = numberOfClickedLOs;
@@ -30,7 +31,7 @@ function StudentDashboard(props) {
     setNumberOfClickedLOs(updatedNumber);
   }
 
-  document.title = `${props.cookies.email}'s Knowledge Checklist`;
+  document.title = `${props.cookies.email.split("@")[0]}'s Knowledge Checklist`;
 
   useEffect(() => {
     (async () => {
@@ -40,8 +41,13 @@ function StudentDashboard(props) {
 
       const ClickedLOs = firstLoadData.filter((objects) => objects.score !== 1);
       setNumberOfClickedLOs(ClickedLOs.length);
+
+      const uniqueTopics = await network.getAllTopicsOnlyPerStudent(
+        props.cookies.userID
+      );
+      setTopics(uniqueTopics);
     })();
-  }, []); //
+  }, []);
 
   async function updateScore() {
     const data = await network.getAllTopicsPerStudent(props.cookies.userID);
@@ -53,55 +59,78 @@ function StudentDashboard(props) {
   function getWelcomeMessage(id) {
     return (
       <div id="welcome">
-        <h1>Welcome, {id}. </h1>
-        <h3>How to use this checklist:</h3>
-        <main>
-          <div>
-            Select your level of confidence with the buttons next to each
-            statement. Choosing <span className="red">'not confident'</span>{" "}
-            will colour the statement red. Choosing{" "}
-            <span className="yellow">'needs revision'</span> will colour the
-            statement yellow. Finally, choosing{" "}
-            <span className="green">'feel confident'</span> will colour the
-            statement green. Essentially:
-          </div>
-          <ul>
-            <li>
-              <strong>
-                <span className="red">Red</span>
-              </strong>{" "}
-              topics are those you don't understand well.
-            </li>
-            <li>
-              <strong>
-                <span className="yellow">Yellow</span>
-              </strong>{" "}
-              topics are those that still need work.{" "}
-            </li>
-            <li>
-              <strong>
-                <span className="green">Green</span>
-              </strong>{" "}
-              topics are the ones you feel most confident with.
-            </li>
-          </ul>{" "}
-          <div>
-            At the bottom of the page, there is a button to print / save your
-            progress. This will allow you to save a PDF or print a version of
-            the page with the selections you have made. Additionally, you may
-            prefer landscape orientation to portrait for ease of reading.
-          </div>
-        </main>
+        <Card className="m-3" style={{ width: "80rem" }}>
+          <Card.Header style={{ fontSize: 20 }}>
+            <strong>
+              Welcome, {id}! <br /> How to use this checklist:
+            </strong>
+          </Card.Header>
+          <Card.Body>
+            <Card.Title></Card.Title>
+            <Card.Text>
+              Select your level of confidence with the buttons next to each
+              statement. Choosing <span className="red">'not confident'</span>{" "}
+              will colour the statement red. Choosing{" "}
+              <span className="yellow">'needs revision'</span> will colour the
+              statement yellow. Finally, choosing{" "}
+              <span className="green">'feel confident'</span> will colour the
+              statement green. Essentially:
+              <ul>
+                <li>
+                  <strong>
+                    <span className="red">Red</span>
+                  </strong>{" "}
+                  topics are those you don't understand well.
+                </li>
+                <li>
+                  <strong>
+                    <span className="yellow">Yellow</span>
+                  </strong>{" "}
+                  topics are those that still need work.{" "}
+                </li>
+                <li>
+                  <strong>
+                    <span className="green">Green</span>
+                  </strong>{" "}
+                  topics are the ones you feel most confident with.
+                </li>
+              </ul>{" "}
+              At the bottom of the page, there is a button to print / save your
+              progress. This will allow you to save a PDF or print a version of
+              the page with the selections you have made. Additionally, you may
+              prefer landscape orientation to portrait for ease of reading.
+            </Card.Text>
+          </Card.Body>
+        </Card>
       </div>
     );
   }
 
-  function createTopics(data, topic) {
+  function createTopics(data) {
     if (!data) {
       return <h3>Loading.. </h3>;
     }
-    const filteredData = data.filter((topicList) => topicList.topic === topic); // [{},{}]
-    const topicData = filteredData.map((topic) => {
+
+    const topicCards = topics.map((item) => {
+      return (
+        <Card id={`${item.topic}`} className={`m-3 ${item.topic}`}>
+          <Card.Header>
+            <strong>{item.topic}</strong>
+          </Card.Header>
+          <Card.Body>
+            <Card.Text>
+              {data ? createLOs(data, item.topic) : getLoadingComponent()}
+            </Card.Text>
+          </Card.Body>
+        </Card>
+      );
+    });
+    return topicCards;
+  }
+
+  function createLOs(data, topic) {
+    const filteredLOs = data.filter((topicList) => topicList.topic === topic);
+    const topicData = filteredLOs.map((topic) => {
       return (
         <LO
           key={topic.id}
@@ -122,7 +151,7 @@ function StudentDashboard(props) {
     return <div className="loader" />;
   }
 
-  function getSideNavBar() {
+  function getSideNavBar(topicList) {
     return (
       <div className="sidenav">
         <>
@@ -167,24 +196,13 @@ function StudentDashboard(props) {
             <Nav.Link href="#welcome" eventKey="welcome">
               Welcome
             </Nav.Link>
-            <Nav.Link href="#HTML/CSS-topic" eventKey="HTML/CSS-topic">
-              HTML/CSS
-            </Nav.Link>
-            <Nav.Link href="#Javascript-topic" eventKey="Javascript-topic">
-              Javascript
-            </Nav.Link>
-            <Nav.Link href="#React-topic" eventKey="React-topic">
-              React
-            </Nav.Link>
-            <Nav.Link href="#Git-topic" eventKey="Git-topic">
-              Git
-            </Nav.Link>
-            <Nav.Link
-              href="#How-the-Internet-works-topic"
-              eventKey="How-the-Internet-works-topic"
-            >
-              How the Internet Works
-            </Nav.Link>
+            {topicList.map((item) => {
+              return (
+                <Nav.Link href={`#${item.topic}`} eventKey={`${item.topic}`}>
+                  {item.topic}
+                </Nav.Link>
+              );
+            })}
           </Nav>
         </>
       </div>
@@ -207,49 +225,23 @@ function StudentDashboard(props) {
   return (
     <>
       <Header cook={props.cookies.email} logOut={props.logOut} />
-
       <div className="checklist-page">
         {getProgressBar(numberOfClickedLOs, numberOfLOs)}
-        <div className="main-content">
-          {getSideNavBar()}
-          <div className="bulk-content">
-            {getWelcomeMessage(props.cookies.email)}
-            <div className="topics">
-              <div id="HTML/CSS-topic">
-                <h3 className="topic-title">HTML/CSS</h3>
-                <Card className="card">
-                  <Card.Header>HTML/CSS</Card.Header>
-                  <Card.Body>
-                    <Card.Text>
-                      {data
-                        ? createTopics(data, "HTML/CSS")
-                        : getLoadingComponent()}
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </div>
-              <div id="Javascript-topic">
-                <h3 className="topic-title">Javascript</h3>
-                {data
-                  ? createTopics(data, "Javascript")
-                  : getLoadingComponent()}
-              </div>
-              <div id="React-topic">
-                <h3 className="topic-title">React</h3>
-                {data ? createTopics(data, "React") : getLoadingComponent()}
-              </div>
-              <div id="Git-topic">
-                <h3 className="topic-title">Git</h3>
-                {data ? createTopics(data, "Git") : getLoadingComponent()}
-              </div>
-              <div id="How-the-Internet-works-topic">
-                <h3 className="topic-title">How the Internet Works</h3>
-              </div>
 
-              <div className="export-pdf-button">
-                <>
-                  <style type="text/css">
-                    {`
+        <div className="main-content">
+          {topics ? getSideNavBar(topics) : getLoadingComponent()}
+
+          <div className="bulk-content">
+            {getWelcomeMessage(props.cookies.email.split("@")[0])}
+
+            <div className="topics">
+              {data ? createTopics(data) : getLoadingComponent()}
+            </div>
+
+            <div className="export-pdf-button">
+              <>
+                <style type="text/css">
+                  {`
                     .btn-pdf {
                       background-color: #d14420;
                       color: white;
@@ -257,12 +249,11 @@ function StudentDashboard(props) {
                       margin-bottom: 30px;  
                     }
                     `}
-                  </style>
-                  <Button className="export-pdf-button" variant="pdf">
-                    Save to PDF
-                  </Button>
-                </>
-              </div>
+                </style>
+                <Button className="export-pdf-button" variant="pdf">
+                  Save to PDF
+                </Button>
+              </>
             </div>
           </div>
         </div>

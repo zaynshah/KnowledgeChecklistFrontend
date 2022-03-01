@@ -39,6 +39,7 @@ function LO(props) {
           {radios.map((button) => {
             return (
               <ConfidenceButton
+                key={button.id}
                 updateScore={(newScore) => updateScore(newScore)}
                 text={button.text}
                 score={button.score}
