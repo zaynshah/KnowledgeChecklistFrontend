@@ -90,13 +90,17 @@ export default class Network {
   }
 
   async getStudentForCohort(cohort_id) {
-    const response = await fetch(`http://localhost:8080/students/${cohort_id}/results`);
+    const response = await fetch(
+      `http://localhost:8080/students/${cohort_id}/results`
+    );
     const json = await response.json();
     return json;
   }
 
   async getStudentData(user_id) {
-    const response = await fetch(`http://localhost:8080/student/${user_id}/data`);
+    const response = await fetch(
+      `http://localhost:8080/student/${user_id}/data`
+    );
     const json = await response.json();
     return json;
   }
@@ -107,6 +111,17 @@ export default class Network {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         learning_objective: learning_objective,
+      }),
+    });
+    return response.status;
+  }
+
+  async postCohort(cohort_id) {
+    const response = await fetch(`http://localhost:8080/postCohort`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        cohort_id: cohort_id,
       }),
     });
     return response.status;
