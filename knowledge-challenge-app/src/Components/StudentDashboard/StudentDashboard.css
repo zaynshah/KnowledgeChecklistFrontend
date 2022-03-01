@@ -7,6 +7,13 @@
   border-right: 1px solid #ffbe76;
 }
 
+
+/* .card {
+  font-size: larger;
+  color: #e6530f;
+  font-weight: bold;
+} */
+
 .bulk-content {
   display: flex;
   align-items: stretch;

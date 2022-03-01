@@ -20,11 +20,11 @@ export default function ViewResult(props) {
     if (data.score === 1) {
       return <div className="topic3">Unspecified</div>;
     } else if (data.score === 2) {
-      return <div className="topic3 not-confident">Not Confident!</div>;
+      return <div className="topic3 feels-confident ">Confident!</div>;
     } else if (data.score === 3) {
       return <div className="topic3 needs-revision">Needs Revision!</div>;
     } else if (data.score === 4) {
-      return <div className="topic3 feels-confident">Feels Confident!</div>;
+      return <div className="topic3 not-confident">Not Confident!</div>;
     }
   }
 
