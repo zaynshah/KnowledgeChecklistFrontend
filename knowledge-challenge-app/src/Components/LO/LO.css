@@ -7,6 +7,7 @@
 .description {
   flex: 1;
   display: flex;
+  align-items: center;
   justify-content: space-around;
   background-color: white;
   color: black;
@@ -39,6 +40,7 @@
 }
 
 .feedback {
+  display: flex;
   border: 2px solid rgb(223, 219, 219);
   border-radius: 5px;
   max-width: 50%;
