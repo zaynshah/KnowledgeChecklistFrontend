@@ -4,10 +4,11 @@ import React, { useEffect, useState } from "react";
 import Network from "../Networking";
 import Header from "../Header";
 import LO from "../LO/LO";
-import Button from "react-bootstrap/esm/Button";
+import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Card from "react-bootstrap/Card";
+import Footer from "../Footer";
 
 function StudentDashboard(props) {
   const [data, setData] = useState([]);
@@ -31,32 +32,41 @@ function StudentDashboard(props) {
     setNumberOfClickedLOs(updatedNumber);
   }
 
-  document.title = `${props.cookies.email.split("@")[0]}'s Knowledge Checklist`;
-
   useEffect(() => {
     (async () => {
-      const firstLoadData = await updateScore();
-      console.log(firstLoadData);
-      setNumberOfLOs(firstLoadData.length);
+      try {
+        document.title = props.cookies.email
+          ? `${props.cookies.email.split("@")[0]}'s Knowledge Checklist`
+          : "Knowledge Checklist";
 
-      const ClickedLOs = firstLoadData.filter((objects) => objects.score !== 1);
-      setNumberOfClickedLOs(ClickedLOs.length);
+        const firstLoadData = await updateScore();
+        setNumberOfLOs(firstLoadData.length);
 
-      const uniqueTopics = await network.getAllTopicsOnlyPerStudent(props.cookies.userID);
-      setTopics(uniqueTopics);
+        const ClickedLOs = firstLoadData.filter(
+          (objects) => objects.score !== 1
+        );
+        setNumberOfClickedLOs(ClickedLOs.length);
+
+        const uniqueTopics = await network.getAllTopicsOnlyPerStudent(
+          props.cookies.userID
+        );
+        setTopics(uniqueTopics);
+      } catch (e) {
+        // console.log(e);
+      }
     })();
   }, []);
 
   async function updateScore() {
     const data = await network.getAllTopicsPerStudent(props.cookies.userID);
-    console.log(data);
     setData(data);
     return data;
   }
 
-  function getWelcomeMessage(id) {
+  function getWelcomeMessage() {
+    const id = props.cookies ? props.cookies.email.split("@")[0] : "User";
     return (
-      <div data-testid="welcome" id="welcome">
+      <div>
         <Card className="m-3" style={{ width: "80rem" }}>
           <Card.Header style={{ fontSize: 20 }}>
             <strong>
@@ -65,10 +75,14 @@ function StudentDashboard(props) {
           </Card.Header>
           <Card.Body>
             <Card.Title></Card.Title>
-            <Card.Text>
-              Select your level of confidence with the buttons next to each statement. Choosing <span className="red">'not confident'</span> will
-              colour the statement red. Choosing <span className="yellow">'needs revision'</span> will colour the statement yellow. Finally, choosing{" "}
-              <span className="green">'feel confident'</span> will colour the statement green. Essentially:
+            <Card.Text as="div">
+              Select your level of confidence with the buttons next to each
+              statement. Choosing <span className="red">'not confident'</span>{" "}
+              will colour the statement red. Choosing{" "}
+              <span className="yellow">'needs revision'</span> will colour the
+              statement yellow. Finally, choosing{" "}
+              <span className="green">'feel confident'</span> will colour the
+              statement green. Essentially:
               <ul>
                 <li>
                   <strong>
@@ -89,8 +103,10 @@ function StudentDashboard(props) {
                   topics are the ones you feel most confident with.
                 </li>
               </ul>{" "}
-              At the bottom of the page, there is a button to print / save your progress. This will allow you to save a PDF or print a version of the
-              page with the selections you have made. Additionally, you may prefer landscape orientation to portrait for ease of reading.
+              At the bottom of the page, there is a button to print / save your
+              progress. This will allow you to save a PDF or print a version of
+              the page with the selections you have made. Additionally, you may
+              prefer landscape orientation to portrait for ease of reading.
             </Card.Text>
           </Card.Body>
         </Card>
@@ -103,14 +119,20 @@ function StudentDashboard(props) {
       return <h3>Loading.. </h3>;
     }
 
-    const topicCards = topics.map((item) => {
+    const topicCards = topics.map((item, i) => {
       return (
-        <Card id={`${item.topic}`} className={`m-3 ${item.topic}`}>
+        <Card
+          key={item.topic}
+          id={`${item.topic}`}
+          className={`m-3 ${item.topic}`}
+        >
           <Card.Header>
             <strong>{item.topic}</strong>
           </Card.Header>
           <Card.Body>
-            <Card.Text>{data ? createLOs(data, item.topic) : getLoadingComponent()}</Card.Text>
+            <Card.Text as="div">
+              {data ? createLOs(data, item.topic) : getLoadingComponent()}
+            </Card.Text>
           </Card.Body>
         </Card>
       );
@@ -120,7 +142,6 @@ function StudentDashboard(props) {
 
   function createLOs(data, topic) {
     const filteredLOs = data.filter((topicList) => topicList.topic === topic);
-    console.log(filteredLOs);
     const topicData = filteredLOs.map((topic) => {
       return (
         <LO
@@ -177,19 +198,28 @@ function StudentDashboard(props) {
           </style>
           <Nav
             data-testid="navBar"
-            onSelect={(eventKey) => {
-              document.getElementById(eventKey).scrollIntoView({ behavior: "smooth" });
+            onSelect={(e) => {
+              document.getElementById(e);
             }}
             fill
             variant="navbar"
             className="flex-column"
           >
-            <Nav.Link href="#welcome" eventKey="welcome">
+            <Nav.Link
+              data-testid="welcome-button"
+              href="#welcome"
+              eventKey="welcome"
+            >
               Welcome
             </Nav.Link>
             {topicList.map((item) => {
               return (
-                <Nav.Link href={`#${item.topic}`} eventKey={`${item.topic}`}>
+                <Nav.Link
+                  data-testid={`${item.topic}-button`}
+                  key={item.topic}
+                  href={`#${item.topic}`}
+                  eventKey={`${item.topic}`}
+                >
                   {item.topic}
                 </Nav.Link>
               );
@@ -204,7 +234,6 @@ function StudentDashboard(props) {
     return (
       <ProgressBar
         data-testid="progressBar"
-        display
         striped
         variant="warning"
         animated
@@ -216,7 +245,7 @@ function StudentDashboard(props) {
 
   return (
     <>
-      <Header cook={props.cookies.email} logOut={props.logOut} />
+      <Header cook={props.cookies} logOut={props.logOut} />
       <div className="checklist-page">
         {getProgressBar(numberOfClickedLOs, numberOfLOs)}
 
@@ -224,9 +253,13 @@ function StudentDashboard(props) {
           {topics ? getSideNavBar(topics) : getLoadingComponent()}
 
           <div className="bulk-content">
-            {getWelcomeMessage(props.cookies.email.split("@")[0])}
+            <div data-testid="welcome" id="welcome">
+              {getWelcomeMessage()}
+            </div>
 
-            <div className="topics">{data ? createTopics(data) : getLoadingComponent()}</div>
+            <div className="topics">
+              {data ? createTopics(data) : getLoadingComponent()}
+            </div>
 
             <div className="export-pdf-button">
               <>
@@ -244,11 +277,15 @@ function StudentDashboard(props) {
                   data-testid="pdfButton"
                   className="export-pdf-button"
                   variant="pdf"
+                  onClick={() => {
+                    window.alert("Clicked");
+                  }}
                 >
                   Save to PDF
                 </Button>
               </>
             </div>
+            <Footer className="student-footer" />
           </div>
         </div>
       </div>
