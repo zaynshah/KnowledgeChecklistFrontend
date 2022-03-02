@@ -16,45 +16,86 @@ function LO(props) {
 
     console.log(props.score);
 
-    const newData = await network.postScore(
-      props.userID,
-      props.learningObjective,
-      updatedScore,
-      hasUpdated ? !props.isActive : props.isActive
-    );
+    const newData = await network.postScore(props.userID, props.learningObjective, updatedScore, hasUpdated ? !props.isActive : props.isActive);
 
     console.log(newData);
 
     await props.updateScore(newData);
   }
+  console.log(props.resource);
 
   function createLO(score, description) {
     return (
-      <div className="row">
-        <div className={`description description-background-${score}`}>
-          {description}
-        </div>
+      <>
+        <div className="row">
+          <div className={`description description-background-${score}`}>{description}</div>
 
-        <div className="buttons">
-          {radios.map((button) => {
-            return (
-              <ConfidenceButton
-                key={button.id}
-                updateScore={(newScore) => updateScore(newScore)}
-                text={button.text}
-                score={button.score}
-                variant={button.variant}
-              />
-            );
-          })}
+          <div className="buttons">
+            {radios.map((button) => {
+              return (
+                <ConfidenceButton
+                  key={button.id}
+                  updateScore={(newScore) => updateScore(newScore)}
+                  text={button.text}
+                  score={button.score}
+                  variant={button.variant}
+                />
+              );
+            })}
+          </div>
         </div>
-      </div>
+        {score == 2 ? (
+          props.resource[0] != "." ? (
+            <div className="feedback">
+              Well done, test your knowledge with this
+              <a href={props.resource[0]} target="_blank">
+                {" "}
+                quiz
+              </a>
+            </div>
+          ) : (
+            <div className="feedback">Well done! you are becoming a pro software developer</div>
+          )
+        ) : (
+          <></>
+        )}
+        {score == 3 ? (
+          props.resource[1] != "." ? (
+            <div className="feedback">
+              Nearly there, try this
+              <a href={props.resource[1]} target="_blank">
+                {" "}
+                game
+              </a>{" "}
+              and become a wizard!
+            </div>
+          ) : (
+            <div className="feedback">Nearly there, keep practising!</div>
+          )
+        ) : (
+          <></>
+        )}
+        {score == 4 ? (
+          props.resource[1] != "." ? (
+            <div className="feedback">
+              Don't worry, try this
+              <a href={props.resource[1]} target="_blank">
+                {" "}
+                game
+              </a>{" "}
+              and become a pro!
+            </div>
+          ) : (
+            <div className="feedback">Needs attention, recap and come back!</div>
+          )
+        ) : (
+          <></>
+        )}
+      </>
     );
   }
 
-  return (
-    <div className="LO">{createLO(props.score, props.learningObjective)}</div>
-  );
+  return <div className="LO">{createLO(props.score, props.learningObjective)}</div>;
 }
 
 export default LO;

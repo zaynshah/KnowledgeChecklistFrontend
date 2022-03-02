@@ -37,3 +37,10 @@
   background-color: white;
   color: black;
 }
+
+.feedback {
+  border: 2px solid rgb(223, 219, 219);
+  border-radius: 5px;
+  max-width: 50%;
+  padding-left: 10px;
+}

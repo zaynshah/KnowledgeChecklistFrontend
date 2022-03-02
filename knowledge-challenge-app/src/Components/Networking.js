@@ -76,7 +76,7 @@ export default class Network {
     return json;
   }
 
-  async postLO(cohort_id, topic, learning_objective) {
+  async postLO(cohort_id, topic, learning_objective, notConfident, confident) {
     const response = await fetch(`http://localhost:8080/postLO`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -84,6 +84,8 @@ export default class Network {
         cohort_id: cohort_id,
         topic: topic,
         learning_objective: learning_objective,
+        notConfident: notConfident,
+        confident: confident,
       }),
     });
     return response.status;
@@ -91,6 +93,12 @@ export default class Network {
 
   async getStudentForCohort(cohort_id) {
     const response = await fetch(`http://localhost:8080/students/${cohort_id}/results`);
+    const json = await response.json();
+    return json;
+  }
+
+  async getAllUniqueCohortTopics(cohort_id) {
+    const response = await fetch(`http://localhost:8080/cohort/${cohort_id}/cohortTopics`);
     const json = await response.json();
     return json;
   }
