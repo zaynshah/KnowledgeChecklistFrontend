@@ -14,14 +14,15 @@ function LO(props) {
     props.updateProgress(progress);
     const updatedScore = props.isActive && !hasUpdated ? 1 : newScore;
 
+
     const newData = await network.postScore(props.userID, props.learningObjective, updatedScore, hasUpdated ? !props.isActive : props.isActive);
     await props.updateScore(newData);
   }
-
   function createLO(score, description) {
     return (
       <>
-        <div className="row">
+
+        <div data-testid="LOs"  className="row">
           <div
             className={
               props.darkMode
@@ -36,6 +37,7 @@ function LO(props) {
             {radios.map((button) => {
               return (
                 <ConfidenceButton
+                  data-testid={button.id}
                   key={button.id}
                   updateScore={(newScore) => updateScore(newScore)}
                   text={button.text}
@@ -50,14 +52,16 @@ function LO(props) {
         {score == 2 ? (
           props.resource[0] != "." ? (
             <div className="feedback">
-              Well done, test your knowledge with this
+              Well done, test your knowledge with this!
               <a href={props.resource[0]} target="_blank">
                 {" "}
                 quiz
               </a>
             </div>
           ) : (
-            <div className="feedback">Well done! you are becoming a pro software developer</div>
+            <div className="feedback">
+              Well done! you are becoming a pro software developer!
+            </div>
           )
         ) : (
           <></>
@@ -65,7 +69,7 @@ function LO(props) {
         {score == 3 ? (
           props.resource[1] != "." ? (
             <div className="feedback">
-              Nearly there, try this
+              Nearly there, try this!
               <a href={props.resource[1]} target="_blank">
                 {" "}
                 resource
@@ -89,7 +93,9 @@ function LO(props) {
               and become a pro!
             </div>
           ) : (
-            <div className="feedback">Needs attention, recap and come back!</div>
+            <div className="feedback">
+              Needs attention, recap and come back!
+            </div>
           )
         ) : (
           <></>
@@ -98,7 +104,9 @@ function LO(props) {
     );
   }
 
-  return <div className="LO">{createLO(props.score, props.learningObjective)}</div>;
+  return (
+    <div className="LO">{createLO(props.score, props.learningObjective)}</div>
+  );
 }
 
 export default LO;

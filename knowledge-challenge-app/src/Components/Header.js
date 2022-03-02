@@ -4,8 +4,9 @@ import Dropdown from "react-bootstrap/Dropdown";
 
 export default function Header(props) {
   return (
+
     <div>
-      <div className={props.darkMode ? "header-flex-dark" : "header-flex"}>
+      <div data-testid="header"className={props.darkMode ? "header-flex-dark" : "header-flex"}>
         <div className="logo-display">
           <img
             alt="Logo"
@@ -27,7 +28,7 @@ export default function Header(props) {
                   <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                 </svg>
                 <span>
-                  Signed in as: <u>{props.cook}</u>
+                  Signed in as: <u>{props.cook.email}</u>
                 </span>
               </Dropdown.Toggle>
               <Dropdown.Menu>
