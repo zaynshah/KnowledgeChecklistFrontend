@@ -4,13 +4,40 @@
   flex-direction: row;
 }
 
+.main-content-dark {
+  display: flex;
+  align-items: stretch;
+  flex-direction: row;
+  background-color: rgba(68, 87, 96, 1);
+}
+
 .sidenav {
   width: fit-content;
   border-right: 1px solid #ffbe76;
 }
+.sidenav-dark {
+  width: fit-content;
+  border-right: 1px solid #ffbe76;
+  background-color: rgba(68, 87, 96, 1);
+}
 
 .m-3 {
   display: flex;
+}
+
+.card-dark {
+  background-color: rgba(68, 87, 96, 1);
+  color: white;
+  border: 1px solid white;
+}
+.header-border {
+  border-bottom: 1px solid white;
+}
+.dark {
+  background-color: rgba(68, 87, 96, 1);
+}
+.dark-heading {
+  color: white;
 }
 
 .bulk-content {
@@ -19,6 +46,15 @@
   flex-direction: column;
   height: 87vh;
   overflow: scroll;
+}
+
+.bulk-content-dark {
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+  height: 87vh;
+  overflow: scroll;
+  color: black;
 }
 
 .export-pdf-button {

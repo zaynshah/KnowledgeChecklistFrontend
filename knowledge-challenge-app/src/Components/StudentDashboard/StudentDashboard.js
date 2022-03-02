@@ -8,12 +8,15 @@ import Button from "react-bootstrap/esm/Button";
 import Nav from "react-bootstrap/Nav";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function StudentDashboard(props) {
   const [data, setData] = useState([]);
   const [topics, setTopics] = useState([]);
   const [numberOfLOs, setNumberOfLOs] = useState(0);
   const [numberOfClickedLOs, setNumberOfClickedLOs] = useState(0);
+  const [showDarkMode, setShowDarkMode] = useState(false);
 
   const network = new Network();
 
@@ -54,11 +57,17 @@ function StudentDashboard(props) {
     return data;
   }
 
+  function vueDarkMode(e) {
+    setShowDarkMode(!showDarkMode);
+  }
   function getWelcomeMessage(id) {
     return (
       <div data-testid="welcome" id="welcome">
-        <Card className="m-3" style={{ width: "80rem" }}>
-          <Card.Header style={{ fontSize: 20 }}>
+        <Form.Group className="mb-3 p-3" controlId="cohort-id">
+          <Form.Check className={showDarkMode ? "dark-heading" : ""} type="switch" id="custom-switch" label="Dark Mode" onChange={vueDarkMode} />
+        </Form.Group>
+        <Card className={showDarkMode ? "m-3 card-dark" : "m-3"} style={{ width: "80rem" }}>
+          <Card.Header className={showDarkMode ? "header-border" : ""} style={{ fontSize: 20 }}>
             <strong>
               Welcome, {id}! <br /> How to use this checklist:
             </strong>
@@ -105,8 +114,8 @@ function StudentDashboard(props) {
 
     const topicCards = topics.map((item) => {
       return (
-        <Card id={`${item.topic}`} className={`m-3 ${item.topic}`}>
-          <Card.Header>
+        <Card id={`${item.topic}`} className={showDarkMode ? `m-3 ${item.topic} card-dark` : `m-3 ${item.topic}`}>
+          <Card.Header className={showDarkMode ? "header-border" : ""} r>
             <strong>{item.topic}</strong>
           </Card.Header>
           <Card.Body>
@@ -124,6 +133,7 @@ function StudentDashboard(props) {
     const topicData = filteredLOs.map((topic) => {
       return (
         <LO
+          darkMode={showDarkMode}
           resource={[topic.confident, topic.not_confident]}
           key={topic.id}
           learningObjective={topic.learning_objective}
@@ -145,33 +155,38 @@ function StudentDashboard(props) {
 
   function getSideNavBar(topicList) {
     return (
-      <div className="sidenav">
+      <div className={showDarkMode ? "sidenav-dark" : "sidenav"}>
         <>
           <style type="text/css">
             {`
                     .nav-navbar {
-                      background-color: white;
+                      background-color: ${showDarkMode ? "rgba(68, 87, 96, 1)" : "white"};
+                      
                       margin-top: 15px;
                     }
                     a:link {
-                      color: #e6530f;
+                      color: ${showDarkMode ? "white" : "#e6530f"};
                       background-color: transparent;
                       text-decoration: none;
+                      transition-delay: 0s;
                     }
                     a:active {
-                      color: #e6530f;
+                      color: ${showDarkMode ? "white" : "#e6530f"};
                       background-color: transparent;
                       text-decoration: underline;
+                      transition-delay: 0s;
                     }
-                    a:hover {
+                    a:visited:hover {
                       color: #e6530f;
                       background-color: transparent;
                       text-decoration: underline;
+                      transition-delay: 0s;
                     }
                     a:visited {
-                      color: #e6530f;
+                      color:${showDarkMode ? "white" : "black"};
                       background-color: transparent;
                       text-decoration: none;
+                      transition-delay: 0s;
                     }
                     `}
           </style>
@@ -216,14 +231,15 @@ function StudentDashboard(props) {
 
   return (
     <>
-      <Header cook={props.cookies.email} logOut={props.logOut} />
-      <div className="checklist-page">
+      <Header cook={props.cookies.email} logOut={props.logOut} darkMode={showDarkMode} />
+
+      <div className={"checklist-page"}>
         {getProgressBar(numberOfClickedLOs, numberOfLOs)}
 
-        <div className="main-content">
+        <div className={showDarkMode ? "main-content-dark" : "main-content"}>
           {topics ? getSideNavBar(topics) : getLoadingComponent()}
 
-          <div className="bulk-content">
+          <div className={showDarkMode ? "bulk-content-dark" : "bulk-content"}>
             {getWelcomeMessage(props.cookies.email.split("@")[0])}
 
             <div className="topics">{data ? createTopics(data) : getLoadingComponent()}</div>
@@ -240,11 +256,7 @@ function StudentDashboard(props) {
                     }
                     `}
                 </style>
-                <Button
-                  data-testid="pdfButton"
-                  className="export-pdf-button"
-                  variant="pdf"
-                >
+                <Button data-testid="pdfButton" className="export-pdf-button" variant="pdf">
                   Save to PDF
                 </Button>
               </>

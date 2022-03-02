@@ -14,21 +14,23 @@ function LO(props) {
     props.updateProgress(progress);
     const updatedScore = props.isActive && !hasUpdated ? 1 : newScore;
 
-    console.log(props.score);
-
     const newData = await network.postScore(props.userID, props.learningObjective, updatedScore, hasUpdated ? !props.isActive : props.isActive);
-
-    console.log(newData);
-
     await props.updateScore(newData);
   }
-  console.log(props.resource);
 
   function createLO(score, description) {
     return (
       <>
         <div className="row">
-          <div className={`description description-background-${score}`}>{description}</div>
+          <div
+            className={
+              props.darkMode
+                ? `description description-background-${score == 1 ? "dark-back" : score}`
+                : `description description-background-${score}`
+            }
+          >
+            {description}
+          </div>
 
           <div className="buttons">
             {radios.map((button) => {
@@ -38,7 +40,8 @@ function LO(props) {
                   updateScore={(newScore) => updateScore(newScore)}
                   text={button.text}
                   score={button.score}
-                  variant={button.variant}
+                  variant={props.darkMode ? button.variant[1] : button.variant[0]}
+                  style={{ "transition-delay": "0s" }}
                 />
               );
             })}
@@ -65,7 +68,7 @@ function LO(props) {
               Nearly there, try this
               <a href={props.resource[1]} target="_blank">
                 {" "}
-                game
+                resource
               </a>{" "}
               and become a wizard!
             </div>
@@ -81,7 +84,7 @@ function LO(props) {
               Don't worry, try this
               <a href={props.resource[1]} target="_blank">
                 {" "}
-                game
+                resource
               </a>{" "}
               and become a pro!
             </div>
