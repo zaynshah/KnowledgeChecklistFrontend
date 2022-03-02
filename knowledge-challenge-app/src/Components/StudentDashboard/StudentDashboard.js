@@ -58,7 +58,7 @@ function StudentDashboard(props) {
 
   function getWelcomeMessage(id) {
     return (
-      <div id="welcome">
+      <div data-testid="welcome" id="welcome">
         <Card className="m-3" style={{ width: "80rem" }}>
           <Card.Header style={{ fontSize: 20 }}>
             <strong>
@@ -184,6 +184,7 @@ function StudentDashboard(props) {
                     `}
           </style>
           <Nav
+            data-testid="navBar"
             onSelect={(eventKey) => {
               document
                 .getElementById(eventKey)
@@ -212,6 +213,7 @@ function StudentDashboard(props) {
   function getProgressBar(numberOfClickedLOs, numberOfLOs) {
     return (
       <ProgressBar
+        data-testid="progressBar"
         display
         striped
         variant="warning"
@@ -250,7 +252,11 @@ function StudentDashboard(props) {
                     }
                     `}
                 </style>
-                <Button className="export-pdf-button" variant="pdf">
+                <Button
+                  data-testid="pdfButton"
+                  className="export-pdf-button"
+                  variant="pdf"
+                >
                   Save to PDF
                 </Button>
               </>
