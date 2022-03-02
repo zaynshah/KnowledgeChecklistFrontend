@@ -40,7 +40,7 @@ Upon login, they are directed to the student dashboard. This page contains a wel
 
 () Screenshot of student dashboard
 
-To find a specific LO, a side navigation bar is provided to the students to quickly navigate through the page.
+To find a specific LO, a side navigation bar is provided to the students to quickly navigate through the page. Clicking a button submits a 'score' which stores the level of confidence of that LO. Clicking a button will also change the colour to the same colour as the button to indicate their level of confidence. If the student reloads the page, or returns to the student dashboard at a later time, they will see their previously submitted and saved LOs.
 
 ## Coach Overview
 
@@ -70,3 +70,11 @@ As well as this. the related backend Server will also be required in order for t
 ## License
 
 The license for this software can be accessed [here](LICENSE.md)
+
+## Developers
+
+The Developers that worked on this project are:
+
+Project Manager & Engineer: [Fahmidul Haque](https://github.com/FahmidulHaquee)
+System Architect & Engineer: [Oliver-case Green](https://github.com/olliecase-green)
+Quality Assurance & Engineer: [Zayn Shah](https://github.com/zaynshah)
