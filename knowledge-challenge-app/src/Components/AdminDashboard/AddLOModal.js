@@ -4,11 +4,13 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Network from "../Networking";
 import { Redirect } from "react-router-dom";
-// import { Typeahead } from "react-bootstrap-typeahead";
+import { Typeahead } from "react-bootstrap-typeahead";
 
 export default function AddLOModal(props) {
   const network = new Network();
   const [LO, setLO] = useState("");
+  const [confident, setConfident] = useState("");
+  const [notConfident, setNotConfident] = useState("");
   const [topic, setTopic] = useState("");
   const [getFullLo, setGetFullLo] = useState("");
   const [redirect, setRedirect] = useState(false);
@@ -16,7 +18,10 @@ export default function AddLOModal(props) {
 
   async function handleClick(e) {
     e.preventDefault();
-    const response = await network.postLO(props.info.cohortLOs[0].cohort_id, topic, LO);
+    console.log(LO, confident, notConfident);
+    let addTopic = "";
+    selected[0].length ? (addTopic = selected[0]) : (addTopic = selected[0].label);
+    const response = await network.postLO(props.info.cohortLOs[0].cohort_id, addTopic, LO, notConfident, confident);
     if (response === 200) {
       setLO("");
       setTopic("");
@@ -26,7 +31,7 @@ export default function AddLOModal(props) {
 
   const options2 = [];
   function populateOption() {
-    props.info.cohortLOs.forEach((i) => options2.push(i.topic));
+    props.cohortTopic.forEach((i) => options2.push(i.topic));
   }
   populateOption();
 
@@ -52,24 +57,30 @@ export default function AddLOModal(props) {
           <Modal.Body>
             <Form noValidate>
               <Form.Group className="mb-3" controlId="topic">
-                {/* <Typeahead
-                  id="basic-example"
-                  onChange={(sel) => {
-                    setSelected({
-                      Selected: sel[0],
-                    });
-                  }}
-                  options={options2}
-                  placeholder="Choose a topic..." */}
-
-                {/* selected={selected} */}
-                {/* /> */}
                 <Form.Label>Topic</Form.Label>
-                <Form.Control onChange={(e) => setTopic(e.target.value)} placeholder="Enter Topic" value={topic} />
+                <Typeahead
+                  allowNew
+                  id="basic-example"
+                  onChange={setSelected}
+                  options={options2}
+                  placeholder="Choose a topic..."
+                  selected={selected}
+                />
+                <Form.Text className="text-muted">you must select or create a new topic </Form.Text>
+                {/* 
+                <Form.Control onChange={(e) => setTopic(e.target.value)} placeholder="Enter Topic" value={topic} /> */}
               </Form.Group>
               <Form.Group className="mb-3" controlId="LO">
                 <Form.Label>Learning objective</Form.Label>
                 <Form.Control type="text" onChange={(e) => setLO(e.target.value)} placeholder="Enter Learning Objective" value={LO} />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="not-confident">
+                <Form.Label>Not confident resource</Form.Label>
+                <Form.Control type="text" onChange={(e) => setNotConfident(e.target.value)} placeholder="Enter URL" value={notConfident} />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="confident">
+                <Form.Label>Confident quiz resource</Form.Label>
+                <Form.Control type="text" onChange={(e) => setConfident(e.target.value)} placeholder="Enter URL" value={confident} />
               </Form.Group>
             </Form>
           </Modal.Body>

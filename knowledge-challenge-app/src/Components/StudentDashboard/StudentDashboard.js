@@ -42,9 +42,7 @@ function StudentDashboard(props) {
       const ClickedLOs = firstLoadData.filter((objects) => objects.score !== 1);
       setNumberOfClickedLOs(ClickedLOs.length);
 
-      const uniqueTopics = await network.getAllTopicsOnlyPerStudent(
-        props.cookies.userID
-      );
+      const uniqueTopics = await network.getAllTopicsOnlyPerStudent(props.cookies.userID);
       setTopics(uniqueTopics);
     })();
   }, []);
@@ -68,13 +66,9 @@ function StudentDashboard(props) {
           <Card.Body>
             <Card.Title></Card.Title>
             <Card.Text>
-              Select your level of confidence with the buttons next to each
-              statement. Choosing <span className="red">'not confident'</span>{" "}
-              will colour the statement red. Choosing{" "}
-              <span className="yellow">'needs revision'</span> will colour the
-              statement yellow. Finally, choosing{" "}
-              <span className="green">'feel confident'</span> will colour the
-              statement green. Essentially:
+              Select your level of confidence with the buttons next to each statement. Choosing <span className="red">'not confident'</span> will
+              colour the statement red. Choosing <span className="yellow">'needs revision'</span> will colour the statement yellow. Finally, choosing{" "}
+              <span className="green">'feel confident'</span> will colour the statement green. Essentially:
               <ul>
                 <li>
                   <strong>
@@ -95,10 +89,8 @@ function StudentDashboard(props) {
                   topics are the ones you feel most confident with.
                 </li>
               </ul>{" "}
-              At the bottom of the page, there is a button to print / save your
-              progress. This will allow you to save a PDF or print a version of
-              the page with the selections you have made. Additionally, you may
-              prefer landscape orientation to portrait for ease of reading.
+              At the bottom of the page, there is a button to print / save your progress. This will allow you to save a PDF or print a version of the
+              page with the selections you have made. Additionally, you may prefer landscape orientation to portrait for ease of reading.
             </Card.Text>
           </Card.Body>
         </Card>
@@ -118,9 +110,7 @@ function StudentDashboard(props) {
             <strong>{item.topic}</strong>
           </Card.Header>
           <Card.Body>
-            <Card.Text>
-              {data ? createLOs(data, item.topic) : getLoadingComponent()}
-            </Card.Text>
+            <Card.Text>{data ? createLOs(data, item.topic) : getLoadingComponent()}</Card.Text>
           </Card.Body>
         </Card>
       );
@@ -130,9 +120,11 @@ function StudentDashboard(props) {
 
   function createLOs(data, topic) {
     const filteredLOs = data.filter((topicList) => topicList.topic === topic);
+    console.log(filteredLOs);
     const topicData = filteredLOs.map((topic) => {
       return (
         <LO
+          resource={[topic.confident, topic.not_confident]}
           key={topic.id}
           learningObjective={topic.learning_objective}
           score={topic.score}
@@ -185,9 +177,7 @@ function StudentDashboard(props) {
           </style>
           <Nav
             onSelect={(eventKey) => {
-              document
-                .getElementById(eventKey)
-                .scrollIntoView({ behavior: "smooth" });
+              document.getElementById(eventKey).scrollIntoView({ behavior: "smooth" });
             }}
             fill
             variant="navbar"
@@ -234,9 +224,7 @@ function StudentDashboard(props) {
           <div className="bulk-content">
             {getWelcomeMessage(props.cookies.email.split("@")[0])}
 
-            <div className="topics">
-              {data ? createTopics(data) : getLoadingComponent()}
-            </div>
+            <div className="topics">{data ? createTopics(data) : getLoadingComponent()}</div>
 
             <div className="export-pdf-button">
               <>

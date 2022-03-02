@@ -15,6 +15,7 @@ export default function ViewData(props) {
   const [userID, setUserID] = useState("");
   const [showAddLO, setShowAddLO] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
+  const [uniqueTopics, setUniqueTopics] = useState([]);
 
   const handleShowAddLO = () => {
     setShowAddLO(!showAddLO);
@@ -23,6 +24,7 @@ export default function ViewData(props) {
   useEffect(() => {
     (async () => {
       setFullCohortLOs(await network.getAllTopicsPerCohort(props.location.state.cohortLOs[0].cohort_id));
+      setUniqueTopics(await network.getAllUniqueCohortTopics(props.location.state.cohortLOs[0].cohort_id));
     })();
   }, []);
 
@@ -40,7 +42,6 @@ export default function ViewData(props) {
       setFullCohortLOs(await network.getAllTopicsPerCohort(props.location.state.cohortLOs[0].cohort_id));
     }
   }
-  console.log(fullCohortLOs);
 
   function createTopicList() {
     if (!fullCohortLOs) {
@@ -88,7 +89,7 @@ export default function ViewData(props) {
   return (
     <>
       <Header cook={props.cookies.email} logOut={props.logOut} />
-      <AddLOModal uS={updateState} info={props.location.state} show={showAddLO} handleClose={handleShowAddLO} />
+      <AddLOModal uS={updateState} info={props.location.state} show={showAddLO} handleClose={handleShowAddLO} cohortTopic={uniqueTopics} />
       <Container className="py-4 mt-3 p-5">
         {!props.isLog ? (
           <Redirect to="/" />
