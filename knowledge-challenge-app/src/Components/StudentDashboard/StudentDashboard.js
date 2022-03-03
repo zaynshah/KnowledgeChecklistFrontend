@@ -21,8 +21,6 @@ function StudentDashboard(props) {
 
   const network = new Network();
 
-  // console.log(document.querySelectorAll(" p * div "));
-
   function updateProgress(direction) {
     let updatedNumber = numberOfClickedLOs;
     if (LO.isActive) {
@@ -48,9 +46,7 @@ function StudentDashboard(props) {
 
         const uniqueTopics = await network.getAllTopicsOnlyPerStudent(props.cookies.userID);
         setTopics(uniqueTopics);
-      } catch (e) {
-        // console.log(e);
-      }
+      } catch (e) {}
     })();
   }, []);
 
@@ -63,7 +59,9 @@ function StudentDashboard(props) {
   function vueDarkMode(e) {
     setShowDarkMode(!showDarkMode);
   }
-  function getWelcomeMessage(id) {
+
+  function getWelcomeMessage() {
+    const id = props.cookies ? props.cookies.email.split("@")[0] : "User";
     return (
       <div>
         <Form.Group className="mb-3 p-3" controlId="cohort-id">
@@ -233,13 +231,11 @@ function StudentDashboard(props) {
   return (
     <>
       <Header cook={props.cookies.email} logOut={props.logOut} darkMode={showDarkMode} />
-
       <div className={"checklist-page"}>
         {getProgressBar(numberOfClickedLOs, numberOfLOs)}
 
         <div className={showDarkMode ? "main-content-dark" : "main-content"}>
           {topics ? getSideNavBar(topics) : getLoadingComponent()}
-
           <div className={showDarkMode ? "bulk-content-dark" : "bulk-content"}>
             <div data-testid="welcome" id="welcome">
               {getWelcomeMessage(props.cookies.email.split("@")[0])}

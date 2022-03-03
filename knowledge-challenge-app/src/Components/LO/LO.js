@@ -16,7 +16,6 @@ function LO(props) {
     const newData = await network.postScore(props.userID, props.learningObjective, updatedScore, !props.isActive);
     await props.updateScore(newData);
   }
-
   function createLO(score, description) {
     return (
       <>
