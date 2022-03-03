@@ -260,7 +260,15 @@ function StudentDashboard(props) {
                     }
                     `}
                 </style>
-                <Button data-testid="pdfButton" className="export-pdf-button" variant="pdf">
+                <Button
+                  data-testid="pdfButton"
+                  className="export-pdf-button"
+                  variant="pdf"
+                  onClick={() => {
+                    window.print();
+                  }}
+                >
+
                   Save to PDF
                 </Button>
               </>

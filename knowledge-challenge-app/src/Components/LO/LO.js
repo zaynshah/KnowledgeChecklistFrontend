@@ -13,9 +13,11 @@ function LO(props) {
     const progress = hasUpdated ? "increase" : "decrease";
     props.updateProgress(progress);
     const updatedScore = props.isActive && !hasUpdated ? 1 : newScore;
+
     const newData = await network.postScore(props.userID, props.learningObjective, updatedScore, !props.isActive);
     await props.updateScore(newData);
   }
+
   function createLO(score, description) {
     return (
       <>
