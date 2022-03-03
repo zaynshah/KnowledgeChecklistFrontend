@@ -278,7 +278,7 @@ function StudentDashboard(props) {
                   className="export-pdf-button"
                   variant="pdf"
                   onClick={() => {
-                    window.alert("Clicked");
+                    window.print();
                   }}
                 >
                   Save to PDF

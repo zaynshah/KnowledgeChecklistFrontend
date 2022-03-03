@@ -14,8 +14,6 @@ function LO(props) {
     props.updateProgress(progress);
     const updatedScore = props.isActive && !hasUpdated ? 1 : newScore;
 
-    console.log(props.score);
-
     const newData = await network.postScore(
       props.userID,
       props.learningObjective,
@@ -23,11 +21,8 @@ function LO(props) {
       hasUpdated ? !props.isActive : props.isActive
     );
 
-    console.log(newData);
-
     await props.updateScore(newData);
   }
-  console.log(props.resource);
 
   function createLO(score, description) {
     return (
