@@ -63,48 +63,53 @@ function StudentDashboard(props) {
   function getWelcomeMessage() {
     const id = props.cookies ? props.cookies.email.split("@")[0] : "User";
     return (
-      <div>
-        <Form.Group className="mb-3 p-3" controlId="cohort-id">
-          <Form.Check className={showDarkMode ? "dark-heading" : ""} type="switch" id="custom-switch" label="Dark Mode" onChange={vueDarkMode} />
-        </Form.Group>
-        <Card className={showDarkMode ? "m-3 card-dark" : "m-3"} style={{ width: "80rem" }}>
-          <Card.Header className={showDarkMode ? "header-border" : ""} style={{ fontSize: 20 }}>
-            <strong>
-              Welcome, {id}! <br /> How to use this checklist:
-            </strong>
-          </Card.Header>
-          <Card.Body>
-            <Card.Title></Card.Title>
-            <Card.Text as="div">
-              Select your level of confidence with the buttons next to each statement. Choosing <span className="red">'not confident'</span> will
-              colour the statement red. Choosing <span className="yellow">'needs revision'</span> will colour the statement yellow. Finally, choosing{" "}
-              <span className="green">'feel confident'</span> will colour the statement green. Essentially:
-              <ul>
-                <li>
-                  <strong>
-                    <span className="red">Red</span>
-                  </strong>{" "}
-                  topics are those you don't understand well.
-                </li>
-                <li>
-                  <strong>
-                    <span className="yellow">Yellow</span>
-                  </strong>{" "}
-                  topics are those that still need work.{" "}
-                </li>
-                <li>
-                  <strong>
-                    <span className="green">Green</span>
-                  </strong>{" "}
-                  topics are the ones you feel most confident with.
-                </li>
-              </ul>{" "}
-              At the bottom of the page, there is a button to print / save your progress. This will allow you to save a PDF or print a version of the
-              page with the selections you have made. Additionally, you may prefer landscape orientation to portrait for ease of reading.
-            </Card.Text>
-          </Card.Body>
-        </Card>
-      </div>
+      <>
+        <div>
+          {" "}
+          <Form.Group className="p-3" controlId="cohort-id">
+            <Form.Check className={showDarkMode ? "dark-heading" : ""} type="switch" id="custom-switch" label="Dark Mode" onChange={vueDarkMode} />
+          </Form.Group>
+        </div>
+        <div className="welcome-flex">
+          <Card className={showDarkMode ? "m-3 card-dark row" : "m-3 row"} style={{ width: "80rem" }}>
+            <Card.Header className={showDarkMode ? "header-border" : ""} style={{ fontSize: 20 }}>
+              <strong>
+                Welcome, {id}! <br /> How to use this checklist:
+              </strong>
+            </Card.Header>
+            <Card.Body>
+              <Card.Title></Card.Title>
+              <Card.Text as="div">
+                Select your level of confidence with the buttons next to each statement. Choosing <span className="red">'not confident'</span> will
+                colour the statement red. Choosing <span className="yellow">'needs revision'</span> will colour the statement yellow. Finally,
+                choosing <span className="green">'feel confident'</span> will colour the statement green. Essentially:
+                <ul>
+                  <li>
+                    <strong>
+                      <span className="red">Red</span>
+                    </strong>{" "}
+                    topics are those you don't understand well.
+                  </li>
+                  <li>
+                    <strong>
+                      <span className="yellow">Yellow</span>
+                    </strong>{" "}
+                    topics are those that still need work.{" "}
+                  </li>
+                  <li>
+                    <strong>
+                      <span className="green">Green</span>
+                    </strong>{" "}
+                    topics are the ones you feel most confident with.
+                  </li>
+                </ul>{" "}
+                At the bottom of the page, there is a button to print / save your progress. This will allow you to save a PDF or print a version of
+                the page with the selections you have made. Additionally, you may prefer landscape orientation to portrait for ease of reading.
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </div>
+      </>
     );
   }
 
@@ -237,7 +242,7 @@ function StudentDashboard(props) {
         <div className={showDarkMode ? "main-content-dark" : "main-content"}>
           {topics ? getSideNavBar(topics) : getLoadingComponent()}
           <div className={showDarkMode ? "bulk-content-dark" : "bulk-content"}>
-            <div data-testid="welcome" id="welcome">
+            <div data-testid="welcome" id="welcome" className="topics">
               {getWelcomeMessage(props.cookies.email.split("@")[0])}
             </div>
 

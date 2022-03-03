@@ -49,9 +49,8 @@ function LO(props) {
         {score == 2 ? (
           props.resource[0] != "." ? (
             <div className="feedback">
-              Well done, test your knowledge with this!
-              <a href={props.resource[0]} target="_blank">
-                {" "}
+              Well done, test your knowledge with this!&nbsp;
+              <a id="resource-link" href={props.resource[0]} target="_blank">
                 quiz
               </a>
             </div>
@@ -64,11 +63,10 @@ function LO(props) {
         {score == 3 ? (
           props.resource[1] != "." ? (
             <div className="feedback">
-              Nearly there, try this!
-              <a href={props.resource[1]} target="_blank">
-                {" "}
-                resource
-              </a>{" "}
+              "Nearly there, try this!&nbsp;
+              <a id="resource-link" href={props.resource[1]} target="_blank">
+                resource&nbsp;
+              </a>
               and become a wizard!
             </div>
           ) : (
@@ -80,11 +78,10 @@ function LO(props) {
         {score == 4 ? (
           props.resource[1] != "." ? (
             <div className="feedback">
-              Don't worry, try this
-              <a href={props.resource[1]} target="_blank">
-                {" "}
-                resource
-              </a>{" "}
+              Don't worry, try this!&nbsp;
+              <a id="resource-link" href={props.resource[1]} target="_blank">
+                resource&nbsp;
+              </a>
               and become a pro!
             </div>
           ) : (
