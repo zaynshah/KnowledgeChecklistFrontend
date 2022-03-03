@@ -93,9 +93,8 @@ function SignupModal(props) {
     if (!cohortList) {
       return <></>;
     }
-    return cohortList.map((i) => (
-      <option value={`${i.cohort_id}`}>{i.cohort_id}</option>
-    ));
+
+    return cohortList.map((i) => <option key={`${i.cohort_id}`}>{i.cohort_id}</option>);
   }
 
   function vuePassword(e) {
@@ -111,15 +110,8 @@ function SignupModal(props) {
         <Form noValidate>
           <Form.Group className="mb-3" controlId="email">
             <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter Email"
-              value={email}
-              onChange={handleEmail}
-            />
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text>
+            <Form.Control type="email" placeholder="Enter Email" value={email} onChange={handleEmail} />
+            <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
@@ -130,9 +122,7 @@ function SignupModal(props) {
               placeholder="Enter Password"
               onChange={handlePassword}
             />
-            <Form.Text className="text-muted">
-              Password must contain at least 8 characters.
-            </Form.Text>
+            <Form.Text className="text-muted">Password must contain at least 8 characters.</Form.Text>
           </Form.Group>
           <Form.Group className="mb-3" controlId="confirmPassword">
             <Form.Label>Confirm password</Form.Label>
@@ -145,12 +135,7 @@ function SignupModal(props) {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="cohort-id">
-            <Form.Check
-              type="switch"
-              id="custom-switch"
-              label="Show Password"
-              onChange={vuePassword}
-            />
+            <Form.Check type="switch" id="custom-switch" label="Show Password" onChange={vuePassword} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="cohort-id">
             <Form.Label>Cohort</Form.Label>
@@ -158,9 +143,7 @@ function SignupModal(props) {
               <option value="choose">--Please select a cohort--</option>
               {createCohort()}
             </Form.Select>
-            <Form.Text className="text-muted">
-              Contact administrator if cohort is not available
-            </Form.Text>
+            <Form.Text className="text-muted">Contact administrator if cohort is not available</Form.Text>
           </Form.Group>
         </Form>
       </Modal.Body>
