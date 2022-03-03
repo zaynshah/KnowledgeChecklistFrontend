@@ -151,14 +151,14 @@ function SignupModal(props) {
       </Modal.Body>
       <Modal.Footer>
         {error ? (
-          <Alert className="alert alert-danger" role="alert">
+          <Alert variant="danger" role="alert">
             {error}
           </Alert>
         ) : null}
         {success ? (
-          <div className="alert alert-success" role="alert">
+          <Alert variant="success" role="alert">
             Account created successfully!
-          </div>
+          </Alert>
         ) : null}
         <Button variant="outline-dark" onClick={props.handleClose}>
           Close

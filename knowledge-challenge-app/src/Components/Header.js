@@ -27,7 +27,7 @@ export default function Header(props) {
                   <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                 </svg>
                 <span>
-                  Signed in as: <u>{props.cook.email}</u>
+                  Signed in as: <u>{props.cook}</u>
                 </span>
               </Dropdown.Toggle>
               <Dropdown.Menu>

@@ -88,7 +88,7 @@ export default class Network {
         confident: confident,
       }),
     });
-    return response.status;
+    return response;
   }
 
   async getStudentForCohort(cohort_id) {

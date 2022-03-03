@@ -60,3 +60,13 @@
 .log-out {
   color: black !important;
 }
+
+.hello {
+  border: 3px solid red !important;
+  border-radius: 6px;
+}
+
+.hello:focus {
+  border: 5px solid red !important;
+  border-radius: 6px;
+}
