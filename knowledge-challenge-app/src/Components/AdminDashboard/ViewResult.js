@@ -40,7 +40,7 @@ export default function ViewResult(props) {
       return <h1>...Loading</h1>;
     }
     return studentData.map((data) => (
-      <div className="flex-it">
+      <div key={data.learning_objective} className="flex-it">
         <div className="topic">{data.topic}</div>
         <div className="topic2">{data.learning_objective}</div>
         {getScore(data)}

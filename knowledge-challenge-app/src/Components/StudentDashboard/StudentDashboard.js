@@ -8,6 +8,8 @@ import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "../Footer";
 
 function StudentDashboard(props) {
@@ -15,10 +17,9 @@ function StudentDashboard(props) {
   const [topics, setTopics] = useState([]);
   const [numberOfLOs, setNumberOfLOs] = useState(0);
   const [numberOfClickedLOs, setNumberOfClickedLOs] = useState(0);
+  const [showDarkMode, setShowDarkMode] = useState(false);
 
   const network = new Network();
-
-  // console.log(document.querySelectorAll(" p * div "));
 
   function updateProgress(direction) {
     let updatedNumber = numberOfClickedLOs;
@@ -35,25 +36,17 @@ function StudentDashboard(props) {
   useEffect(() => {
     (async () => {
       try {
-        document.title = props.cookies.email
-          ? `${props.cookies.email.split("@")[0]}'s Knowledge Checklist`
-          : "Knowledge Checklist";
+        document.title = props.cookies.email ? `${props.cookies.email.split("@")[0]}'s Knowledge Checklist` : "Knowledge Checklist";
 
         const firstLoadData = await updateScore();
         setNumberOfLOs(firstLoadData.length);
 
-        const ClickedLOs = firstLoadData.filter(
-          (objects) => objects.score !== 1
-        );
+        const ClickedLOs = firstLoadData.filter((objects) => objects.score !== 1);
         setNumberOfClickedLOs(ClickedLOs.length);
 
-        const uniqueTopics = await network.getAllTopicsOnlyPerStudent(
-          props.cookies.userID
-        );
+        const uniqueTopics = await network.getAllTopicsOnlyPerStudent(props.cookies.userID);
         setTopics(uniqueTopics);
-      } catch (e) {
-        // console.log(e);
-      }
+      } catch (e) {}
     })();
   }, []);
 
@@ -63,54 +56,60 @@ function StudentDashboard(props) {
     return data;
   }
 
+  function vueDarkMode(e) {
+    setShowDarkMode(!showDarkMode);
+  }
+
   function getWelcomeMessage() {
     const id = props.cookies ? props.cookies.email.split("@")[0] : "User";
     return (
-      <div>
-        <Card className="m-3" style={{ width: "80rem" }}>
-          <Card.Header style={{ fontSize: 20 }}>
-            <strong>
-              Welcome, {id}! <br /> How to use this checklist:
-            </strong>
-          </Card.Header>
-          <Card.Body>
-            <Card.Title></Card.Title>
-            <Card.Text as="div">
-              Select your level of confidence with the buttons next to each
-              statement. Choosing <span className="red">'not confident'</span>{" "}
-              will colour the statement red. Choosing{" "}
-              <span className="yellow">'needs revision'</span> will colour the
-              statement yellow. Finally, choosing{" "}
-              <span className="green">'feel confident'</span> will colour the
-              statement green. Essentially:
-              <ul>
-                <li>
-                  <strong>
-                    <span className="red">Red</span>
-                  </strong>{" "}
-                  topics are those you don't understand well.
-                </li>
-                <li>
-                  <strong>
-                    <span className="yellow">Yellow</span>
-                  </strong>{" "}
-                  topics are those that still need work.{" "}
-                </li>
-                <li>
-                  <strong>
-                    <span className="green">Green</span>
-                  </strong>{" "}
-                  topics are the ones you feel most confident with.
-                </li>
-              </ul>{" "}
-              At the bottom of the page, there is a button to print / save your
-              progress. This will allow you to save a PDF or print a version of
-              the page with the selections you have made. Additionally, you may
-              prefer landscape orientation to portrait for ease of reading.
-            </Card.Text>
-          </Card.Body>
-        </Card>
-      </div>
+      <>
+        <div>
+          {" "}
+          <Form.Group className="p-3" controlId="cohort-id">
+            <Form.Check className={showDarkMode ? "dark-heading" : ""} type="switch" id="custom-switch" label="Dark Mode" onChange={vueDarkMode} />
+          </Form.Group>
+        </div>
+        <div className="welcome-flex">
+          <Card className={showDarkMode ? "m-3 card-dark row" : "m-3 row"} style={{ width: "80rem" }}>
+            <Card.Header className={showDarkMode ? "header-border" : ""} style={{ fontSize: 20 }}>
+              <strong>
+                Welcome, {id}! <br /> How to use this checklist:
+              </strong>
+            </Card.Header>
+            <Card.Body>
+              <Card.Title></Card.Title>
+              <Card.Text as="div">
+                Select your level of confidence with the buttons next to each statement. Choosing <span className="red">'not confident'</span> will
+                colour the statement red. Choosing <span className="yellow">'needs revision'</span> will colour the statement yellow. Finally,
+                choosing <span className="green">'feel confident'</span> will colour the statement green. Essentially:
+                <ul>
+                  <li>
+                    <strong>
+                      <span className="red">Red</span>
+                    </strong>{" "}
+                    topics are those you don't understand well.
+                  </li>
+                  <li>
+                    <strong>
+                      <span className="yellow">Yellow</span>
+                    </strong>{" "}
+                    topics are those that still need work.{" "}
+                  </li>
+                  <li>
+                    <strong>
+                      <span className="green">Green</span>
+                    </strong>{" "}
+                    topics are the ones you feel most confident with.
+                  </li>
+                </ul>{" "}
+                At the bottom of the page, there is a button to print / save your progress. This will allow you to save a PDF or print a version of
+                the page with the selections you have made. Additionally, you may prefer landscape orientation to portrait for ease of reading.
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </div>
+      </>
     );
   }
 
@@ -121,18 +120,12 @@ function StudentDashboard(props) {
 
     const topicCards = topics.map((item, i) => {
       return (
-        <Card
-          key={item.topic}
-          id={`${item.topic}`}
-          className={`m-3 ${item.topic}`}
-        >
-          <Card.Header>
+        <Card key={item.topic} id={`${item.topic}`} className={showDarkMode ? `m-3 ${item.topic} card-dark` : `m-3 ${item.topic}`}>
+          <Card.Header className={showDarkMode ? "header-border" : ""} r>
             <strong>{item.topic}</strong>
           </Card.Header>
           <Card.Body>
-            <Card.Text as="div">
-              {data ? createLOs(data, item.topic) : getLoadingComponent()}
-            </Card.Text>
+            <Card.Text as="div">{data ? createLOs(data, item.topic) : getLoadingComponent()}</Card.Text>
           </Card.Body>
         </Card>
       );
@@ -145,6 +138,7 @@ function StudentDashboard(props) {
     const topicData = filteredLOs.map((topic) => {
       return (
         <LO
+          darkMode={showDarkMode}
           resource={[topic.confident, topic.not_confident]}
           key={topic.id}
           learningObjective={topic.learning_objective}
@@ -166,33 +160,38 @@ function StudentDashboard(props) {
 
   function getSideNavBar(topicList) {
     return (
-      <div className="sidenav">
+      <div className={showDarkMode ? "sidenav-dark" : "sidenav"}>
         <>
           <style type="text/css">
             {`
                     .nav-navbar {
-                      background-color: white;
+                      background-color: ${showDarkMode ? "rgba(68, 87, 96, 1)" : "white"};
+                      
                       margin-top: 15px;
                     }
                     a:link {
-                      color: #e6530f;
+                      color: ${showDarkMode ? "white" : "#e6530f"};
                       background-color: transparent;
                       text-decoration: none;
+                      transition-delay: 0s;
                     }
                     a:active {
-                      color: #e6530f;
+                      color: ${showDarkMode ? "white" : "#e6530f"};
                       background-color: transparent;
                       text-decoration: underline;
+                      transition-delay: 0s;
                     }
-                    a:hover {
+                    a:visited:hover {
                       color: #e6530f;
                       background-color: transparent;
                       text-decoration: underline;
+                      transition-delay: 0s;
                     }
                     a:visited {
-                      color: #e6530f;
+                      color:${showDarkMode ? "white" : "black"};
                       background-color: transparent;
                       text-decoration: none;
+                      transition-delay: 0s;
                     }
                     `}
           </style>
@@ -205,21 +204,12 @@ function StudentDashboard(props) {
             variant="navbar"
             className="flex-column"
           >
-            <Nav.Link
-              data-testid="welcome-button"
-              href="#welcome"
-              eventKey="welcome"
-            >
+            <Nav.Link data-testid="welcome-button" href="#welcome" eventKey="welcome">
               Welcome
             </Nav.Link>
             {topicList.map((item) => {
               return (
-                <Nav.Link
-                  data-testid={`${item.topic}-button`}
-                  key={item.topic}
-                  href={`#${item.topic}`}
-                  eventKey={`${item.topic}`}
-                >
+                <Nav.Link data-testid={`${item.topic}-button`} key={item.topic} href={`#${item.topic}`} eventKey={`${item.topic}`}>
                   {item.topic}
                 </Nav.Link>
               );
@@ -245,21 +235,18 @@ function StudentDashboard(props) {
 
   return (
     <>
-      <Header cook={props.cookies} logOut={props.logOut} />
-      <div className="checklist-page">
+      <Header cook={props.cookies.email} logOut={props.logOut} darkMode={showDarkMode} />
+      <div className={"checklist-page"}>
         {getProgressBar(numberOfClickedLOs, numberOfLOs)}
 
-        <div className="main-content">
+        <div className={showDarkMode ? "main-content-dark" : "main-content"}>
           {topics ? getSideNavBar(topics) : getLoadingComponent()}
-
-          <div className="bulk-content">
-            <div data-testid="welcome" id="welcome">
-              {getWelcomeMessage()}
+          <div className={showDarkMode ? "bulk-content-dark" : "bulk-content"}>
+            <div data-testid="welcome" id="welcome" className="topics">
+              {getWelcomeMessage(props.cookies.email.split("@")[0])}
             </div>
 
-            <div className="topics">
-              {data ? createTopics(data) : getLoadingComponent()}
-            </div>
+            <div className="topics">{data ? createTopics(data) : getLoadingComponent()}</div>
 
             <div className="export-pdf-button">
               <>
@@ -281,6 +268,7 @@ function StudentDashboard(props) {
                     window.print();
                   }}
                 >
+
                   Save to PDF
                 </Button>
               </>

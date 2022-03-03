@@ -14,13 +14,7 @@ function LO(props) {
     props.updateProgress(progress);
     const updatedScore = props.isActive && !hasUpdated ? 1 : newScore;
 
-    const newData = await network.postScore(
-      props.userID,
-      props.learningObjective,
-      updatedScore,
-      hasUpdated ? !props.isActive : props.isActive
-    );
-
+    const newData = await network.postScore(props.userID, props.learningObjective, updatedScore, !props.isActive);
     await props.updateScore(newData);
   }
 
@@ -28,7 +22,13 @@ function LO(props) {
     return (
       <>
         <div data-testid="LOs" className="row">
-          <div className={`description description-background-${score}`}>
+          <div
+            className={
+              props.darkMode
+                ? `description description-background-${score == 1 ? "dark-back" : score}`
+                : `description description-background-${score}`
+            }
+          >
             {description}
           </div>
 
@@ -41,7 +41,8 @@ function LO(props) {
                   updateScore={(newScore) => updateScore(newScore)}
                   text={button.text}
                   score={button.score}
-                  variant={button.variant}
+                  variant={props.darkMode ? button.variant[1] : button.variant[0]}
+                  style={{ "transition-delay": "0s" }}
                 />
               );
             })}
@@ -50,16 +51,13 @@ function LO(props) {
         {score == 2 ? (
           props.resource[0] != "." ? (
             <div className="feedback">
-              Well done, test your knowledge with this!
-              <a href={props.resource[0]} target="_blank">
-                {" "}
+              Well done, test your knowledge with this!&nbsp;
+              <a id="resource-link" href={props.resource[0]} target="_blank">
                 quiz
               </a>
             </div>
           ) : (
-            <div className="feedback">
-              Well done! you are becoming a pro software developer!
-            </div>
+            <div className="feedback">Well done! you are becoming a pro software developer!</div>
           )
         ) : (
           <></>
@@ -67,11 +65,10 @@ function LO(props) {
         {score == 3 ? (
           props.resource[1] != "." ? (
             <div className="feedback">
-              Nearly there, try this!
-              <a href={props.resource[1]} target="_blank">
-                {" "}
-                game
-              </a>{" "}
+              "Nearly there, try this!&nbsp;
+              <a id="resource-link" href={props.resource[1]} target="_blank">
+                resource&nbsp;
+              </a>
               and become a wizard!
             </div>
           ) : (
@@ -83,17 +80,14 @@ function LO(props) {
         {score == 4 ? (
           props.resource[1] != "." ? (
             <div className="feedback">
-              Don't worry, try this
-              <a href={props.resource[1]} target="_blank">
-                {" "}
-                game
-              </a>{" "}
+              Don't worry, try this!&nbsp;
+              <a id="resource-link" href={props.resource[1]} target="_blank">
+                resource&nbsp;
+              </a>
               and become a pro!
             </div>
           ) : (
-            <div className="feedback">
-              Needs attention, recap and come back!
-            </div>
+            <div className="feedback">Needs attention, recap and come back!</div>
           )
         ) : (
           <></>
@@ -102,9 +96,7 @@ function LO(props) {
     );
   }
 
-  return (
-    <div className="LO">{createLO(props.score, props.learningObjective)}</div>
-  );
+  return <div className="LO">{createLO(props.score, props.learningObjective)}</div>;
 }
 
 export default LO;

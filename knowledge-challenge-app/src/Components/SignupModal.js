@@ -93,9 +93,8 @@ function SignupModal(props) {
     if (!cohortList) {
       return <></>;
     }
-    return cohortList.map((i) => (
-      <option value={`${i.cohort_id}`}>{i.cohort_id}</option>
-    ));
+
+    return cohortList.map((i) => <option key={`${i.cohort_id}`}>{i.cohort_id}</option>);
   }
 
   function vuePassword(e) {
@@ -103,95 +102,72 @@ function SignupModal(props) {
   }
 
   return (
-    <div>
-      <Modal data-testid="modal" show={props.show} onHide={props.handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Create Account!</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form noValidate>
-            <Form.Group className="mb-3" controlId="email">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                data-testid="email-input"
-                type="email"
-                placeholder="Enter Email"
-                value={email}
-                onChange={handleEmail}
-              />
-              <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
-              </Form.Text>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                data-testid="password-input"
-                className={passwordError}
-                type={showPassword ? "text" : "password"}
-                value={password}
-                placeholder="Enter Password"
-                onChange={handlePassword}
-              />
-              <Form.Text className="text-muted">
-                Password must contain at least 8 characters.
-              </Form.Text>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="confirmPassword">
-              <Form.Label>Confirm password</Form.Label>
-              <Form.Control
-                data-testid="confirm-password-input"
-                className={passwordError}
-                type={showPassword ? "text" : "password"}
-                value={confirmPassword}
-                placeholder="Confirm Password"
-                onChange={handlePasswordConfirm}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="cohort-id">
-              <Form.Check
-                type="switch"
-                id="custom-switch"
-                label="Show Password"
-                onChange={vuePassword}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="cohort-id">
-              <Form.Label>Cohort</Form.Label>
-              <Form.Select className={cohortError} onChange={handleCohortId}>
-                <option value="choose">--Please select a cohort--</option>
-                {createCohort()}
-              </Form.Select>
-              <Form.Text className="text-muted">
-                Contact administrator if cohort is not available
-              </Form.Text>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          {error ? (
-            <Alert className="alert alert-danger" role="alert">
-              {error}
-            </Alert>
-          ) : null}
-          {success ? (
-            <div className="alert alert-success" role="alert">
-              Account created successfully!
-            </div>
-          ) : null}
-          <Button variant="outline-dark" onClick={props.handleClose}>
-            Close
-          </Button>
-          <Button
-            variant="dark"
-            onClick={handleSubmit}
-            disabled={disableButton}
-          >
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
+    <Modal data-testid="modal" show={props.show} onHide={props.handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>Create Account!</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form noValidate>
+          <Form.Group className="mb-3" controlId="email">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control data-testid="email-input" type="email" placeholder="Enter Email" value={email} onChange={handleEmail} />
+            <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              data-testid="password-input"
+              className={passwordError}
+              type={showPassword ? "text" : "password"}
+              value={password}
+              placeholder="Enter Password"
+              onChange={handlePassword}
+            />
+            <Form.Text className="text-muted">Password must contain at least 8 characters.</Form.Text>
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="confirmPassword">
+            <Form.Label>Confirm password</Form.Label>
+            <Form.Control
+              data-testid="confirm-password-input"
+              className={passwordError}
+              type={showPassword ? "text" : "password"}
+              value={confirmPassword}
+              placeholder="Confirm Password"
+              onChange={handlePasswordConfirm}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="cohort-id">
+            <Form.Check type="switch" id="custom-switch" label="Show Password" onChange={vuePassword} />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="cohort-id">
+            <Form.Label>Cohort</Form.Label>
+            <Form.Select className={cohortError} onChange={handleCohortId}>
+              <option value="choose">--Please select a cohort--</option>
+              {createCohort()}
+            </Form.Select>
+            <Form.Text className="text-muted">Contact administrator if cohort is not available</Form.Text>
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        {error ? (
+          <Alert variant="danger" role="alert">
+            {error}
+          </Alert>
+        ) : null}
+        {success ? (
+          <Alert variant="success" role="alert">
+            Account created successfully!
+          </Alert>
+        ) : null}
+        <Button variant="outline-dark" onClick={props.handleClose}>
+          Close
+        </Button>
+        <Button variant="dark" onClick={handleSubmit} disabled={disableButton}>
+          Save Changes
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
 

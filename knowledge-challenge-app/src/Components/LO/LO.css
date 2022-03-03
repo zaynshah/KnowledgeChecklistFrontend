@@ -9,10 +9,16 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background-color: white;
-  color: black;
+  background-color: rgba(68, 87, 96, 1);
+  color: white;
+}
+.welcome-flex {
+  display: flex;
 }
 
+#resource-link {
+  color: #e6530f;
+}
 .buttons {
   flex: 1;
   display: flex;

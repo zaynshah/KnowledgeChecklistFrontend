@@ -5,7 +5,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 export default function Header(props) {
   return (
     <div data-testid="header">
-      <div className="header-flex">
+      <div className={props.darkMode ? "header-flex-dark" : "header-flex"}>
         <div className="logo-display">
           <img
             alt="Logo"
@@ -15,48 +15,31 @@ export default function Header(props) {
         {props.cook ? (
           <div className="btn-div">
             <Dropdown>
-              <Dropdown.Toggle
-                variant="success"
-                id="dropdown-basic"
-                className="cc"
-              >
+              <Dropdown.Toggle variant="success" id={props.darkMode ? "dropdown-basic-dark" : "dropdown-basic"} className="cc">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
                   height="16"
-                  fill="currentColor"
+                  fill={props.darkMode ? "black" : "#e7530b"}
                   className="bi bi-person-fill"
                   viewBox="2 2 16 16"
                 >
                   <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                 </svg>
                 <span>
-                  Signed in as: <u>{props.cook.email}</u>
+                  Signed in as: <u>{props.cook}</u>
                 </span>
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <Dropdown.Item onClick={props.logOut}>Log Out</Dropdown.Item>
+                <Dropdown.Item onClick={props.logOut} className="log-out">
+                  Log Out
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
         ) : (
           <></>
         )}
-        {/* <div className="btn-div">
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic" className="cc">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-fill" viewBox="2 2 16 16">
-                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-              </svg>
-              <span>
-                Signed in as: <u>{props.cook}</u>
-              </span>
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={props.logOut}>Log Out</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </div> */}
       </div>
     </div>
   );

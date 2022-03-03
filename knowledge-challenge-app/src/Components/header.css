@@ -9,6 +9,17 @@
   background-color: #e7530b;
 }
 
+.header-flex-dark {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100vw;
+  width: 99.9%;
+  margin: auto;
+  padding-bottom: 10px;
+  background-color: rgb(53, 53, 53);
+}
+
 .btn-div {
   padding: 29px 29px 0;
   color: white;
@@ -16,6 +27,15 @@
 
 #dropdown-basic {
   color: #e7530b;
+  background-color: #fff;
+  border-radius: 5px;
+  border: none;
+  margin: 0;
+  font-weight: bold;
+}
+
+#dropdown-basic-dark {
+  color: black;
   background-color: #fff;
   border-radius: 5px;
   border: none;
@@ -35,4 +55,18 @@
 
 .logo-display {
   padding: 22px 50px 15px 60px;
+}
+
+.log-out {
+  color: black !important;
+}
+
+.hello {
+  border: 3px solid red !important;
+  border-radius: 6px;
+}
+
+.hello:focus {
+  border: 5px solid red !important;
+  border-radius: 6px;
 }

@@ -5,6 +5,8 @@ import Form from "react-bootstrap/Form";
 import Network from "../Networking";
 import { Redirect } from "react-router-dom";
 import { Typeahead } from "react-bootstrap-typeahead";
+import Alert from "react-bootstrap/Alert";
+import "react-bootstrap-typeahead/css/Typeahead.css";
 
 export default function AddLOModal(props) {
   const network = new Network();
@@ -15,17 +17,39 @@ export default function AddLOModal(props) {
   const [getFullLo, setGetFullLo] = useState("");
   const [redirect, setRedirect] = useState(false);
   const [selected, setSelected] = useState([]);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [disableButton, setDisableButton] = useState(true);
+  const [topicError, setTopicError] = useState("is-invalid");
+  const [useType, setUseType] = useState(true);
 
   async function handleClick(e) {
     e.preventDefault();
     console.log(LO, confident, notConfident);
     let addTopic = "";
     selected[0].length ? (addTopic = selected[0]) : (addTopic = selected[0].label);
-    const response = await network.postLO(props.info.cohortLOs[0].cohort_id, addTopic, LO, notConfident, confident);
-    if (response === 200) {
-      setLO("");
-      setTopic("");
-      props.uS(getFullLo);
+    try {
+      const response = await network.postLO(props.info.cohortLOs[0].cohort_id, addTopic, LO, notConfident, confident);
+      console.log(response);
+      const json = await response.json();
+      console.log(json);
+      if (response.status >= 400) {
+        throw new Error(json.error);
+      } else {
+        setLO("");
+        setTopic("");
+        setSelected([]);
+        setError("");
+        setConfident("");
+        setNotConfident("");
+        setSuccess(true);
+        setTimeout(() => setSuccess(false), 2000);
+        setDisableButton(true);
+        props.uS(getFullLo);
+      }
+    } catch (error) {
+      setSuccess(false);
+      setError(error.toString());
     }
   }
 
@@ -56,22 +80,28 @@ export default function AddLOModal(props) {
           </Modal.Header>
           <Modal.Body>
             <Form noValidate>
-              <Form.Group className="mb-3" controlId="topic">
+              <Form.Group className="mb-3 is-invalid" controlId="topic">
                 <Form.Label>Topic</Form.Label>
                 <Typeahead
                   allowNew
+                  inputProps={{
+                    className: disableButton ? "is-invalid" : "is-valid",
+                  }}
                   id="basic-example"
-                  onChange={setSelected}
+                  onChange={(selected) => {
+                    setSelected(selected);
+                    setDisableButton(!disableButton);
+                  }}
                   options={options2}
                   placeholder="Choose a topic..."
                   selected={selected}
+                  value={LO}
                 />
                 <Form.Text className="text-muted">you must select or create a new topic </Form.Text>
-                {/* 
-                <Form.Control onChange={(e) => setTopic(e.target.value)} placeholder="Enter Topic" value={topic} /> */}
               </Form.Group>
               <Form.Group className="mb-3" controlId="LO">
-                <Form.Label>Learning objective</Form.Label>
+                <Form.Label></Form.Label>
+                Learning objective
                 <Form.Control type="text" onChange={(e) => setLO(e.target.value)} placeholder="Enter Learning Objective" value={LO} />
               </Form.Group>
               <Form.Group className="mb-3" controlId="not-confident">
@@ -85,10 +115,20 @@ export default function AddLOModal(props) {
             </Form>
           </Modal.Body>
           <Modal.Footer>
+            {error ? (
+              <Alert className="alert alert-danger" role="alert">
+                {error}
+              </Alert>
+            ) : null}
+            {success ? (
+              <Alert className="alert alert-success" role="alert">
+                Added successfully!
+              </Alert>
+            ) : null}
             <Button variant="outline-dark" onClick={props.handleClose}>
               Close
             </Button>
-            <Button onClick={handleClick} variant="dark" type="submit">
+            <Button onClick={handleClick} variant="dark" type="submit" disabled={disableButton}>
               Submit
             </Button>
           </Modal.Footer>
