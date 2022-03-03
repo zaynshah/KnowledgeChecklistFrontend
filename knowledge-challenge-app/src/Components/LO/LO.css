@@ -9,8 +9,8 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background-color: white;
-  color: black;
+  background-color: rgba(68, 87, 96, 1);
+  color: white;
 }
 
 .buttons {

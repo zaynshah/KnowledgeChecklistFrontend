@@ -48,7 +48,7 @@ export default function ViewData(props) {
       return <p>Loading...</p>;
     }
     return fullCohortLOs.map((cohort, i) => (
-      <div key={Math.random()}>
+      <div key={cohort.learning_objective}>
         <p className="fs-5 m-0">
           <strong>{cohort.topic}</strong>: {cohort.learning_objective}
           <Button variant="outline-dark" className="ms-2" size="sm" onClick={(e) => handleDelete(e, cohort.learning_objective, cohort.cohort_id)}>
