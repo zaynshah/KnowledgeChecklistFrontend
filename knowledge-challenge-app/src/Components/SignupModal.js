@@ -102,7 +102,7 @@ function SignupModal(props) {
   }
 
   return (
-    <Modal show={props.show} onHide={props.handleClose}>
+    <Modal data-testid="modal" show={props.show} onHide={props.handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>Create Account!</Modal.Title>
       </Modal.Header>
@@ -110,12 +110,13 @@ function SignupModal(props) {
         <Form noValidate>
           <Form.Group className="mb-3" controlId="email">
             <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter Email" value={email} onChange={handleEmail} />
+            <Form.Control data-testid="email-input" type="email" placeholder="Enter Email" value={email} onChange={handleEmail} />
             <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
           </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Password</Form.Label>
             <Form.Control
+              data-testid="password-input"
               className={passwordError}
               type={showPassword ? "text" : "password"}
               value={password}
@@ -127,6 +128,7 @@ function SignupModal(props) {
           <Form.Group className="mb-3" controlId="confirmPassword">
             <Form.Label>Confirm password</Form.Label>
             <Form.Control
+              data-testid="confirm-password-input"
               className={passwordError}
               type={showPassword ? "text" : "password"}
               value={confirmPassword}

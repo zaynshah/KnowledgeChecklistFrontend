@@ -4,12 +4,13 @@ import React, { useEffect, useState } from "react";
 import Network from "../Networking";
 import Header from "../Header";
 import LO from "../LO/LO";
-import Button from "react-bootstrap/esm/Button";
+import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Footer from "../Footer";
 
 function StudentDashboard(props) {
   const [data, setData] = useState([]);
@@ -34,25 +35,27 @@ function StudentDashboard(props) {
     setNumberOfClickedLOs(updatedNumber);
   }
 
-  document.title = `${props.cookies.email.split("@")[0]}'s Knowledge Checklist`;
-
   useEffect(() => {
     (async () => {
-      const firstLoadData = await updateScore();
-      console.log(firstLoadData);
-      setNumberOfLOs(firstLoadData.length);
+      try {
+        document.title = props.cookies.email ? `${props.cookies.email.split("@")[0]}'s Knowledge Checklist` : "Knowledge Checklist";
 
-      const ClickedLOs = firstLoadData.filter((objects) => objects.score !== 1);
-      setNumberOfClickedLOs(ClickedLOs.length);
+        const firstLoadData = await updateScore();
+        setNumberOfLOs(firstLoadData.length);
 
-      const uniqueTopics = await network.getAllTopicsOnlyPerStudent(props.cookies.userID);
-      setTopics(uniqueTopics);
+        const ClickedLOs = firstLoadData.filter((objects) => objects.score !== 1);
+        setNumberOfClickedLOs(ClickedLOs.length);
+
+        const uniqueTopics = await network.getAllTopicsOnlyPerStudent(props.cookies.userID);
+        setTopics(uniqueTopics);
+      } catch (e) {
+        // console.log(e);
+      }
     })();
   }, []);
 
   async function updateScore() {
     const data = await network.getAllTopicsPerStudent(props.cookies.userID);
-    console.log(data);
     setData(data);
     return data;
   }
@@ -62,7 +65,7 @@ function StudentDashboard(props) {
   }
   function getWelcomeMessage(id) {
     return (
-      <div data-testid="welcome" id="welcome">
+      <div>
         <Form.Group className="mb-3 p-3" controlId="cohort-id">
           <Form.Check className={showDarkMode ? "dark-heading" : ""} type="switch" id="custom-switch" label="Dark Mode" onChange={vueDarkMode} />
         </Form.Group>
@@ -74,7 +77,7 @@ function StudentDashboard(props) {
           </Card.Header>
           <Card.Body>
             <Card.Title></Card.Title>
-            <Card.Text>
+            <Card.Text as="div">
               Select your level of confidence with the buttons next to each statement. Choosing <span className="red">'not confident'</span> will
               colour the statement red. Choosing <span className="yellow">'needs revision'</span> will colour the statement yellow. Finally, choosing{" "}
               <span className="green">'feel confident'</span> will colour the statement green. Essentially:
@@ -112,14 +115,14 @@ function StudentDashboard(props) {
       return <h3>Loading.. </h3>;
     }
 
-    const topicCards = topics.map((item) => {
+    const topicCards = topics.map((item, i) => {
       return (
-        <Card id={`${item.topic}`} className={showDarkMode ? `m-3 ${item.topic} card-dark` : `m-3 ${item.topic}`}>
+        <Card key={item.topic} id={`${item.topic}`} className={showDarkMode ? `m-3 ${item.topic} card-dark` : `m-3 ${item.topic}`}>
           <Card.Header className={showDarkMode ? "header-border" : ""} r>
             <strong>{item.topic}</strong>
           </Card.Header>
           <Card.Body>
-            <Card.Text>{data ? createLOs(data, item.topic) : getLoadingComponent()}</Card.Text>
+            <Card.Text as="div">{data ? createLOs(data, item.topic) : getLoadingComponent()}</Card.Text>
           </Card.Body>
         </Card>
       );
@@ -129,7 +132,6 @@ function StudentDashboard(props) {
 
   function createLOs(data, topic) {
     const filteredLOs = data.filter((topicList) => topicList.topic === topic);
-    console.log(filteredLOs);
     const topicData = filteredLOs.map((topic) => {
       return (
         <LO
@@ -192,19 +194,19 @@ function StudentDashboard(props) {
           </style>
           <Nav
             data-testid="navBar"
-            onSelect={(eventKey) => {
-              document.getElementById(eventKey).scrollIntoView({ behavior: "smooth" });
+            onSelect={(e) => {
+              document.getElementById(e);
             }}
             fill
             variant="navbar"
             className="flex-column"
           >
-            <Nav.Link href="#welcome" eventKey="welcome">
+            <Nav.Link data-testid="welcome-button" href="#welcome" eventKey="welcome">
               Welcome
             </Nav.Link>
             {topicList.map((item) => {
               return (
-                <Nav.Link href={`#${item.topic}`} eventKey={`${item.topic}`}>
+                <Nav.Link data-testid={`${item.topic}-button`} key={item.topic} href={`#${item.topic}`} eventKey={`${item.topic}`}>
                   {item.topic}
                 </Nav.Link>
               );
@@ -219,7 +221,6 @@ function StudentDashboard(props) {
     return (
       <ProgressBar
         data-testid="progressBar"
-        display
         striped
         variant="warning"
         animated
@@ -240,7 +241,9 @@ function StudentDashboard(props) {
           {topics ? getSideNavBar(topics) : getLoadingComponent()}
 
           <div className={showDarkMode ? "bulk-content-dark" : "bulk-content"}>
-            {getWelcomeMessage(props.cookies.email.split("@")[0])}
+            <div data-testid="welcome" id="welcome">
+              {getWelcomeMessage(props.cookies.email.split("@")[0])}
+            </div>
 
             <div className="topics">{data ? createTopics(data) : getLoadingComponent()}</div>
 
@@ -261,6 +264,7 @@ function StudentDashboard(props) {
                 </Button>
               </>
             </div>
+            <Footer className="student-footer" />
           </div>
         </div>
       </div>

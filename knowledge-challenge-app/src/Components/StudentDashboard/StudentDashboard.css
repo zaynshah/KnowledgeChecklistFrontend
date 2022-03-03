@@ -58,8 +58,11 @@
 }
 
 .export-pdf-button {
+}
+.topics {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .loader {
@@ -71,12 +74,6 @@
   animation: spin 1s linear infinite;
   margin-left: auto;
   margin-right: auto;
-}
-
-.topics {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
 }
 
 .topic-title {
@@ -94,4 +91,13 @@
 
 .green {
   color: green;
+}
+
+.export-pdf-button {
+  display: flex;
+  justify-content: center;
+}
+
+.student-footer {
+  margin-left: 10px;
 }
