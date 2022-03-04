@@ -1,4 +1,4 @@
-# KnowledgeChecklistFrontend
+# Knowledge Checklist Frontend
 
 ## Welcome to Our Project!
 
@@ -81,6 +81,6 @@ The license for this software can be accessed [here](LICENSE.md)
 
 The Developers that worked on this project are:
 
-Project Manager & Engineer: [Fahmidul Haque](https://github.com/FahmidulHaquee)
-System Architect & Engineer: [Oliver-case Green](https://github.com/olliecase-green)
+Project Manager & Engineer: [Fahmidul Haque](https://github.com/FahmidulHaquee)<br/>
+System Architect & Engineer: [Oliver-case Green](https://github.com/olliecase-green)<br/>
 Quality Assurance & Engineer: [Zayn Shah](https://github.com/zaynshah)
