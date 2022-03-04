@@ -40,7 +40,7 @@ Upon login, they are directed to the student dashboard. This page contains a wel
 
 To find a specific LO, a side navigation bar is provided to the students to quickly navigate through the page. Clicking a button submits a 'score' which stores the level of confidence of that LO. Clicking a button will also change the colour to the same colour as the button to indicate their level of confidence. If the student reloads the page, or returns to the student dashboard at a later time, they will see their previously submitted and saved LOs.
 
-## Admin Overview
+## Admin overview
 
 When the admin logs in, they are able to view the cohorts and add a new one if necessary.
 
