@@ -21,18 +21,6 @@ function StudentDashboard(props) {
 
   const network = new Network();
 
-  function updateProgress(direction) {
-    let updatedNumber = numberOfClickedLOs;
-    if (LO.isActive) {
-      if (direction === "increase") {
-        updatedNumber += 1;
-      } else {
-        updatedNumber -= 1;
-      }
-    }
-    setNumberOfClickedLOs(updatedNumber);
-  }
-
   useEffect(() => {
     (async () => {
       try {
@@ -133,6 +121,14 @@ function StudentDashboard(props) {
     return topicCards;
   }
 
+  async function updateState(a) {
+    if (!a) {
+      const firstLoadData = await updateScore();
+      setNumberOfLOs(await firstLoadData.length);
+      const ClickedLOs = firstLoadData.filter((objects) => objects.score !== 1);
+      setNumberOfClickedLOs(await ClickedLOs.length);
+    }
+  }
   function createLOs(data, topic) {
     const filteredLOs = data.filter((topicList) => topicList.topic === topic);
     const topicData = filteredLOs.map((topic) => {
@@ -144,8 +140,8 @@ function StudentDashboard(props) {
           learningObjective={topic.learning_objective}
           score={topic.score}
           userID={props.cookies.userID}
-          updateProgress={(direction) => updateProgress(direction)}
           updateScore={(newData) => updateScore(newData)}
+          uS={updateState}
           isActive={topic.isActive}
         />
       );
@@ -170,13 +166,13 @@ function StudentDashboard(props) {
                       margin-top: 15px;
                     }
                     a:link {
-                      color: ${showDarkMode ? "white" : "#e6530f"};
+                      color: ${showDarkMode ? "white" : "black"};
                       background-color: transparent;
                       text-decoration: none;
                       transition-delay: 0s;
                     }
                     a:active {
-                      color: ${showDarkMode ? "white" : "#e6530f"};
+                      color: ${showDarkMode ? "white" : "black"};
                       background-color: transparent;
                       text-decoration: underline;
                       transition-delay: 0s;
@@ -220,12 +216,22 @@ function StudentDashboard(props) {
     );
   }
 
+  function progressBarColor(numberOfClickedLOs, numberOfLOs) {
+    if (numberOfClickedLOs / numberOfLOs <= 0.25) {
+      return "danger";
+    } else if (numberOfClickedLOs / numberOfLOs <= 0.5) {
+      return "warning";
+    } else {
+      return "success";
+    }
+  }
+
   function getProgressBar(numberOfClickedLOs, numberOfLOs) {
     return (
       <ProgressBar
         data-testid="progressBar"
         striped
-        variant="warning"
+        variant={progressBarColor(numberOfClickedLOs, numberOfLOs)}
         animated
         now={Math.round((numberOfClickedLOs / numberOfLOs) * 100)}
         label={Math.round((numberOfClickedLOs / numberOfLOs) * 100) + `%`}
@@ -268,7 +274,6 @@ function StudentDashboard(props) {
                     window.print();
                   }}
                 >
-
                   Save to PDF
                 </Button>
               </>

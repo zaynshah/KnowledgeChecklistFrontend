@@ -38,7 +38,7 @@ function SignupModal(props) {
   }
 
   function handleCohortId(e) {
-    if (e.target.value == "choose") {
+    if (e.target.value === "choose") {
       setCohortError("is-invalid");
       setCohort_id("");
       setDisableButton(true);

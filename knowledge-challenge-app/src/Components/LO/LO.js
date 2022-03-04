@@ -6,16 +6,15 @@ import { radios } from "./radios";
 
 function LO(props) {
   const network = new Network();
-  const radioButtons = radios;
+  const [getFullLo] = useState("");
 
   async function updateScore(newScore) {
     const hasUpdated = newScore !== props.score;
     const progress = hasUpdated ? "increase" : "decrease";
-    props.updateProgress(progress);
     const updatedScore = props.isActive && !hasUpdated ? 1 : newScore;
-
     const newData = await network.postScore(props.userID, props.learningObjective, updatedScore, !props.isActive);
     await props.updateScore(newData);
+    await props.uS(getFullLo);
   }
 
   function createLO(score, description) {

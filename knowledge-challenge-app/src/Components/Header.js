@@ -31,6 +31,7 @@ export default function Header(props) {
                 </span>
               </Dropdown.Toggle>
               <Dropdown.Menu>
+                {props.cook == "admin@sigmalabs.co.uk" ? <Dropdown.Item href="http://localhost:3000/dashboard">Dashboard</Dropdown.Item> : <></>}
                 <Dropdown.Item onClick={props.logOut} className="log-out">
                   Log Out
                 </Dropdown.Item>
