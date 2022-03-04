@@ -77,6 +77,7 @@ function SignupModal(props) {
         throw new Error(json.error);
       } else {
         setSuccess(true);
+        setTimeout(() => setSuccess(false), 2000);
         setError("");
         setEmail("");
         setPassword("");
