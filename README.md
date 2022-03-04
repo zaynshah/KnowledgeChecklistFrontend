@@ -26,23 +26,29 @@ This project contains the knowledge checklist application for students at Sigma 
 
 ## Student Overview
 
-A user enters the following link in their browsers: ()
+When a student first visits the website, they are brought to the landing page, which contains a welcome message as well as two buttons; one to register and one to login.
 
-They are brought to the landing page, which contains a welcome message as well as two buttons; one to register and one to login.
-
-() Screenshot of landing page
+<img src='./imgs/Landing-page.png'>
 
 Before a student can access the website, they must register with a valid email address and password (which meets requirements). If the registration is successful, the user will receive a notification on the form. They can now login with these credentials.
 
-() Screenshot of register
+<img src='./imgs/Registration.png'>
 
 Upon login, they are directed to the student dashboard. This page contains a welcome section, progress bar, side navigation bar as well as the learning objectives under each topic. Within each learning objective, three buttons can be found side-by-side. These buttons related to the level of confidence that each trainee has with respect to that learning objective.
 
-() Screenshot of student dashboard
+<img src='./imgs/Student-dashboard.png'>
 
 To find a specific LO, a side navigation bar is provided to the students to quickly navigate through the page. Clicking a button submits a 'score' which stores the level of confidence of that LO. Clicking a button will also change the colour to the same colour as the button to indicate their level of confidence. If the student reloads the page, or returns to the student dashboard at a later time, they will see their previously submitted and saved LOs.
 
-## Coach Overview
+## Admin Overview
+
+When the admin logs in, they are able to view the cohorts and add a new one if necessary.
+
+<img src='./imgs/Admin-dashboard.png'>
+
+They can also view the learning objectives for each cohort, add a new learning objective and view the students on each cohort as well as each students responses.
+
+<img src='./imgs/View-data.png'>
 
 ## Technologies
 
