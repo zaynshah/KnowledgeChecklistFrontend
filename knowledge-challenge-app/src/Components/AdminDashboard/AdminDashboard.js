@@ -16,6 +16,7 @@ export default function AdminDashboard(props) {
   const [selectedCohort, setSelectedCohort] = useState([]);
   useEffect(() => {
     (async () => {
+      document.title = props.cookies.email ? `${props.cookies.email.split("@")[0]}'s Knowledge Checklist` : "Knowledge Checklist";
       setCohorts(await network.getCohorts());
     })();
   }, []);
@@ -30,11 +31,7 @@ export default function AdminDashboard(props) {
   function createCohortsList() {
     return cohorts.map((cohort, i) => (
       <div key={i}>
-        <Button
-          onClick={() => handleClick(cohort.cohort_id)}
-          className="mb-2"
-          variant="dark"
-        >
+        <Button onClick={() => handleClick(cohort.cohort_id)} className="mb-2" variant="dark">
           Cohort {cohort.cohort_id}
         </Button>
       </div>
@@ -69,9 +66,8 @@ export default function AdminDashboard(props) {
               <Card.Body>
                 {" "}
                 <p className="fs-5 mb-4">
-                  Select a cohort below to view the learning objectives for that
-                  cohort. You can add learning objectives for the cohort on the
-                  next page.
+                  Select a cohort below to view the learning objectives for that cohort. You can add learning objectives for the cohort on the next
+                  page.
                 </p>
                 {createCohortsList()}
               </Card.Body>
