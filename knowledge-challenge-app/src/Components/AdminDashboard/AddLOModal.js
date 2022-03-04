@@ -13,15 +13,12 @@ export default function AddLOModal(props) {
   const [LO, setLO] = useState("");
   const [confident, setConfident] = useState("");
   const [notConfident, setNotConfident] = useState("");
-  const [topic, setTopic] = useState("");
-  const [getFullLo, setGetFullLo] = useState("");
-  const [redirect, setRedirect] = useState(false);
+  const [getFullLo] = useState("");
+  const [redirect] = useState(false);
   const [selected, setSelected] = useState([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [disableButton, setDisableButton] = useState(true);
-  const [topicError, setTopicError] = useState("is-invalid");
-  const [useType, setUseType] = useState(true);
 
   async function handleClick(e) {
     e.preventDefault();
@@ -37,7 +34,6 @@ export default function AddLOModal(props) {
         throw new Error(json.error);
       } else {
         setLO("");
-        setTopic("");
         setSelected([]);
         setError("");
         setConfident("");

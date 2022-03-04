@@ -45,29 +45,14 @@ export default function LogInModal(props) {
         <Form noValidate>
           <Form.Group className="mb-3" controlId="email">
             <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              value={email}
-              onChange={handleEmailChange}
-            />
+            <Form.Control type="email" placeholder="Enter email" value={email} onChange={handleEmailChange} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="password">
             <Form.Label>Password</Form.Label>
-            <Form.Control
-              type={showPassword ? "text" : "password"}
-              placeholder="Enter password"
-              value={password}
-              onChange={handlePasswordChange}
-            />
+            <Form.Control type={showPassword ? "text" : "password"} placeholder="Enter password" value={password} onChange={handlePasswordChange} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="cohort-id">
-            <Form.Check
-              type="switch"
-              id="custom-switch"
-              label="Show Password"
-              onChange={vuePassword}
-            />
+            <Form.Check type="switch" id="custom-switch" label="Show Password" onChange={vuePassword} />
           </Form.Group>
         </Form>
       </Modal.Body>

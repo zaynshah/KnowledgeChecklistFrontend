@@ -13,7 +13,7 @@ import ViewResult from "./Components/AdminDashboard/ViewResult";
 function App() {
   const [cookies, setCookie] = useCookies();
   const [isLoggedIn, setIsLoggedIn] = useState(cookies.sessionId);
-  const [admin, setAdmin] = useState(cookies.isAdmin);
+  const [admin] = useState(cookies.isAdmin);
 
   const deleteCookiesOnLogOut = () => {
     setCookie("sessionId", "");
@@ -39,15 +39,9 @@ function App() {
         <Route path="/dashboard">
           {isLoggedIn ? (
             admin === "1" ? (
-              <AdminDashboard
-                cookies={cookies}
-                logOut={deleteCookiesOnLogOut}
-              />
+              <AdminDashboard cookies={cookies} logOut={deleteCookiesOnLogOut} />
             ) : (
-              <StudentDashboard
-                cookies={cookies}
-                logOut={deleteCookiesOnLogOut}
-              />
+              <StudentDashboard cookies={cookies} logOut={deleteCookiesOnLogOut} />
             )
           ) : (
             <>
@@ -57,26 +51,9 @@ function App() {
         </Route>
         <Route
           path="/cohorts"
-          render={(props) => (
-            <ViewData
-              {...props}
-              cookies={cookies}
-              logOut={deleteCookiesOnLogOut}
-              isLog={isLoggedIn}
-            />
-          )}
+          render={(props) => <ViewData {...props} cookies={cookies} logOut={deleteCookiesOnLogOut} isLog={isLoggedIn} />}
         ></Route>
-        <Route
-          path="/data"
-          render={(props) => (
-            <ViewResult
-              {...props}
-              cookies={cookies}
-              logOut={deleteCookiesOnLogOut}
-              isLog={isLoggedIn}
-            />
-          )}
-        ></Route>
+        <Route path="/data" render={(props) => <ViewResult {...props} cookies={cookies} logOut={deleteCookiesOnLogOut} isLog={isLoggedIn} />}></Route>
         <Route>
           <Header cook={cookies.email} logOut={deleteCookiesOnLogOut} />
           <p></p>
