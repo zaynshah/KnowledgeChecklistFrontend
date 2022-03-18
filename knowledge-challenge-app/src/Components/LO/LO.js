@@ -1,6 +1,6 @@
 import "./LO.css";
 import React, { useEffect, useState } from "react";
-import ConfidenceButton from "../ConfidenceButton/ConfidenceButton";
+import ConfidenceButton from "../confidenceButton/confidenceButton";
 import Network from "../Networking";
 import { radios } from "./radios";
 
