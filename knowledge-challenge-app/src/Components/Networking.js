@@ -131,4 +131,30 @@ export default class Network {
     });
     return response.status;
   }
+
+  async postDark(darkMode, userID) {
+    const response = await fetch(`http://localhost:8080/postDark`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        darkMode: darkMode,
+        userID: userID,
+      }),
+    });
+    return response.status;
+  }
+
+  async postNewLO(newLO, newNotConfident, newConfident, oldLO) {
+    const response = await fetch(`http://localhost:8080/postNewLO`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        newLO: newLO,
+        newNotConfident: newNotConfident,
+        newConfident: newConfident,
+        oldLO: oldLO,
+      }),
+    });
+    return response;
+  }
 }

@@ -46,7 +46,7 @@ export default function AdminDashboard(props) {
       setCohorts(await network.getCohorts());
     }
   }
-
+  console.log(props);
   return (
     <>
       <Header cook={props.cookies.email} logOut={props.logOut} />

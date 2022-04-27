@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
+import Container from "react-bootstrap/Container";
 import { Card } from "react-bootstrap";
-import { Container } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 import Header from "../Header";
 import Network from "../Networking";
@@ -20,11 +20,11 @@ export default function ViewResult(props) {
     if (data.score === 1) {
       return <div className="topic3">Unspecified</div>;
     } else if (data.score === 2) {
-      return <div className="topic3 feels-confident ">Confident!</div>;
+      return <div className="topic3 not-confident">Not Confident!</div>;
     } else if (data.score === 3) {
       return <div className="topic3 needs-revision">Needs Revision!</div>;
     } else if (data.score === 4) {
-      return <div className="topic3 not-confident">Not Confident!</div>;
+      return <div className="topic3 feels-confident">Feels Confident!</div>;
     }
   }
 
@@ -40,7 +40,7 @@ export default function ViewResult(props) {
       return <h1>...Loading</h1>;
     }
     return studentData.map((data) => (
-      <div key={data.learning_objective} className="flex-it">
+      <div className="flex-it">
         <div className="topic">{data.topic}</div>
         <div className="topic2">{data.learning_objective}</div>
         {getScore(data)}
@@ -48,22 +48,20 @@ export default function ViewResult(props) {
     ));
   }
 
+  console.log(studentData);
+  console.log(props.location.state);
+
   return (
     <>
       <Header cook={props.cookies.email} logOut={props.logOut} />
-      <>
-        {" "}
-        {!props.isLog ? (
-          <Redirect to="/" />
-        ) : (
-          <Container className="py-4 mt-3 p-5">
-            <Card>
-              <Card.Header as="h2">{getName()}'s results</Card.Header>
-              <Card.Body className="fs-5">{renderData()}</Card.Body>
-            </Card>
-          </Container>
-        )}
-      </>
+      <Container className="py-4 mt-3 p-5">
+        <Card>
+          <Card.Header as="h2">{getName()}'s long results</Card.Header>
+          <Card.Body>
+            <Card.Text>{!props.isLog ? <Redirect to="/" /> : <div className="par">{renderData()}</div>}</Card.Text>
+          </Card.Body>
+        </Card>
+      </Container>
     </>
   );
 }

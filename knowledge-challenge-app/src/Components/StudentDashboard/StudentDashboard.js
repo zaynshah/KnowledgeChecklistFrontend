@@ -17,7 +17,7 @@ function StudentDashboard(props) {
   const [topics, setTopics] = useState([]);
   const [numberOfLOs, setNumberOfLOs] = useState(0);
   const [numberOfClickedLOs, setNumberOfClickedLOs] = useState(0);
-  const [showDarkMode, setShowDarkMode] = useState(false);
+  const [showDarkMode, setShowDarkMode] = useState("");
 
   const network = new Network();
 
@@ -32,6 +32,8 @@ function StudentDashboard(props) {
         const ClickedLOs = firstLoadData.filter((objects) => objects.score !== 1);
         setNumberOfClickedLOs(ClickedLOs.length);
 
+        setShowDarkMode(firstLoadData[0].dark_mode);
+
         const uniqueTopics = await network.getAllTopicsOnlyPerStudent(props.cookies.userID);
         setTopics(uniqueTopics);
       } catch (e) {}
@@ -44,8 +46,13 @@ function StudentDashboard(props) {
     return data;
   }
 
-  function vueDarkMode(e) {
-    setShowDarkMode(!showDarkMode);
+  async function vueDarkMode(e) {
+    const response = await network.postDark(!showDarkMode, props.cookies.userID);
+
+    if (response == 200) {
+      const aa = await updateScore();
+      setShowDarkMode(aa[0].dark_mode);
+    }
   }
 
   function getWelcomeMessage() {
@@ -55,7 +62,14 @@ function StudentDashboard(props) {
         <div>
           {" "}
           <Form.Group className="p-3" controlId="cohort-id">
-            <Form.Check className={showDarkMode ? "dark-heading" : ""} type="switch" id="custom-switch" label="Dark Mode" onChange={vueDarkMode} />
+            <Form.Check
+              className={showDarkMode ? "dark-heading" : ""}
+              type="switch"
+              id="custom-switch"
+              label="Dark Mode"
+              onChange={vueDarkMode}
+              checked={showDarkMode ? true : false}
+            />
           </Form.Group>
         </div>
         <div className="welcome-flex">
@@ -105,7 +119,7 @@ function StudentDashboard(props) {
     if (!data) {
       return <h3>Loading.. </h3>;
     }
-
+    console.log(topics);
     const topicCards = topics.map((item, i) => {
       return (
         <Card key={item.topic} id={`${item.topic}`} className={showDarkMode ? `m-3 ${item.topic} card-dark` : `m-3 ${item.topic}`}>
@@ -131,6 +145,7 @@ function StudentDashboard(props) {
   }
   function createLOs(data, topic) {
     const filteredLOs = data.filter((topicList) => topicList.topic === topic);
+
     const topicData = filteredLOs.map((topic) => {
       return (
         <LO
@@ -142,7 +157,7 @@ function StudentDashboard(props) {
           userID={props.cookies.userID}
           updateScore={(newData) => updateScore(newData)}
           uS={updateState}
-          isActive={topic.isActive}
+          isActive={1}
         />
       );
     });

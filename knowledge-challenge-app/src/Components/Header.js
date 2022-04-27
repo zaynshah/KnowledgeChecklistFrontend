@@ -7,6 +7,7 @@ export default function Header(props) {
     <div data-testid="header">
       <div className={props.darkMode ? "header-flex-dark" : "header-flex"}>
         <div className="logo-display">
+          {/* <button onClick={props.logOut}></button> */}
           <img
             alt="Logo"
             src="https://images.squarespace-cdn.com/content/v1/5ffb1a1492e37d475767ab9a/1612779241752-J2PFODJ7U3QN5NIA3YDI/1.png?format=200w"
@@ -29,7 +30,7 @@ export default function Header(props) {
                 <span>
                   Signed in as: <u>{props.cook}</u>
                 </span>
-              </Dropdown.Toggle>
+              </Dropdown.Toggle>{" "}
               <Dropdown.Menu>
                 {props.cook == "admin@sigmalabs.co.uk" ? <Dropdown.Item href="http://localhost:3000/dashboard">Dashboard</Dropdown.Item> : <></>}
                 <Dropdown.Item onClick={props.logOut} className="log-out">

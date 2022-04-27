@@ -22,7 +22,7 @@ function App() {
     setCookie("email", "");
     setIsLoggedIn("");
   };
-
+  console.log(cookies);
   return (
     <div className="App-Wrapper">
       <Switch>
@@ -38,7 +38,7 @@ function App() {
 
         <Route path="/dashboard">
           {isLoggedIn ? (
-            admin === "1" ? (
+            admin === "true" ? (
               <AdminDashboard cookies={cookies} logOut={deleteCookiesOnLogOut} />
             ) : (
               <StudentDashboard cookies={cookies} logOut={deleteCookiesOnLogOut} />
