@@ -1,4 +1,4 @@
-const API_URL = "https://secure-beyond-91900.herokuapp.com";
+const API_URL = process.env.REACT_APP_API_URL;
 
 export default class Network {
   async postUser(email, password, cohort_id) {
