@@ -1,6 +1,8 @@
+const API_URL = "https://secure-beyond-91900.herokuapp.com";
+
 export default class Network {
   async postUser(email, password, cohort_id) {
-    let response = await fetch(`http://localhost:8080/users`, {
+    let response = await fetch(`${API_URL}/users`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -16,7 +18,7 @@ export default class Network {
   }
 
   async postLogin(email, password) {
-    let response = await fetch(`http://localhost:8080/sessions`, {
+    let response = await fetch(`${API_URL}/sessions`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -30,7 +32,7 @@ export default class Network {
   }
 
   async postScore(userID, LO, score, isActive) {
-    const endpoint = `http://localhost:8080/${userID}/LOs`;
+    const endpoint = `${API_URL}/${userID}/LOs`;
     const response = await fetch(endpoint, {
       method: "POST",
       credentials: "include",
@@ -50,34 +52,34 @@ export default class Network {
   }
 
   async getAllTopicsPerStudent(userID) {
-    const endpoint = `http://localhost:8080/${userID}/LOs`;
+    const endpoint = `${API_URL}/${userID}/LOs`;
     const response = await fetch(endpoint);
     const json = await response.json();
     return json;
   }
 
   async getAllTopicsOnlyPerStudent(userID) {
-    const endpoint = `http://localhost:8080/${userID}/topics`;
+    const endpoint = `${API_URL}/${userID}/topics`;
     const response = await fetch(endpoint);
     const json = await response.json();
     return json;
   }
 
   async getAllTopicsPerCohort(cohort_id) {
-    const endpoint = `http://localhost:8080/cohorts/${cohort_id}/LOs`;
+    const endpoint = `${API_URL}/cohorts/${cohort_id}/LOs`;
     const response = await fetch(endpoint);
     const json = await response.json();
     return json;
   }
 
   async getCohorts() {
-    const response = await fetch(`http://localhost:8080/cohorts`);
+    const response = await fetch(`${API_URL}/cohorts`);
     const json = await response.json();
     return json;
   }
 
   async postLO(cohort_id, topic, learning_objective, notConfident, confident) {
-    const response = await fetch(`http://localhost:8080/postLO`, {
+    const response = await fetch(`${API_URL}/postLO`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -92,25 +94,25 @@ export default class Network {
   }
 
   async getStudentForCohort(cohort_id) {
-    const response = await fetch(`http://localhost:8080/students/${cohort_id}/results`);
+    const response = await fetch(`${API_URL}/students/${cohort_id}/results`);
     const json = await response.json();
     return json;
   }
 
   async getAllUniqueCohortTopics(cohort_id) {
-    const response = await fetch(`http://localhost:8080/cohort/${cohort_id}/cohortTopics`);
+    const response = await fetch(`${API_URL}/cohort/${cohort_id}/cohortTopics`);
     const json = await response.json();
     return json;
   }
 
   async getStudentData(user_id) {
-    const response = await fetch(`http://localhost:8080/student/${user_id}/data`);
+    const response = await fetch(`${API_URL}/student/${user_id}/data`);
     const json = await response.json();
     return json;
   }
 
   async deleteLOS(learning_objective, cohort_id) {
-    const response = await fetch(`http://localhost:8080/deleteLOs`, {
+    const response = await fetch(`${API_URL}/deleteLOs`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -122,7 +124,7 @@ export default class Network {
   }
 
   async postCohort(cohort_id) {
-    const response = await fetch(`http://localhost:8080/postCohort`, {
+    const response = await fetch(`${API_URL}/postCohort`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -133,7 +135,7 @@ export default class Network {
   }
 
   async postDark(darkMode, userID) {
-    const response = await fetch(`http://localhost:8080/postDark`, {
+    const response = await fetch(`${API_URL}/postDark`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -145,7 +147,7 @@ export default class Network {
   }
 
   async postNewLO(newLO, newNotConfident, newConfident, oldLO) {
-    const response = await fetch(`http://localhost:8080/postNewLO`, {
+    const response = await fetch(`${API_URL}/postNewLO`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
