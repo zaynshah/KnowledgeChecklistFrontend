@@ -22,8 +22,10 @@ export default function LogInModal(props) {
     try {
       let response = await props.postLogin(email, password);
       if (!response.success) {
+        console.log(document.cookies);
         throw new Error("Invalid email or password");
       } else {
+        props.logIn(response.info.userID, response.info.email, response.info.sessionId, response.info.isAdmin);
         props.setIsLoggedIn(true);
       }
     } catch (error) {

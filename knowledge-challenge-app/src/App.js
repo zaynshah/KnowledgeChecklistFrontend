@@ -13,22 +13,33 @@ import ViewResult from "./Components/AdminDashboard/ViewResult";
 function App() {
   const [cookies, setCookie] = useCookies();
   const [isLoggedIn, setIsLoggedIn] = useState(cookies.sessionId);
-  const [admin] = useState(cookies.isAdmin);
+  const [admin, setAdmin] = useState(cookies.isAdmin);
 
   const deleteCookiesOnLogOut = () => {
-    setCookie("sessionId", "");
+    setCookie("login", "");
     setCookie("isAdmin", "");
     setCookie("userID", "");
     setCookie("email", "");
+    setCookie("sessionId", "");
     setIsLoggedIn("");
   };
+  const cookieOnLoginIn = (user, email, session, admin) => {
+    setCookie("userID", user, { path: "/" });
+    setCookie("email", email, { path: "/" });
+    setCookie("login", true, { path: "/" });
+    setCookie("sessionId", session, { path: "/" });
+    setCookie("isAdmin", admin, { path: "/" });
+    setAdmin(admin);
+  };
+
   console.log(cookies);
+  console.log(document.cookie);
   return (
     <div className="App-Wrapper">
       <Switch>
         <Route exact path="/">
           {!isLoggedIn ? (
-            <Homepage setIsLoggedIn={setIsLoggedIn} />
+            <Homepage logIn={cookieOnLoginIn} setIsLoggedIn={setIsLoggedIn} />
           ) : (
             <>
               <Redirect to="/dashboard" />

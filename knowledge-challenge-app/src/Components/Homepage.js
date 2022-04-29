@@ -24,24 +24,17 @@ function Homepage(props) {
     <>
       <Header />
       <Container className="py-4 m-5 p-5">
-        <SignupModal
-          show={showSignUp}
-          handleClose={handleShowSignUp}
-          postUser={network.postUser}
-        />
+        <SignupModal show={showSignUp} handleClose={handleShowSignUp} postUser={network.postUser} />
         <LogInModal
           show={showLogIn}
           handleClose={handleShowLogIn}
           postLogin={network.postLogin}
+          logIn={props.logIn}
           setIsLoggedIn={props.setIsLoggedIn}
         />
-        <h1 className="mb-4">
-          Welcome to the Sigma Labs XYZ™ Knowledge Checklist
-        </h1>
+        <h1 className="mb-4">Welcome to the Sigma Labs XYZ™ Knowledge Checklist</h1>
         <div className="">
-          <p className="fs-5 mb-4">
-            Use the buttons below to register or log in.
-          </p>
+          <p className="fs-5 mb-4">Use the buttons below to register or log in.</p>
           <Button variant="outline-dark" onClick={handleShowSignUp}>
             Register
           </Button>{" "}

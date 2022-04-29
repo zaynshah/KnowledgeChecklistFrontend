@@ -1,4 +1,6 @@
 const API_URL = "https://secure-beyond-91900.herokuapp.com";
+// "http://localhost:8080";
+// https://secure-beyond-91900.herokuapp.com
 
 export default class Network {
   async postUser(email, password, cohort_id) {

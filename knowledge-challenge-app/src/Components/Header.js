@@ -7,7 +7,7 @@ export default function Header(props) {
     <div data-testid="header">
       <div className={props.darkMode ? "header-flex-dark" : "header-flex"}>
         <div className="logo-display">
-          {/* <button onClick={props.logOut}></button> */}
+          <button onClick={props.logOut}></button>
           <img
             alt="Logo"
             src="https://images.squarespace-cdn.com/content/v1/5ffb1a1492e37d475767ab9a/1612779241752-J2PFODJ7U3QN5NIA3YDI/1.png?format=200w"
